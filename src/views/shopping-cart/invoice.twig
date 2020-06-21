@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <style>
+        * {
+            font-family: RobotoCondensed, sans-serif;
+        }
+
+        body,html {
+            height: 99%;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        .footer {
+            border-top: 2px solid black;
+            padding-top: 10px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        table {
+            text-align: left;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table.items {
+            margin-bottom: 10px;
+        }
+
+        table.items thead tr.last td, table.items thead tr.first, table tfoot tr {
+            border: 2px solid black;
+            border-left: none;
+            border-right: none;
+        }
+
+        th {
+            font-weight: normal;
+        }
+
+        .space {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        table.items tfoot {
+            font-weight: bold;
+        }
+
+        img {
+            margin-bottom: 10px;
+        }
+
+        .our-address,img {
+            width: 260px;
+            float: right;
+        }
+
+        table.header {
+            margin-bottom: 15px;
+        }
+
+        .clearfix {
+            display: block;
+            clear: right;
+        }
+
+        .currency {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<div class="invoice">
+    <table class="header">
+        <tbody>
+        <tr>
+            <td>
+                <div class="their-adress">
+                    <p>{{ order.first_name }} {{ order.surname }}</p>
+                    <p>{{ order.street_name }} {{ order.house_number }}</p>
+                    <p>{{ order.postal }} {{ order.city }}</p>
+                </div>
+            </td>
+            <td>
+                {% if logoPath %}
+                <img src="{{ logoPath }}" alt="LOGO">
+                <div class="clearfix"></div>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+            </td>
+            <td>
+                <div class="our-address">
+                    <p>{{ t('shop', 'Caddyroamers') }}</p>
+                    <p>{{ t('shop', 'Beck, Bourgeret und Feller GbR') }}</p>
+                    <p>{{ t('shop', 'Salierallee 17') }}</p>
+                    <p>{{ t('shop', '52066 Aachen') }}</p>
+                    <p>{{ t('shop', '201/5881/4681') }}</p>
+                </div>
+                <div class="clearfix"></div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="main">
+        <table class="items"  style="width:100%; border-collapse: collapse;">
+            <thead>
+            <tr>
+                <th style="text-align: left;" colspan="2">
+                    <p class="space"><b>{{ t('shop', 'Rechnung') }} {{ order.invoice_number }}</b></p>
+                    <p class="space">{{ t('shop', 'Bestellnummer') }} {{ order.id }}</p>
+                </th>
+                <th style="text-align: left;">{{ order.created_at|date("d.m.Y") }}</th>
+            </tr>
+            <tr>
+                <th style="text-align: left;border: 1px solid #000000; border-left: none; border-right: none;"><b>{{ t('shop', 'Produkt') }}</b></th>
+                <th style="text-align: left;border: 1px solid #000000; border-left: none; border-right: none;"><b>{{ t('shop', 'Anzahl') }}</b></th>
+                <th style="text-align: right;border: 1px solid #000000; border-left: none; border-right: none;"><b>{{ t('shop', 'Kosten') }}</b></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for orderItem in order.orderItems %}
+                <tr>
+                    <td><b>{{ orderItem.name }}</b></td>
+                    <td>{{ orderItem.quantity }}</td>
+                    <td class="currency">{{ app.formatter.asCurrency(orderItem.single_price, app.payment.currency) }}</td>
+                </tr>
+            {% endfor %}
+            {% if order.discount_code_id %}
+                <tr>
+                    <td><b>{{ order.discountCode.label }}</b></td>
+                    <td></td>
+                    <td class="currency">{{ '-' ~ order.discountCode.prettyPercent() }}</td>
+                </tr>
+            {% endif %}
+            <tr>
+                <td><b>{{ t('shop', 'Versandkosten') }}</b></td>
+                <td></td>
+                <td class="currency">{{ app.formatter.asCurrency(order.shipping_price, app.payment.currency) }}</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td style="border: 1px solid #000000; border-left: none; border-right: none;"><p class="space"><b>{{ t('shop', 'Gesamtbetrag') }}</b></p></td>
+                <td style="border: 1px solid #000000; border-left: none; border-right: none;"></td>
+                <td style="border: 1px solid #000000; border-left: none; border-right: none;text-align: right;">{{ app.formatter.asCurrency(order.totalAmount, app.payment.currency) }}</td>
+            </tr>
+            </tfoot>
+        </table>
+        <div class="info">
+            {% if order.isPaid %}
+            <p>{{ t('shop', 'Zahlung per') }} {% if order.type == 'PAYPAL' %}{{ t('shop', 'PayPal') }}{% else %}{{ t('shop', 'Überweisung') }}{% endif %} {{ t('shop', 'erhalten.') }}</p>
+            {% else %}
+            <p>{{ t('shop', 'Zahlung bitte innerhalb von 14 Tagen an Rechnungsdatum auf untenstehendes Konto.') }}</p>
+            {% endif %}
+            <br>
+            <p>{{ t('shop', 'Leistungszeitraum entspricht Rechnungsdatum.') }}</p>
+            <br>
+            <p>{{ t('shop', 'Da es sich bei vorliegender Lieferung/ausgeführter Leistung um eine private Arbeit handelt, entfällt nach §19 UStG die Berechnung der Umsatzsteuer.') }}</p>
+        </div>
+    </div>
+    <footer class="footer">
+        <table>
+            <tbody>
+            <tr>
+                <td>{{ t('shop', 'Bankverbindung:') }}</td>
+                <td>{{ t('shop', 'IBAN: DE74 3905 0000 1073 5058 18') }}</td>
+            </tr>
+            <tr>
+                <td>{{ t('shop', 'Sparkasse Aachen') }}</td>
+                <td>{{ t('shop', 'BIC: AACSDE33XXX') }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </footer>
+</div>
+</body>
+</html>

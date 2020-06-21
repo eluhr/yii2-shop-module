@@ -1,0 +1,12 @@
+@media (max-width: 768px) {
+  .filter {
+    &:not(.show) {
+      .filter-collapse,.select2 {
+        display: none !important;
+      }
+    }
+  }
+  .filter > label {
+    cursor: pointer; // clickable on mobile
+  }
+}
