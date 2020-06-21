@@ -9,6 +9,15 @@
         }
     ],
     "require": {
+        "ramsey/uuid": "^3.9",
+        "paypal/rest-api-sdk-php": "^1.14",
+        "davidjeddy/yii2-paypal": "^0.2.4",
+        "kartik-v/yii2-editable": "^1.7",
+        "kartik-v/yii2-widget-colorinput": "^1.0",
+        "kartik-v/yii2-number": "^1.0",
+        "eluhr/yii2-sortablejs": "^0.0.3",
+        "kartik-v/yii2-export": "^1.4",
+        "dompdf/dompdf": "^0.8.5"
     },
     "autoload": {
         "psr-4": {
