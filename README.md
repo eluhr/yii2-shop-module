@@ -85,7 +85,6 @@ return [
 
  - Wishlist
  - Project as Yii2 extension
- - Translatable(s)!!! (v2)
  - View files from .php to .twig
  - Events for Order and Product (out of stock?)
  
