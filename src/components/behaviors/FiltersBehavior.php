@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 use Yii;
 
 /**
- * Add the project\modules\crud\components\traits\FiltersTrait trait to your class
+ * Add the eluhr\shop\components\traits\FiltersTrait trait to your class
  * @property ActiveRecord $junctionModel
  * @property string $typeColumnName
  * @property string $columnName

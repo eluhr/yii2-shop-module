@@ -10,7 +10,6 @@
 namespace eluhr\shop\models;
 
 use eluhr\shop\models\query\OrderQuery;
-use project\modules\user\models\HuntingGroundFunding;
 use yii\base\Model;
 use yii\db\Expression;
 use yii\db\Query;

@@ -212,9 +212,9 @@ class Order extends BaseOrder
     {
         /** @var Mailer $mailer */
         $mailer = $this->getMailer();
-        $mailer->setViewPath('@project/modules/shop/views/mail');
-        $mailer->htmlLayout = '@project/modules/shop/views/mail/layouts/html';
-        $mailer->textLayout = '@project/modules/shop/views/mail/layouts/text';
+        $mailer->setViewPath('@eluhr/shop/views/mail');
+        $mailer->htmlLayout = '@eluhr/shop/views/mail/layouts/html';
+        $mailer->textLayout = '@eluhr/shop/views/mail/layouts/text';
 
         $message = $mailer->compose(
             [
@@ -242,9 +242,9 @@ class Order extends BaseOrder
         $this->info_mail_has_been_sent = self::INFO_MAIL_STATUS_SENT;
         /** @var Mailer $mailer */
         $mailer = $this->getMailer();
-        $mailer->setViewPath('@project/modules/shop/views/mail');
-        $mailer->htmlLayout = '@project/modules/shop/views/mail/layouts/html';
-        $mailer->textLayout = '@project/modules/shop/views/mail/layouts/text';
+        $mailer->setViewPath('@eluhr/shop/views/mail');
+        $mailer->htmlLayout = '@eluhr/shop/views/mail/layouts/html';
+        $mailer->textLayout = '@eluhr/shop/views/mail/layouts/text';
 
         $message = $mailer->compose(
             [
@@ -333,7 +333,7 @@ class Order extends BaseOrder
 
         $pdf = new Pdf();
 
-        $pdf->addPage(Yii::$app->controller->renderPartial('@project/modules/shop/views/shopping-cart/invoice.twig', [
+        $pdf->addPage(Yii::$app->controller->renderPartial('@eluhr/shop/views/shopping-cart/invoice.twig', [
             'order' => $this,
             'logoPath' => $filepath
         ]));

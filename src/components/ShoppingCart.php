@@ -12,7 +12,7 @@ use yii\base\Component;
 use yii\web\Session;
 
 /**
- * @package project\modules\frontend\helpers
+ * @package eluhr\shop\components
  * @author Elias Luhr <e.luhr@herzogkommunikation.de>
  *
  * @property \yii\web\Cookie $items

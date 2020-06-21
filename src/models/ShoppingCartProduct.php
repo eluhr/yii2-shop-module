@@ -12,7 +12,7 @@ namespace eluhr\shop\models;
 use yii\base\BaseObject;
 
 /**
- * @package project\modules\frontend\models
+ * @package eluhr\shop\models
  * @author Elias Luhr <e.luhr@herzogkommunikation.de>
  *
  * @property int $quantity

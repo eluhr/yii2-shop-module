@@ -1,10 +1,7 @@
 <?php
 
-use project\modules\user\models\HuntingGroundFunding;
-
 /* @var $this \yii\web\View view component instance */
 /* @var $content string */
-/* @var $model HuntingGroundFunding */
 ?>
 <?php $this->beginPage() ?>
 <?php $this->beginBody() ?>
