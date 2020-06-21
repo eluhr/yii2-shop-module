@@ -96,7 +96,7 @@ class Orders extends OrderModel
     public function attributeLabels()
     {
         $attributeLabels = parent::attributeLabels();
-        $attributeLabels['name'] = Yii::t('shop', 'Vor- und Nachname', [], 'de');
+        $attributeLabels['name'] = Yii::t('shop', 'Full Name', [], 'de');
         return $attributeLabels;
     }
 }

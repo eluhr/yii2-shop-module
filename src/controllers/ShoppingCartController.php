@@ -211,7 +211,7 @@ class ShoppingCartController extends Controller
             }
             $order = $model->getOrder();
             if ($order === null) {
-                throw new HttpException(500, Yii::t('shop', 'Fehler beim abschließen.', [], 'de'));
+                throw new HttpException(500, Yii::t('shop', 'Error while checkout', [], 'de'));
             }
             if (!$order->checkout(Order::STATUS_RECEIVED)) {
                 throw new HttpException(500, Yii::t('shop', 'Error while updating order. Please contact an admin'));

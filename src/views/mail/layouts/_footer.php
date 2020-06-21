@@ -1,7 +1,7 @@
 <p class="informative-text first-pad">
-    <?= Yii::t('shop', 'Bei Fragen wende dich per Mail an info@caddyroaemers.de') ?>
+    <?= Yii::t('shop', '__MAIL_FOOTER_FIRST_LINE__') ?>
     <br>
-    <?= Yii::t('shop', 'Versendet von Caddyroamers - Beck, Bourgeret und Feller GbR,  Salierallee 17, 52066 Aachen') ?>
+    <?= Yii::t('shop', '__MAIL_FOOTER_SECOND_LINE__') ?>
 </p>
 
 

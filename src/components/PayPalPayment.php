@@ -131,7 +131,7 @@ class PayPalPayment extends Component
             $payer->setPaymentMethod('paypal');
 
             $item = new Item();
-            $item->setName(\Yii::t('shop', 'Versandkosten', [], 'de'))
+            $item->setName(\Yii::t('shop', 'Shipping cost', [], 'de'))
                 ->setCurrency($this->currency)
                 ->setQuantity(1)
                 ->setPrice($this->_shippingCost);

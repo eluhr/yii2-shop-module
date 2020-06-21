@@ -59,7 +59,7 @@ class Order extends BaseOrder
     {
         $attributeLabels = parent::attributeLabels();
         $attributeLabels['fullName'] = Yii::t('shop', 'Full Name');
-        $attributeLabels['id'] = Yii::t('shop', 'Bestellnummer', [], 'de');
+        $attributeLabels['id'] = Yii::t('shop', 'Order number', [], 'de');
         return $attributeLabels;
     }
 

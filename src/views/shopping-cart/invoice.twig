@@ -102,11 +102,11 @@
             </td>
             <td>
                 <div class="our-address">
-                    <p>{{ t('shop', 'Caddyroamers') }}</p>
-                    <p>{{ t('shop', 'Beck, Bourgeret und Feller GbR') }}</p>
-                    <p>{{ t('shop', 'Salierallee 17') }}</p>
-                    <p>{{ t('shop', '52066 Aachen') }}</p>
-                    <p>{{ t('shop', '201/5881/4681') }}</p>
+                    <p>{{ t('shop', '__INVOICE_ADRESS_1__') }}</p>
+                    <p>{{ t('shop', '__INVOICE_ADRESS_2__') }}</p>
+                    <p>{{ t('shop', '__INVOICE_ADRESS_3__') }}</p>
+                    <p>{{ t('shop', '__INVOICE_ADRESS_4__') }}</p>
+                    <p>{{ t('shop', '__INVOICE_ADRESS_5__') }}</p>
                 </div>
                 <div class="clearfix"></div>
             </td>
@@ -118,15 +118,15 @@
             <thead>
             <tr>
                 <th style="text-align: left;" colspan="2">
-                    <p class="space"><b>{{ t('shop', 'Rechnung') }} {{ order.invoice_number }}</b></p>
-                    <p class="space">{{ t('shop', 'Bestellnummer') }} {{ order.id }}</p>
+                    <p class="space"><b>{{ t('shop', 'Invoice') }} {{ order.invoice_number }}</b></p>
+                    <p class="space">{{ t('shop', 'Order Number') }} {{ order.id }}</p>
                 </th>
                 <th style="text-align: left;">{{ order.created_at|date("d.m.Y") }}</th>
             </tr>
             <tr>
-                <th style="text-align: left;border: 1px solid #000000; border-left: none; border-right: none;"><b>{{ t('shop', 'Produkt') }}</b></th>
-                <th style="text-align: left;border: 1px solid #000000; border-left: none; border-right: none;"><b>{{ t('shop', 'Anzahl') }}</b></th>
-                <th style="text-align: right;border: 1px solid #000000; border-left: none; border-right: none;"><b>{{ t('shop', 'Kosten') }}</b></th>
+                <th style="text-align: left;border: 1px solid #000000; border-left: none; border-right: none;"><b>{{ t('shop', 'Product Name') }}</b></th>
+                <th style="text-align: left;border: 1px solid #000000; border-left: none; border-right: none;"><b>{{ t('shop', 'Quantity') }}</b></th>
+                <th style="text-align: right;border: 1px solid #000000; border-left: none; border-right: none;"><b>{{ t('shop', 'Price') }}</b></th>
             </tr>
             </thead>
             <tbody>
@@ -145,14 +145,14 @@
                 </tr>
             {% endif %}
             <tr>
-                <td><b>{{ t('shop', 'Versandkosten') }}</b></td>
+                <td><b>{{ t('shop', 'Shipping costs') }}</b></td>
                 <td></td>
                 <td class="currency">{{ app.formatter.asCurrency(order.shipping_price, app.payment.currency) }}</td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
-                <td style="border: 1px solid #000000; border-left: none; border-right: none;"><p class="space"><b>{{ t('shop', 'Gesamtbetrag') }}</b></p></td>
+                <td style="border: 1px solid #000000; border-left: none; border-right: none;"><p class="space"><b>{{ t('shop', 'Total') }}</b></p></td>
                 <td style="border: 1px solid #000000; border-left: none; border-right: none;"></td>
                 <td style="border: 1px solid #000000; border-left: none; border-right: none;text-align: right;">{{ app.formatter.asCurrency(order.totalAmount, app.payment.currency) }}</td>
             </tr>
@@ -162,24 +162,24 @@
             {% if order.isPaid %}
             <p>{{ t('shop', 'Zahlung per') }} {% if order.type == 'PAYPAL' %}{{ t('shop', 'PayPal') }}{% else %}{{ t('shop', 'Überweisung') }}{% endif %} {{ t('shop', 'erhalten.') }}</p>
             {% else %}
-            <p>{{ t('shop', 'Zahlung bitte innerhalb von 14 Tagen an Rechnungsdatum auf untenstehendes Konto.') }}</p>
+            <p>{{ t('shop', '__INVOICE_PAYMENT_INFO_IF_NOT_PAID__') }}</p>
             {% endif %}
             <br>
-            <p>{{ t('shop', 'Leistungszeitraum entspricht Rechnungsdatum.') }}</p>
+            <p>{{ t('shop', '__INVOICE_INFO_BOTTOM_1__') }}</p>
             <br>
-            <p>{{ t('shop', 'Da es sich bei vorliegender Lieferung/ausgeführter Leistung um eine private Arbeit handelt, entfällt nach §19 UStG die Berechnung der Umsatzsteuer.') }}</p>
+            <p>{{ t('shop', '__INVOICE_INFO_BOTTOM_2__') }}</p>
         </div>
     </div>
     <footer class="footer">
         <table>
             <tbody>
             <tr>
-                <td>{{ t('shop', 'Bankverbindung:') }}</td>
-                <td>{{ t('shop', 'IBAN: DE74 3905 0000 1073 5058 18') }}</td>
+                <td>{{ t('shop', 'Bank details:') }}</td>
+                <td>{{ t('shop', '__IBAN__') }}</td>
             </tr>
             <tr>
-                <td>{{ t('shop', 'Sparkasse Aachen') }}</td>
-                <td>{{ t('shop', 'BIC: AACSDE33XXX') }}</td>
+                <td>{{ t('shop', '__BANK_NAME__') }}</td>
+                <td>{{ t('shop', '__BIC__') }}</td>
             </tr>
             </tbody>
         </table>

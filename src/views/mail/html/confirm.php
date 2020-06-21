@@ -103,27 +103,27 @@ $totalPrice = 0;
 
 <div id="content">
     <div class="order-content">
-        <h1 class="heading bold"><?= Yii::t('shop', 'Hallo {firstName} {surname},', ['firstName' => $order->first_name, 'surname' => $order->surname]) ?></h1>
-        <p class="informative-text-0"><?= Yii::t('shop', 'vielen Dank für deine Bestellung bei den Caddyroamers.') ?></p>
+        <h1 class="heading bold"><?= Yii::t('shop', 'Hello {firstName} {surname},', ['firstName' => $order->first_name, 'surname' => $order->surname]) ?></h1>
+        <p class="informative-text-0"><?= Yii::t('shop', '__MAIL_INFO_FIRST_LINE__') ?></p>
         <div class="box">
-            <p class="informative-text-1"><?= Yii::t('shop', 'Dein Bestellübersicht und deinen Bestellstatus inkl. Sendungsverfolgung kannst du jederzeit unter folgendem Link aufrufen:') ?></p>
+            <p class="informative-text-1"><?= Yii::t('shop', '__MAIL_INFO_SECOND_LINE__') ?></p>
             <a href="<?= $order->detailUrl ?>" class="download-link bolder"><?= $order->detailUrl ?></a>
         </div>
-        <h2 class="heading bold"><?= Yii::t('shop', 'Bestellübersicht') ?></h2>
+        <h2 class="heading bold"><?= Yii::t('shop', 'Order overview') ?></h2>
         <div class="box">
             <table>
                 <tr>
                     <th>
-                        <?= Yii::t('shop', 'Produkt') ?>
+                        <?= Yii::t('shop', 'Name') ?>
                     </th>
                     <th class="currency">
-                        <?= Yii::t('shop', 'Preis') ?>
+                        <?= Yii::t('shop', 'Price') ?>
                     </th>
                     <th>
-                        <?= Yii::t('shop', 'Anzahl') ?>
+                        <?= Yii::t('shop', 'Quantity') ?>
                     </th>
                     <th class="currency">
-                        <?= Yii::t('shop', 'Gesamtpreis') ?>
+                        <?= Yii::t('shop', 'Total') ?>
                     </th>
                 </tr>
                 <?php foreach ($order->orderItems as $orderItem): ?>
@@ -152,7 +152,7 @@ $totalPrice = 0;
                 </tr>
                 <?php endif; ?>
                 <tr>
-                    <td><?= Yii::t('shop', 'Versandkosten', [], 'de') ?></td>
+                    <td><?= Yii::t('shop', 'Shipping costs', [], 'de') ?></td>
                     <td></td>
                     <td></td>
                     <td class="currency"><?= Yii::$app->formatter->asCurrency($order->shipping_price, Yii::$app->payment->currency) ?></td>
@@ -166,13 +166,13 @@ $totalPrice = 0;
         </div>
 
         <?php if ($order->type === $order::TYPE_PAYPAL): ?>
-            <p class="informative-text-2 bolder"><?= Yii::t('shop', 'Deine Bestellung wurde per PayPal beglichen.') ?></p>
+            <p class="informative-text-2 bolder"><?= Yii::t('shop', '__MAIL_INFO_PAID_VIA_PAYPAL__') ?></p>
         <?php else: ?>
-            <p class="informative-text-2 bolder"><?= Yii::t('shop', 'Die Bezahlung deiner Bestellung ist noch offen. Bitte überweise den vollen Betrag auf folgendes Konto: ') ?></p>
-            <p class="no-mar"><?= Yii::t('shop', 'Beck, Bourgeret und Feller GbR') ?></p>
-            <p class="no-mar"><?= Yii::t('shop', 'IBAN: DE74 3905 0000 1073 5058 18') ?></p>
-            <p class="no-mar"><?= Yii::t('shop', 'BIC: AACSDE33XXX') ?></p>
-            <p class="no-mar last-pad"><?= Yii::t('shop', 'Sparkasse Aachen') ?></p>
+            <p class="informative-text-2 bolder"><?= Yii::t('shop', '__MAIL_NOT_PAID_YET__') ?></p>
+            <p class="no-mar"><?= Yii::t('shop', '__COMPANY_NAME__') ?></p>
+            <p class="no-mar"><?= Yii::t('shop', '__IBAN__') ?></p>
+            <p class="no-mar"><?= Yii::t('shop', '__BIC__') ?></p>
+            <p class="no-mar last-pad"><?= Yii::t('shop', '__BANK_NAME__') ?></p>
         <?php endif; ?>
     </div>
 </div>

@@ -28,7 +28,7 @@ use dosamigos\chartjs\ChartJs;
                     [
                         'scaleLabel' => [
                             'display' => true,
-                            'labelString' => Yii::t('shop', 'Datum'),
+                            'labelString' => Yii::t('shop', 'Date'),
                         ]
                     ]
                 ],
