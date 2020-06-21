@@ -15,8 +15,7 @@ use yii\helpers\StringHelper;
 
 <div class="order-form">
 
-    <?php $form = ActiveForm::begin(
-    [
+    <?php $form = ActiveForm::begin([
     'id' => 'Order',
     'layout' => 'horizontal',
     'enableClientValidation' => true,
@@ -32,7 +31,7 @@ use yii\helpers\StringHelper;
              ],
          ],
     ]
-);
+    );
     ?>
 
     <div class="">
@@ -99,13 +98,13 @@ $form->field($model, 'discount_code_id')->dropDownList(
 
 <!-- attribute status -->
 			<?=                         $form->field($model, 'status')->dropDownList(
-    eluhr\shop\models\Order::optsstatus()
-); ?>
+                            eluhr\shop\models\Order::optsstatus()
+                        ); ?>
 
 <!-- attribute type -->
 			<?=                         $form->field($model, 'type')->dropDownList(
-    eluhr\shop\models\Order::optstype()
-); ?>
+                            eluhr\shop\models\Order::optstype()
+                        ); ?>
 
 <!-- attribute shipping_price -->
 			<?= $form->field($model, 'shipping_price')->textInput(['maxlength' => true]) ?>
@@ -147,9 +146,9 @@ $form->field($model, 'discount_code_id')->dropDownList(
         
         <?=
     Tabs::widget(
-        [
+                 [
                     'encodeLabels' => false,
-                    'items' => [
+                    'items' => [ 
                         [
     'label'   => Yii::t('shop', 'Order'),
     'content' => $this->blocks['main'],
@@ -170,7 +169,7 @@ $form->field($model, 'discount_code_id')->dropDownList(
         'id' => 'save-' . $model->formName(),
         'class' => 'btn btn-success'
         ]
-    );
+        );
         ?>
 
         <?php ActiveForm::end(); ?>

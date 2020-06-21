@@ -64,4 +64,6 @@ abstract class Setting extends \eluhr\shop\models\ActiveRecord
     {
         return new \eluhr\shop\models\query\SettingQuery(get_called_class());
     }
+
+
 }

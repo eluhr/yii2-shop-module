@@ -94,4 +94,6 @@ abstract class OrderItem extends \eluhr\shop\models\ActiveRecord
     {
         return new \eluhr\shop\models\query\OrderItemQuery(get_called_class());
     }
+
+
 }

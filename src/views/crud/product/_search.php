@@ -27,15 +27,15 @@ use yii\widgets\ActiveForm;
 
 		<?= $form->field($model, 'shipping_price') ?>
 
-		<?php // echo $form->field($model, 'staggering_shipping_cost')?>
+		<?php // echo $form->field($model, 'staggering_shipping_cost') ?>
 
-		<?php // echo $form->field($model, 'description')?>
+		<?php // echo $form->field($model, 'description') ?>
 
-		<?php // echo $form->field($model, 'popularity')?>
+		<?php // echo $form->field($model, 'popularity') ?>
 
-		<?php // echo $form->field($model, 'created_at')?>
+		<?php // echo $form->field($model, 'created_at') ?>
 
-		<?php // echo $form->field($model, 'updated_at')?>
+		<?php // echo $form->field($model, 'updated_at') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('shop', 'Search'), ['class' => 'btn btn-primary']) ?>

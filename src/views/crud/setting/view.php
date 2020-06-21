@@ -42,22 +42,19 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
         <!-- menu buttons -->
         <div class='pull-left'>
             <?= Html::a(
-    '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('shop', 'Edit'),
-    [ 'update', 'key' => $model->key],
-    ['class' => 'btn btn-info']
-) ?>
+            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('shop', 'Edit'),
+            [ 'update', 'key' => $model->key],
+            ['class' => 'btn btn-info']) ?>
 
             <?= Html::a(
-    '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('shop', 'Copy'),
-    ['create', 'key' => $model->key, 'Setting'=>$copyParams],
-    ['class' => 'btn btn-success']
-) ?>
+            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('shop', 'Copy'),
+            ['create', 'key' => $model->key, 'Setting'=>$copyParams],
+            ['class' => 'btn btn-success']) ?>
 
             <?= Html::a(
-    '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New'),
-    ['create'],
-    ['class' => 'btn btn-success']
-) ?>
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New'),
+            ['create'],
+            ['class' => 'btn btn-success']) ?>
         </div>
 
         <div class="pull-right">
@@ -85,21 +82,18 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
     
     <hr/>
 
-    <?= Html::a(
-        '<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('shop', 'Delete'),
-        ['delete', 'key' => $model->key],
-        [
+    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('shop', 'Delete'), ['delete', 'key' => $model->key],
+    [
     'class' => 'btn btn-danger',
     'data-confirm' => '' . Yii::t('shop', 'Are you sure to delete this item?') . '',
     'data-method' => 'post',
-    ]
-    ); ?>
+    ]); ?>
     <?php $this->endBlock(); ?>
 
 
     
     <?= Tabs::widget(
-        [
+                 [
                      'id' => 'relation-tabs',
                      'encodeLabels' => false,
                      'items' => [

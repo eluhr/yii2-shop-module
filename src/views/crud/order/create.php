@@ -23,10 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="clearfix crud-navigation">
         <div class="pull-left">
             <?=             Html::a(
-    Yii::t('shop', 'Cancel'),
-    \yii\helpers\Url::previous(),
-    ['class' => 'btn btn-default']
-) ?>
+            Yii::t('shop', 'Cancel'),
+            \yii\helpers\Url::previous(),
+            ['class' => 'btn btn-default']) ?>
         </div>
     </div>
 

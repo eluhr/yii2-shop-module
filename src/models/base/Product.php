@@ -107,4 +107,6 @@ abstract class Product extends \eluhr\shop\models\ActiveRecord
     {
         return new \eluhr\shop\models\query\ProductQuery(get_called_class());
     }
+
+
 }

@@ -115,4 +115,6 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
     {
         return new \eluhr\shop\models\query\VariantQuery(get_called_class());
     }
+
+
 }

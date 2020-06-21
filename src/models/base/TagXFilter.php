@@ -89,4 +89,6 @@ abstract class TagXFilter extends \eluhr\shop\models\ActiveRecord
     {
         return new \eluhr\shop\models\query\TagXFilterQuery(get_called_class());
     }
+
+
 }

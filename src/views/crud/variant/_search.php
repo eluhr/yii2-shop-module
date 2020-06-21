@@ -27,21 +27,21 @@ use yii\widgets\ActiveForm;
 
 		<?= $form->field($model, 'is_online') ?>
 
-		<?php // echo $form->field($model, 'rank')?>
+		<?php // echo $form->field($model, 'rank') ?>
 
-		<?php // echo $form->field($model, 'price')?>
+		<?php // echo $form->field($model, 'price') ?>
 
-		<?php // echo $form->field($model, 'hex_color')?>
+		<?php // echo $form->field($model, 'hex_color') ?>
 
-		<?php // echo $form->field($model, 'stock')?>
+		<?php // echo $form->field($model, 'stock') ?>
 
-		<?php // echo $form->field($model, 'sku')?>
+		<?php // echo $form->field($model, 'sku') ?>
 
-		<?php // echo $form->field($model, 'description')?>
+		<?php // echo $form->field($model, 'description') ?>
 
-		<?php // echo $form->field($model, 'created_at')?>
+		<?php // echo $form->field($model, 'created_at') ?>
 
-		<?php // echo $form->field($model, 'updated_at')?>
+		<?php // echo $form->field($model, 'updated_at') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('shop', 'Search'), ['class' => 'btn btn-primary']) ?>

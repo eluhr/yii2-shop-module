@@ -15,8 +15,7 @@ use yii\helpers\StringHelper;
 
 <div class="tag-x-filter-form">
 
-    <?php $form = ActiveForm::begin(
-    [
+    <?php $form = ActiveForm::begin([
     'id' => 'TagXFilter',
     'layout' => 'horizontal',
     'enableClientValidation' => true,
@@ -32,7 +31,7 @@ use yii\helpers\StringHelper;
              ],
          ],
     ]
-);
+    );
     ?>
 
     <div class="">
@@ -62,7 +61,7 @@ $form->field($model, 'facet_id')->dropDownList(
 ); ?>
 
 <!-- attribute show_in_frontend -->
-			<?= $form->field($model, 'show_in_frontend')->checkbox([], false); ?>
+			<?= $form->field($model,'show_in_frontend')->checkbox([], false); ?>
 
 <!-- attribute rank -->
 			<?= $form->field($model, 'rank')->textInput() ?>
@@ -75,9 +74,9 @@ $form->field($model, 'facet_id')->dropDownList(
         
         <?=
     Tabs::widget(
-        [
+                 [
                     'encodeLabels' => false,
-                    'items' => [
+                    'items' => [ 
                         [
     'label'   => Yii::t('shop', 'TagXFilter'),
     'content' => $this->blocks['main'],
@@ -98,7 +97,7 @@ $form->field($model, 'facet_id')->dropDownList(
         'id' => 'save-' . $model->formName(),
         'class' => 'btn btn-success'
         ]
-    );
+        );
         ?>
 
         <?php ActiveForm::end(); ?>

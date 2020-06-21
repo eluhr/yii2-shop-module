@@ -14,10 +14,10 @@ $this->title = Yii::t('shop', 'Discount Codes');
 $this->params['breadcrumbs'][] = $this->title;
 
 if (isset($actionColumnTemplates)) {
-    $actionColumnTemplate = implode(' ', $actionColumnTemplates);
+$actionColumnTemplate = implode(' ', $actionColumnTemplates);
     $actionColumnTemplateString = $actionColumnTemplate;
 } else {
-    Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New'), ['create'], ['class' => 'btn btn-success']);
+Yii::$app->view->params['pageButtons'] = Html::a('<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New'), ['create'], ['class' => 'btn btn-success']);
     $actionColumnTemplateString = "{view} {update} {delete}";
 }
 $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTemplateString.'</div>';
@@ -45,9 +45,9 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
         <div class="pull-right">
 
                                                     
-            <?=
+            <?= 
             \yii\bootstrap\ButtonDropdown::widget(
-                [
+            [
             'id' => 'giiant-relations',
             'encodeLabel' => false,
             'label' => '<span class="glyphicon glyphicon-paperclip"></span> ' . Yii::t('shop', 'Relations'),
@@ -100,7 +100,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                     return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
                 }
             ],
-            'urlCreator' => function ($action, $model, $key, $index) {
+            'urlCreator' => function($action, $model, $key, $index) {
                 // using the column name as key, not mapping to 'id' like the standard generator
                 $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
                 $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
@@ -108,12 +108,12 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             },
             'contentOptions' => ['nowrap'=>'nowrap']
         ],
-            'code',
-            'percent',
-            'expiration_date',
-            'created_at',
-            'updated_at',
-            'used',
+			'code',
+			'percent',
+			'expiration_date',
+			'created_at',
+			'updated_at',
+			'used',
         ],
         ]); ?>
     </div>

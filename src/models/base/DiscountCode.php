@@ -82,4 +82,6 @@ abstract class DiscountCode extends \eluhr\shop\models\ActiveRecord
     {
         return new \eluhr\shop\models\query\DiscountCodeQuery(get_called_class());
     }
+
+
 }

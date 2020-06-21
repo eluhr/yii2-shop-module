@@ -15,8 +15,7 @@ use yii\helpers\StringHelper;
 
 <div class="product-form">
 
-    <?php $form = ActiveForm::begin(
-    [
+    <?php $form = ActiveForm::begin([
     'id' => 'Product',
     'layout' => 'horizontal',
     'enableClientValidation' => true,
@@ -32,7 +31,7 @@ use yii\helpers\StringHelper;
              ],
          ],
     ]
-);
+    );
     ?>
 
     <div class="">
@@ -47,9 +46,9 @@ use yii\helpers\StringHelper;
         
         <?=
     Tabs::widget(
-        [
+                 [
                     'encodeLabels' => false,
-                    'items' => [
+                    'items' => [ 
                         [
     'label'   => Yii::t('shop', 'Product'),
     'content' => $this->blocks['main'],
@@ -70,7 +69,7 @@ use yii\helpers\StringHelper;
         'id' => 'save-' . $model->formName(),
         'class' => 'btn btn-success'
         ]
-    );
+        );
         ?>
 
         <?php ActiveForm::end(); ?>

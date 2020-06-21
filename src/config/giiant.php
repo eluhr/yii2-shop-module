@@ -1,12 +1,13 @@
 <?php
 
-namespace eluhr\shop;
 
 use schmunk42\giiant\commands\BatchController;
 use schmunk42\giiant\generators\crud\callbacks\base\Callback;
 use schmunk42\giiant\generators\crud\providers\core\CallbackProvider;
 use schmunk42\giiant\generators\crud\providers\core\OptsProvider;
 use schmunk42\giiant\generators\crud\providers\core\RelationProvider;
+use eluhr\shop\controllers\crud\Controller;
+use eluhr\shop\models\ActiveRecord;
 
 $config = require dirname(__DIR__, 5) . '/config/main.php';
 
@@ -29,13 +30,13 @@ $config['controllerMap']['shop:crud'] = [
     'class' => BatchController::class,
     'overwrite' => true,
     'interactive' => false,
-    'crudBaseControllerClass' => __NAMESPACE__ . '\\controllers\\crud\\Controller',
-    'modelBaseClass' => __NAMESPACE__ . '\\models\\ActiveRecord',
-    'modelNamespace' => __NAMESPACE__ . '\\models',
-    'modelQueryNamespace' => __NAMESPACE__ . '\\models\\query',
-    'crudControllerNamespace' => __NAMESPACE__ . '\\controllers\\crud',
-    'crudSearchModelNamespace' => __NAMESPACE__ . '\\models\\search',
-    'crudViewPath' => '@' . str_replace('\\', '/', __NAMESPACE__) . '/views/crud',
+    'crudBaseControllerClass' => Controller::class,
+    'modelBaseClass' => ActiveRecord::class,
+    'modelNamespace' =>  'eluhr\\shop\\models',
+    'modelQueryNamespace' => 'eluhr\\shop\\models\\query',
+    'crudControllerNamespace' => 'eluhr\\shop\\controllers\\crud',
+    'crudSearchModelNamespace' => 'eluhr\\shop\\models\\search',
+    'crudViewPath' => '@eluhr/shop/views/crud',
     'crudPathPrefix' => '/shop/crud/',
     'crudTidyOutput' => false,
     'crudAccessFilter' => false,

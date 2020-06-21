@@ -15,8 +15,7 @@ use yii\helpers\StringHelper;
 
 <div class="tag-x-product-form">
 
-    <?php $form = ActiveForm::begin(
-    [
+    <?php $form = ActiveForm::begin([
     'id' => 'TagXProduct',
     'layout' => 'horizontal',
     'enableClientValidation' => true,
@@ -32,7 +31,7 @@ use yii\helpers\StringHelper;
              ],
          ],
     ]
-);
+    );
     ?>
 
     <div class="">
@@ -69,9 +68,9 @@ $form->field($model, 'product_id')->dropDownList(
         
         <?=
     Tabs::widget(
-        [
+                 [
                     'encodeLabels' => false,
-                    'items' => [
+                    'items' => [ 
                         [
     'label'   => Yii::t('shop', 'TagXProduct'),
     'content' => $this->blocks['main'],
@@ -92,7 +91,7 @@ $form->field($model, 'product_id')->dropDownList(
         'id' => 'save-' . $model->formName(),
         'class' => 'btn btn-success'
         ]
-    );
+        );
         ?>
 
         <?php ActiveForm::end(); ?>

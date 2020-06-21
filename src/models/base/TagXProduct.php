@@ -85,4 +85,6 @@ abstract class TagXProduct extends \eluhr\shop\models\ActiveRecord
     {
         return new \eluhr\shop\models\query\TagXProductQuery(get_called_class());
     }
+
+
 }

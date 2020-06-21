@@ -101,4 +101,6 @@ abstract class Tag extends \eluhr\shop\models\ActiveRecord
     {
         return new \eluhr\shop\models\query\TagQuery(get_called_class());
     }
+
+
 }

@@ -27,9 +27,9 @@ use yii\widgets\ActiveForm;
 
 		<?= $form->field($model, 'created_at') ?>
 
-		<?php // echo $form->field($model, 'updated_at')?>
+		<?php // echo $form->field($model, 'updated_at') ?>
 
-		<?php // echo $form->field($model, 'is_online')?>
+		<?php // echo $form->field($model, 'is_online') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('shop', 'Search'), ['class' => 'btn btn-primary']) ?>

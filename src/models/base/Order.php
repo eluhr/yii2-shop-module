@@ -62,7 +62,7 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
     const STATUS_FINISHED = 'FINISHED';
     const TYPE_PAYPAL = 'PAYPAL';
     const TYPE_PREPAYMENT = 'PREPAYMENT';
-    public $enum_labels = false;
+    var $enum_labels = false;
     /**
      * @inheritdoc
      */
@@ -186,10 +186,9 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
      * @param string $value
      * @return string
      */
-    public static function getStatusValueLabel($value)
-    {
+    public static function getStatusValueLabel($value){
         $labels = self::optsStatus();
-        if (isset($labels[$value])) {
+        if(isset($labels[$value])){
             return $labels[$value];
         }
         return $value;
@@ -216,10 +215,9 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
      * @param string $value
      * @return string
      */
-    public static function getTypeValueLabel($value)
-    {
+    public static function getTypeValueLabel($value){
         $labels = self::optsType();
-        if (isset($labels[$value])) {
+        if(isset($labels[$value])){
             return $labels[$value];
         }
         return $value;
@@ -236,4 +234,5 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
             self::TYPE_PREPAYMENT => Yii::t('shop', self::TYPE_PREPAYMENT),
         ];
     }
+
 }

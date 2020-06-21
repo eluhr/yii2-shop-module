@@ -42,22 +42,19 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
         <!-- menu buttons -->
         <div class='pull-left'>
             <?= Html::a(
-    '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('shop', 'Edit'),
-    [ 'update', 'id' => $model->id],
-    ['class' => 'btn btn-info']
-) ?>
+            '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('shop', 'Edit'),
+            [ 'update', 'id' => $model->id],
+            ['class' => 'btn btn-info']) ?>
 
             <?= Html::a(
-    '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('shop', 'Copy'),
-    ['create', 'id' => $model->id, 'Order'=>$copyParams],
-    ['class' => 'btn btn-success']
-) ?>
+            '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('shop', 'Copy'),
+            ['create', 'id' => $model->id, 'Order'=>$copyParams],
+            ['class' => 'btn btn-success']) ?>
 
             <?= Html::a(
-    '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New'),
-    ['create'],
-    ['class' => 'btn btn-success']
-) ?>
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New'),
+            ['create'],
+            ['class' => 'btn btn-success']) ?>
         </div>
 
         <div class="pull-right">
@@ -88,11 +85,11 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 [
     'format' => 'html',
     'attribute' => 'discount_code_id',
-    'value' => ($model->discountCode ?
+    'value' => ($model->discountCode ? 
         Html::a('<i class="glyphicon glyphicon-list"></i>', ['/shop/crud/discount-code/index']).' '.
         Html::a('<i class="glyphicon glyphicon-circle-arrow-right"></i> '.$model->discountCode->label, ['/shop/crud/discount-code/view', 'id' => $model->discountCode->id,]).' '.
         Html::a('<i class="glyphicon glyphicon-paperclip"></i>', ['create', 'Order'=>['discount_code_id' => $model->discount_code_id]])
-        :
+        : 
         '<span class="label label-warning">?</span>'),
 ],
         'info_mail_has_been_sent',
@@ -128,15 +125,12 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
     
     <hr/>
 
-    <?= Html::a(
-        '<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('shop', 'Delete'),
-        ['delete', 'id' => $model->id],
-        [
+    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('shop', 'Delete'), ['delete', 'id' => $model->id],
+    [
     'class' => 'btn btn-danger',
     'data-confirm' => '' . Yii::t('shop', 'Are you sure to delete this item?') . '',
     'data-method' => 'post',
-    ]
-    ); ?>
+    ]); ?>
     <?php $this->endBlock(); ?>
 
 
@@ -145,20 +139,19 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 <div style='position: relative'>
 <div style='position:absolute; right: 0px; top: 0px;'>
   <?= Html::a(
-        '<span class="glyphicon glyphicon-list"></span> ' . Yii::t('shop', 'List All') . ' Variants',
-        ['/shop/crud/variant/index'],
-        ['class'=>'btn text-muted btn-xs']
-    ) ?>
+            '<span class="glyphicon glyphicon-list"></span> ' . Yii::t('shop', 'List All') . ' Variants',
+            ['/shop/crud/variant/index'],
+            ['class'=>'btn text-muted btn-xs']
+        ) ?>
   <?= Html::a(
-        '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New') . ' Variant',
-        ['/shop/crud/variant/create', 'Variant' => ['id' => $model->id]],
-        ['class'=>'btn btn-success btn-xs']
-    ); ?>
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New') . ' Variant',
+            ['/shop/crud/variant/create', 'Variant' => ['id' => $model->id]],
+            ['class'=>'btn btn-success btn-xs']
+        ); ?>
   <?= Html::a(
-        '<span class="glyphicon glyphicon-link"></span> ' . Yii::t('shop', 'Attach') . ' Variant',
-        ['/shop/crud/order-item/create', 'OrderItem'=>['order_id'=>$model->id]],
-        ['class'=>'btn btn-info btn-xs']
-    ) ?>
+            '<span class="glyphicon glyphicon-link"></span> ' . Yii::t('shop', 'Attach') . ' Variant', ['/shop/crud/order-item/create', 'OrderItem'=>['order_id'=>$model->id]],
+            ['class'=>'btn btn-info btn-xs']
+        ) ?>
 </div>
 </div>
 <?php Pjax::begin(['id'=>'pjax-Variants', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-Variants ul.pagination a, th a']) ?>
@@ -192,26 +185,26 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
     },
     'buttons'    => [
         'delete' => function ($url, $model) {
-            return Html::a('<span class="glyphicon glyphicon-remove"></span>', $url, [
+                return Html::a('<span class="glyphicon glyphicon-remove"></span>', $url, [
                     'class' => 'text-danger',
                     'title'         => Yii::t('shop', 'Remove'),
                     'data-confirm'  => Yii::t('shop', 'Are you sure you want to delete the related item?'),
                     'data-method' => 'post',
                     'data-pjax' => '0',
                 ]);
-        },
+            },
 'view' => function ($url, $model) {
-    return Html::a(
-        '<span class="glyphicon glyphicon-cog"></span>',
-        $url,
-        [
+                return Html::a(
+                    '<span class="glyphicon glyphicon-cog"></span>',
+                    $url,
+                    [
                         'data-title'  => Yii::t('shop', 'View Pivot Record'),
                         'data-toggle' => 'tooltip',
                         'data-pjax'   => '0',
                         'class'       => 'text-muted',
                     ]
-    );
-},
+                );
+            },
     ],
     'controller' => '/shop/crud/order-item'
 ],
@@ -235,14 +228,14 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
         'updated_at',
 ]
 ])
- . '</div>'
+ . '</div>' 
 ?>
 <?php Pjax::end() ?>
 <?php $this->endBlock() ?>
 
 
     <?= Tabs::widget(
-    [
+                 [
                      'id' => 'relation-tabs',
                      'encodeLabels' => false,
                      'items' => [
@@ -258,6 +251,6 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 ],
  ]
                  ]
-);
+    );
     ?>
 </div>

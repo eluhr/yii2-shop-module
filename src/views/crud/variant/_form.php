@@ -15,8 +15,7 @@ use yii\helpers\StringHelper;
 
 <div class="variant-form">
 
-    <?php $form = ActiveForm::begin(
-    [
+    <?php $form = ActiveForm::begin([
     'id' => 'Variant',
     'layout' => 'horizontal',
     'enableClientValidation' => true,
@@ -32,7 +31,7 @@ use yii\helpers\StringHelper;
              ],
          ],
     ]
-);
+    );
     ?>
 
     <div class="">
@@ -55,7 +54,7 @@ $form->field($model, 'product_id')->dropDownList(
 			<?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
 <!-- attribute thumbnail_image -->
-			<?= $form->field($model, 'thumbnail_image')->widget(hrzg\filemanager\widgets\FileManagerInputWidget::class, ['handlerUrl' => '/filefly/api']); ?>
+			<?= $form->field($model, 'thumbnail_image')->widget(hrzg\filemanager\widgets\FileManagerInputWidget::class,['handlerUrl' => '/filefly/api']); ?>
 
 <!-- attribute rank -->
 			<?= $form->field($model, 'rank')->textInput() ?>
@@ -67,7 +66,7 @@ $form->field($model, 'product_id')->dropDownList(
 			<?= $form->field($model, 'hex_color')->textInput(['maxlength' => true]) ?>
 
 <!-- attribute is_online -->
-			<?= $form->field($model, 'is_online')->checkbox([], false); ?>
+			<?= $form->field($model,'is_online')->checkbox([], false); ?>
 
 <!-- attribute stock -->
 			<?= $form->field($model, 'stock')->textInput() ?>
@@ -86,9 +85,9 @@ $form->field($model, 'product_id')->dropDownList(
         
         <?=
     Tabs::widget(
-        [
+                 [
                     'encodeLabels' => false,
-                    'items' => [
+                    'items' => [ 
                         [
     'label'   => Yii::t('shop', 'Variant'),
     'content' => $this->blocks['main'],
@@ -109,7 +108,7 @@ $form->field($model, 'product_id')->dropDownList(
         'id' => 'save-' . $model->formName(),
         'class' => 'btn btn-success'
         ]
-    );
+        );
         ?>
 
         <?php ActiveForm::end(); ?>

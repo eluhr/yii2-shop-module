@@ -1,3 +1,8 @@
+# Install
+
+```bash
+composer require eluhr/yii2-shop-module
+```
 # Example Config
 
 ```php
@@ -18,6 +23,9 @@ foreach ($requiredEnvs as $requiredEnv) {
 }
 
 return [
+'aliases' => [
+        'eluhr/shop' => '@vendor/eluhr/yii2-shop-module/src'
+],
 'modules' => [
         'shop' => [
             'class' => ShopModule::class,
@@ -85,5 +93,5 @@ return [
 # Giiant
 
 ```bash
-docker-compose run --rm php yii shop:crud --appconfig=/app/vendor/eluhr/yii2-shop-module/src/modules/shop/config/giiant.php
+docker-compose run --rm php yii shop:crud --appconfig=/app/vendor/eluhr/yii2-shop-module/src/config/giiant.php
 ````
