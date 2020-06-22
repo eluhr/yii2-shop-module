@@ -17,7 +17,8 @@
         "kartik-v/yii2-number": "^1.0",
         "eluhr/yii2-sortablejs": "^0.0.3",
         "kartik-v/yii2-export": "^1.4",
-        "dompdf/dompdf": "^0.8.5"
+        "dompdf/dompdf": "^0.8.5",
+        "dmstr/yii2-helpers": "^0.4.18"
     },
     "autoload": {
         "psr-4": {
