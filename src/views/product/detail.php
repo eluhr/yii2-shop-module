@@ -41,6 +41,8 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
                 echo Html::submitButton(Yii::t('shop', 'Add to shopping cart'), ['class' => 'btn btn-primary']);
 
                 ActiveForm::end();
+            } else {
+                echo Html::tag('p', Yii::t('shop','Currently out of stock'),['class' => 'out-of-stock-info']);
             }
             ?>
         </div>
