@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "ramsey/uuid": "^3.9",
+        "ramsey/uuid": "^4.1",
         "paypal/rest-api-sdk-php": "^1.14",
         "kartik-v/yii2-editable": "^1.7",
         "kartik-v/yii2-widget-colorinput": "^1.0",
