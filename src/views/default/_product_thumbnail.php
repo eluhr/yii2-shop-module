@@ -22,6 +22,7 @@ $this->registerCss("#{$id} .thumbnail-image { background-image: url('{$product->
     </div>
     <div class="caption">
         <h3 class="product-title"><?= $product->title ?></h3>
+        <div class="variant-price"><?=Yii::$app->formatter->asCurrency($product->firstVariant->price, $this->context->module->currency)?></div>
         <?php
         echo Html::ul($product->activeVariants, [
             'item' => function ($variant) use ($id) {
@@ -29,6 +30,7 @@ $this->registerCss("#{$id} .thumbnail-image { background-image: url('{$product->
                 return Html::tag('li', Html::a('&nbsp;&nbsp;&nbsp;', $variant->detailUrl(), ['style' => "background-color: {$variant->hex_color};"]), [
                     'data' => [
                         'image' => $variant->thumbnailImage(),
+                        'price' => Yii::$app->formatter->asCurrency($variant->price, $this->context->module->currency),
                         'toggle' => 'variant',
                         'target' => '#' . $id
                     ]
