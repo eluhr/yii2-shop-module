@@ -7,6 +7,10 @@ document.querySelectorAll('[data-toggle="variant"]').forEach(function (variantTo
     });
 });
 
+$('input[type="text"][name="q"]').on('blur', function() {
+    this.form.submit();
+});
+
 $('[data-filter="filter-form"]').on('change', function() {
     this.form.submit();
 });

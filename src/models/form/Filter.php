@@ -10,6 +10,7 @@
 namespace eluhr\shop\models\form;
 
 use yii\base\Model;
+use yii\helpers\HtmlPurifier;
 
 /**
  *
@@ -32,6 +33,14 @@ class Filter extends Model
             'tag',
             'q'
         ],'safe'];
+        $rules[] = [
+            'q',
+            'filter',
+            'filter' => function ($value) {
+                $value = strip_tags($value);
+                return HtmlPurifier::process($value);
+            }
+        ];
         return $rules;
     }
 
@@ -53,5 +62,12 @@ class Filter extends Model
     public function getIsFiltered()
     {
         return !empty($this->tag) || !empty($this->q);
+    }
+
+    public function attributeLabels()
+    {
+        $attributeLabels = parent::attributeLabels();
+        $attributeLabels['q'] = \Yii::t('shop', 'Suche');
+        return $attributeLabels;
     }
 }

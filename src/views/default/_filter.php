@@ -1,5 +1,6 @@
 <?php
 
+use eluhr\shop\models\ShopSettings;
 use kartik\select2\Select2;
 use eluhr\shop\models\Filter;
 use eluhr\shop\models\form\Filter as FilterForm;
@@ -20,6 +21,11 @@ if (!empty($filters)):
     <?php
 
         $form = ActiveForm::begin(['method' => 'get', 'action' => ['']]);
+
+        if (ShopSettings::shopGeneralShowSearch()) {
+            echo $form->field($filterForm, 'q');
+        }
+
         foreach ($filters as $filter) {
             $data = $filter->tagData();
             if (!empty($data)) {

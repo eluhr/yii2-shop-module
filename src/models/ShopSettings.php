@@ -15,6 +15,7 @@ use yii\helpers\VarDumper;
 class ShopSettings extends Model
 {
     public const SHOP_GENERAL_SHOW_FILTERS = 'shopGeneralShowFilters';
+    public const SHOP_GENERAL_SHOW_SEARCH = 'shopGeneralShowSearch';
     public const SHOP_GENERAL_INVOICE_DOWNLOAD = 'shopGeneralInvoiceDownload';
     public const SHOP_GENERAL_SHIPPING_LINK = 'shopGeneralShippingLink';
     public const SHOP_GENERAL_ENABLE_DISCOUNT_CODES = 'shopGeneralEnableDiscountCodes';
@@ -30,6 +31,7 @@ class ShopSettings extends Model
     public const SHOP_GENERAL_SHOW_OUT_OF_STOCK_VARIANTS = 'shopGeneralShowOutOfStockVariants';
     public const SHOP_GENERAL_SHOP_SELLS_ADULT_PRODUCTS = 'shopGeneralShopSellsAdultProducts';
     public $shopGeneralShowFilters;
+    public $shopGeneralShowSearch;
     public $shopGeneralInvoiceDownload;
     public $shopGeneralShippingLink;
     public $shopGeneralEnableDiscountCodes;
@@ -48,6 +50,10 @@ class ShopSettings extends Model
 
     protected static $settings = [
         self::SHOP_GENERAL_SHOW_FILTERS => [
+            'type' => 'bool',
+            'default' => true
+        ],
+        self::SHOP_GENERAL_SHOW_SEARCH => [
             'type' => 'bool',
             'default' => true
         ],
@@ -115,6 +121,7 @@ class ShopSettings extends Model
         $rules[] = [
             [
                 self::SHOP_GENERAL_SHOW_FILTERS,
+                self::SHOP_GENERAL_SHOW_SEARCH,
                 self::SHOP_GENERAL_INVOICE_DOWNLOAD,
                 self::SHOP_GENERAL_SHIPPING_LINK,
                 self::SHOP_GENERAL_SHORT_ORDER_ID,
@@ -220,6 +227,11 @@ class ShopSettings extends Model
         return static::getValueByConst(self::SHOP_GENERAL_SHOW_FILTERS);
     }
 
+    public static function shopGeneralShowSearch(): bool
+    {
+        return static::getValueByConst(self::SHOP_GENERAL_SHOW_SEARCH);
+    }
+
     public static function shopGeneralInvoiceDownload(): bool
     {
         return static::getValueByConst(self::SHOP_GENERAL_INVOICE_DOWNLOAD);
@@ -294,6 +306,7 @@ class ShopSettings extends Model
     {
         $attributeLabels = parent::attributeLabels();
         $attributeLabels[self::SHOP_GENERAL_SHOW_FILTERS] = \Yii::t('shop', 'Show filters');
+        $attributeLabels[self::SHOP_GENERAL_SHOW_SEARCH] = \Yii::t('shop', 'Show Search field');
         $attributeLabels[self::SHOP_GENERAL_SHIPPING_LINK] = \Yii::t('shop', 'Show Shipping Link');
         $attributeLabels[self::SHOP_GENERAL_INVOICE_DOWNLOAD] = \Yii::t('shop', 'Show Invoice Download');
         $attributeLabels[self::SHOP_GENERAL_ENABLE_DISCOUNT_CODES] = \Yii::t('shop', 'Enable Discount Codes');

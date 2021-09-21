@@ -44,7 +44,7 @@ class ProductQuery extends \yii\db\ActiveQuery
                 ->andWhere(['not', [VariantQuery::ALIAS . '.id' => null]])
                 ->groupBy(VariantQuery::ALIAS . '.product_id');
         if (ShopSettings::shopGeneralShowOutOfStockVariants() === false) {
-            $query->andWhere(['>',VariantQuery::ALIAS . '.stock', 0]);
+            $query->andWhere(['>', VariantQuery::ALIAS . '.stock', 0]);
         }
         return $query;
     }
@@ -81,20 +81,22 @@ class ProductQuery extends \yii\db\ActiveQuery
 
     public function fullTextSearch($q)
     {
-        $searchTerm = HtmlPurifier::process(strip_tags($q));
-        $this->addSelect([
-            'searchableTitle' => new Expression('GROUP_CONCAT(v.title)'),
-            'searchableDescription' => new Expression('GROUP_CONCAT(v.description)'),
-            'searchableSku' => new Expression('GROUP_CONCAT(v.sku)')
-        ]);
-        $this->andHaving([
-            'OR',
-            ['LIKE', 'p.[[title]]', $searchTerm],
-            ['LIKE', 'p.[[description]]', $searchTerm],
-            ['LIKE', '[[searchableTitle]]', $searchTerm],
-            ['LIKE', '[[searchableDescription]]', $searchTerm],
-            ['LIKE', '[[searchableSku]]', $searchTerm],
-        ]);
+        if (ShopSettings::shopGeneralShowSearch()) {
+            $searchTerm = HtmlPurifier::process(strip_tags($q));
+            $this->addSelect([
+                'searchableTitle' => new Expression('GROUP_CONCAT(v.title)'),
+                'searchableDescription' => new Expression('GROUP_CONCAT(v.description)'),
+                'searchableSku' => new Expression('GROUP_CONCAT(v.sku)')
+            ]);
+            $this->andHaving([
+                'OR',
+                ['LIKE', 'p.[[title]]', $searchTerm],
+                ['LIKE', 'p.[[description]]', $searchTerm],
+                ['LIKE', '[[searchableTitle]]', $searchTerm],
+                ['LIKE', '[[searchableDescription]]', $searchTerm],
+                ['LIKE', '[[searchableSku]]', $searchTerm],
+            ]);
+        }
     }
 
     /**
