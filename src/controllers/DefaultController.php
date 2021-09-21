@@ -22,6 +22,7 @@ class DefaultController extends Controller
 
         if ($filterForm->load(\Yii::$app->request->get())) {
             $query->hasTagsAssigned($filterForm->tagIds());
+            $query->fullTextSearch($filterForm->q);
         }
 
         return $this->render('index', [

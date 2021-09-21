@@ -6,6 +6,7 @@ use eluhr\shop\models\ShopSettings;
 use eluhr\shop\models\TagXProduct;
 use eluhr\shop\models\Variant;
 use yii\db\Expression;
+use yii\helpers\HtmlPurifier;
 
 /**
  * This is the ActiveQuery class for [[\eluhr\shop\models\Product]].
@@ -76,6 +77,24 @@ class ProductQuery extends \yii\db\ActiveQuery
     public function orderByRank()
     {
         return $this->orderBy(['rank' => SORT_ASC]);
+    }
+
+    public function fullTextSearch($q)
+    {
+        $searchTerm = HtmlPurifier::process(strip_tags($q));
+        $this->addSelect([
+            'searchableTitle' => new Expression('GROUP_CONCAT(v.title)'),
+            'searchableDescription' => new Expression('GROUP_CONCAT(v.description)'),
+            'searchableSku' => new Expression('GROUP_CONCAT(v.sku)')
+        ]);
+        $this->andHaving([
+            'OR',
+            ['LIKE', 'p.[[title]]', $searchTerm],
+            ['LIKE', 'p.[[description]]', $searchTerm],
+            ['LIKE', '[[searchableTitle]]', $searchTerm],
+            ['LIKE', '[[searchableDescription]]', $searchTerm],
+            ['LIKE', '[[searchableSku]]', $searchTerm],
+        ]);
     }
 
     /**

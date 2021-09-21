@@ -18,11 +18,20 @@ use yii\base\Model;
 class Filter extends Model
 {
     public $tag = [];
+    public $q;
+
+    public function formName()
+    {
+        return '';
+    }
 
     public function rules()
     {
         $rules = parent::rules();
-        $rules[] = ['tag','safe'];
+        $rules[] = [[
+            'tag',
+            'q'
+        ],'safe'];
         return $rules;
     }
 
@@ -43,6 +52,6 @@ class Filter extends Model
 
     public function getIsFiltered()
     {
-        return !empty($this->tag);
+        return !empty($this->tag) || !empty($this->q);
     }
 }
