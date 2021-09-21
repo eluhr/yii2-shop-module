@@ -4,6 +4,10 @@ document.querySelectorAll('[data-toggle="variant"]').forEach(function (variantTo
         if (thumbnailEl) {
             thumbnailEl.style.backgroundImage = "url('" + event.target.dataset.image + "')";
         }
+        var priceEl = document.querySelector(event.target.dataset.target + ' .variant-price');
+        if (priceEl) {
+            priceEl.textContent = event.target.dataset.price;
+        }
     });
 });
 
