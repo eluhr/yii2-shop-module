@@ -287,6 +287,7 @@ class Order extends BaseOrder
     {
         return [
             self::TYPE_PREPAYMENT => Yii::t('shop', 'Prepayment'),
+//            self::TYPE_PAYPAL => Yii::t('shop', 'PayPal')
             self::TYPE_PAYPAL => Yii::t('shop', 'PayPal')
         ];
     }

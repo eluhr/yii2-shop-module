@@ -199,14 +199,13 @@ class ShoppingCartController extends Controller
 
     /**
      * @throws HttpException
-     * @return string
      */
     public function actionCheckout()
     {
         $model = new ShoppingCartCheckout();
 
         if ($model->load(Yii::$app->request->post()) && $model->checkout()) {
-            if ($model->type === Order::TYPE_PAYPAL) {
+            if ($model->type !== Order::TYPE_PREPAYMENT) {
                 return $this->redirect($model->approvalLink());
             }
             $order = $model->getOrder();
@@ -250,6 +249,24 @@ class ShoppingCartController extends Controller
 
         $order->paypal_token = $token;
         $order->paypal_payer_id = $PayerID;
+        $order->status = Order::STATUS_RECEIVED_PAID;
+
+        if (!$order->checkout()) {
+            throw new HttpException(500, Yii::t('shop', 'Error while updating order. Please contact an admin'));
+        }
+        Yii::$app->session->addFlash('success', Yii::t('shop', 'Transaction completed. You will receive an email with further instructions'));
+        Yii::$app->shoppingCart->removeAll();
+        return $this->redirect($order->detailUrl);
+    }
+
+    public function actionSuccessSaferpay($paymentId)
+    {
+        $order = Order::findOne(['paypal_id' => $paymentId]);
+
+        if ($order === null) {
+            throw new NotFoundHttpException(Yii::t('shop', 'There is no such order'));
+        }
+
         $order->status = Order::STATUS_RECEIVED_PAID;
 
         if (!$order->checkout()) {

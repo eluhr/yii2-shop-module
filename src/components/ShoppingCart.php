@@ -361,13 +361,16 @@ class ShoppingCart extends Component
 
     public function checkout()
     {
-        $paypal = \Yii::$app->payment;
+        $payment = \Yii::$app->payment;
 
         foreach ($this->items() as $item) {
-            $paypal->addItem($item);
+            $payment->addItem($item);
         }
-        $paypal->setShippingCost($this->shippingCost());
+        $payment->setShippingCost($this->shippingCost());
 
-        return $paypal->execute();
+        if ($payment->execute()) {
+            return $payment;
+        }
+        return false;
     }
 }

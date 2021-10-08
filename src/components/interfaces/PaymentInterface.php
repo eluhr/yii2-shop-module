@@ -18,4 +18,10 @@ interface PaymentInterface
      * @return bool|mixed
      */
     public function execute();
+
+    /**
+     * @param float $value
+     * @return void
+     */
+    public function setShippingCost($value);
 }

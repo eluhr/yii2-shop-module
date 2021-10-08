@@ -39,7 +39,7 @@ use yii\widgets\ActiveForm;
         echo $form->field($model, 'description')->widget(CKEditor::class);
         echo $form->field($model, 'thumbnail_image')->widget(FileManagerInputWidget::class, ['handlerUrl' => '/filefly/api']);
         echo $form->field($model, 'price')->widget(NumberControl::class, ['maskedInputOptions' => [
-            'suffix' => ' €',
+            'suffix' => ' ' . $this->context->module->currency,
             'groupSeparator' => '.',
             'radixPoint' => ',',
             'rightAlign' => false
