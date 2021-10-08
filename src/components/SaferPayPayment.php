@@ -13,6 +13,7 @@ use yii\web\HttpException;
 /**
  * --- PROPERTIES ---
  *
+ * @property Client $_client
  */
 class SaferPayPayment extends Component implements PaymentInterface
 {
@@ -40,7 +41,7 @@ class SaferPayPayment extends Component implements PaymentInterface
             'RequestHeader' => [
                 'SpecVersion' => '1.10',
                 'CustomerId' => getenv('SAFERPAY_CUSTOMER_ID'),
-                'RequestId' => uniqid('os-r-', false),
+                'RequestId' => uniqid('dd-os-', false),
                 'RetryIndicator' => 0
             ],
             'TerminalId' => getenv('SAFERPAY_TERMINAL_ID'),
@@ -51,18 +52,32 @@ class SaferPayPayment extends Component implements PaymentInterface
         ];
     }
 
+    public function setSuccessUrl($orderId)
+    {
+        $this->_body_data['ReturnUrls']['Success'] = Url::to(['/shop/shopping-cart/success-saferpay','orderId' => $orderId], true);
+    }
+
 
     public function addItem(array $itemData)
     {
-        $this->_items[] = [
-            'Amount' => [
-                'Value' => (float)($itemData['price'] ?? 0) * (float)($itemData[''] ?? 0),
-                'CurrencyCode' => $this->currency
-            ],
-            'OrderId' => uniqid('dd-os-', false),
-            'Description' => $itemData['name']
-        ];
+        $add = true;
 
+        if (isset($itemData['isDiscount']) && $itemData['isDiscount'] === true) {
+            $add = false;
+        }
+
+        if ($add) {
+
+            $price = (float)($itemData['price'] ?? 0) * (float)($itemData['quantity'] ?? 0) * 100;
+            $this->_items[] = [
+                'Amount' => [
+                    'Value' => $price,
+                    'CurrencyCode' => $this->currency
+                ],
+                'OrderId' => uniqid('dd-os-', false),
+                'Description' => $itemData['name']
+            ];
+        }
     }
 
     public function setShippingCost($value)
@@ -76,6 +91,20 @@ class SaferPayPayment extends Component implements PaymentInterface
 
     public function execute()
     {
+        $total = 0.00;
+        foreach ($this->_items as $item) {
+            $total += (float)($item['Amount']['Value'] ?? 0);
+        }
+
+        $this->_body_data['Payment'] = [
+            'Amount' => [
+                'Value' => (string)$total,
+                'CurrencyCode' => $this->currency
+            ],
+            'OrderId' => uniqid('dd-os-', false),
+            'Description' => 'Bestellung'
+        ];
+
         $request = new Request('POST', 'api/Payment/v1/PaymentPage/Initialize', [
             'Content-Type' => 'application/json; charset=utf-8',
             'Authorization' => 'Basic ' . base64_encode(getenv('SAFERPAY_USERNAME') . ':' . getenv('SAFERPAY_PASSWORD'))
@@ -84,6 +113,8 @@ class SaferPayPayment extends Component implements PaymentInterface
         try {
             $response = $this->_client->send($request);
         } catch (BadResponseException $e) {
+            \Yii::$app->getModule('audit')->exception($e);
+            \Yii::debug($e->getResponse()->getBody()->getContents());
             throw new HttpException($e->getCode(), $e->getMessage());
         }
 

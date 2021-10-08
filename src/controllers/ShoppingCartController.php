@@ -259,9 +259,9 @@ class ShoppingCartController extends Controller
         return $this->redirect($order->detailUrl);
     }
 
-    public function actionSuccessSaferpay($paymentId)
+    public function actionSuccessSaferpay($orderId)
     {
-        $order = Order::findOne(['paypal_id' => $paymentId]);
+        $order = Order::findOne(['id' => $orderId,'type' => Order::TYPE_SAFERPAY]);
 
         if ($order === null) {
             throw new NotFoundHttpException(Yii::t('shop', 'There is no such order'));

@@ -88,8 +88,6 @@ class Orders extends OrderModel
 
         $query->orderBy(['created_at' => SORT_DESC]);
 
-//        var_dump($query->createCommand()->rawSql);
-//        exit;
         return $dataProvider;
     }
 
