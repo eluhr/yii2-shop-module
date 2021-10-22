@@ -48,7 +48,7 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
         </div>
         <div class="item-content">
             <div class="variant-content-left">
-                <div class="price"><?= Yii::$app->formatter->asCurrency($variant->price, 'EUR') ?></div>
+                <div class="price"><?= Yii::$app->formatter->asCurrency($variant->price, $this->context->module->currency) ?></div>
             </div>
             <div class="variant-content-right">
                 <div class="thumbnail-image"></div>
