@@ -2,6 +2,7 @@
 /**
  * @var Statistics $model
  * @var array $chartData
+ * @var string $currency
  */
 
 use eluhr\shop\models\Order;
@@ -102,7 +103,7 @@ JS
                 <h3 class="box-title"><?= Yii::t('shop', 'Sales') ?></h3>
             </div>
             <div class="box-body">
-                <h2><?= Yii::$app->formatter->asCurrency($model->sales(), Yii::$app->payment->currency) ?></h2>
+                <h2><?= Yii::$app->formatter->asCurrency($model->sales(), $currency) ?></h2>
                 <small><?= Yii::t('shop', 'Including discounts') ?></small>
             </div>
         </div>
@@ -113,7 +114,7 @@ JS
                 <h3 class="box-title"><?= Yii::t('shop', 'Average Order') ?></h3>
             </div>
             <div class="box-body">
-                <h2><?= Yii::$app->formatter->asCurrency($model->averageOrderTotal(), Yii::$app->payment->currency) ?></h2>
+                <h2><?= Yii::$app->formatter->asCurrency($model->averageOrderTotal(), $currency) ?></h2>
                 <small><?= Yii::t('shop', 'Including discounts') ?></small>
             </div>
         </div>
@@ -125,7 +126,7 @@ JS
                 <h3 class="box-title"><?= Yii::t('shop', 'Shipping') ?></h3>
             </div>
             <div class="box-body">
-                <h2><?= Yii::$app->formatter->asCurrency($model->shipping(), Yii::$app->payment->currency) ?></h2>
+                <h2><?= Yii::$app->formatter->asCurrency($model->shipping(), $currency) ?></h2>
                 <small>&nbsp;</small>
             </div>
         </div>

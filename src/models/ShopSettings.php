@@ -10,7 +10,6 @@
 namespace eluhr\shop\models;
 
 use yii\base\Model;
-use yii\helpers\VarDumper;
 
 class ShopSettings extends Model
 {

@@ -359,15 +359,27 @@ class ShoppingCart extends Component
         return null;
     }
 
-    public function checkout()
+    /**
+     * @param \eluhr\shop\models\Order|null $orderId
+     * @return \eluhr\shop\components\SaferPayPayment|false
+     * @throws \yii\web\HttpException
+     */
+    public function checkout($orderId = null)
     {
-        $paypal = \Yii::$app->payment;
+        /** @var \eluhr\shop\components\SaferPayPayment $payment */
+        $payment = \Yii::$app->payment;
 
         foreach ($this->items() as $item) {
-            $paypal->addItem($item);
+            $payment->addItem($item);
         }
-        $paypal->setShippingCost($this->shippingCost());
+        $payment->setShippingCost($this->shippingCost());
+        if ($orderId) {
+            $payment->setSuccessUrl($orderId);
+        }
 
-        return $paypal->execute();
+        if ($payment->execute()) {
+            return $payment;
+        }
+        return false;
     }
 }

@@ -61,6 +61,7 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
     const STATUS_SHIPPED = 'SHIPPED';
     const STATUS_FINISHED = 'FINISHED';
     const TYPE_PAYPAL = 'PAYPAL';
+    const TYPE_SAFERPAY = 'SAFERPAY';
     const TYPE_PREPAYMENT = 'PREPAYMENT';
     var $enum_labels = false;
     /**
@@ -99,6 +100,7 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
             ],
             ['type', 'in', 'range' => [
                     self::TYPE_PAYPAL,
+                    self::TYPE_SAFERPAY,
                     self::TYPE_PREPAYMENT,
                 ]
             ]
@@ -231,6 +233,7 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
     {
         return [
             self::TYPE_PAYPAL => Yii::t('shop', self::TYPE_PAYPAL),
+            self::TYPE_SAFERPAY => Yii::t('shop', self::TYPE_SAFERPAY),
             self::TYPE_PREPAYMENT => Yii::t('shop', self::TYPE_PREPAYMENT),
         ];
     }

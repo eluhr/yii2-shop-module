@@ -3,6 +3,7 @@
 
 namespace eluhr\shop\components;
 
+use eluhr\shop\components\interfaces\PaymentInterface;
 use PayPal\Api\Amount;
 use PayPal\Api\Authorization;
 use PayPal\Api\Currency;
@@ -35,7 +36,7 @@ use yii\helpers\Url;
  * @property float $_total
  *
  */
-class PayPalPayment extends Component
+class PayPalPayment extends Component implements PaymentInterface
 {
     public const MODE_SANDBOX = 'sandbox';
     public const MODE_LIVE = 'live';

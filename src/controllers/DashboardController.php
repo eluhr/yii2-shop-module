@@ -66,7 +66,8 @@ class DashboardController extends WebCrudController
         $model->load(\Yii::$app->request->get());
 
         return $this->render('index', [
-            'model' => $model
+            'model' => $model,
+            'currency' => $this->module->currency
         ]);
     }
 

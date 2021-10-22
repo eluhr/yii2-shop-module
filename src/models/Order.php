@@ -13,7 +13,6 @@ use yii\base\InvalidConfigException;
 use yii\helpers\FileHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\helpers\VarDumper;
 use yii\mail\MailerInterface;
 use yii\swiftmailer\Mailer;
 
@@ -287,7 +286,8 @@ class Order extends BaseOrder
     {
         return [
             self::TYPE_PREPAYMENT => Yii::t('shop', 'Prepayment'),
-            self::TYPE_PAYPAL => Yii::t('shop', 'PayPal')
+            self::TYPE_PAYPAL => Yii::t('shop', 'PayPal'),
+            self::TYPE_SAFERPAY => Yii::t('shop', 'Saferpay')
         ];
     }
 
@@ -407,34 +407,39 @@ class Order extends BaseOrder
     public function execute()
     {
         if ($this->is_executed === 0) {
-            try {
-                $payment = PayPalPayment::get($this->paypal_id, \Yii::$app->payment->getContext());
-            } catch (PayPalConnectionException $e) {
-                Yii::error($e->getMessage());
-                return false;
-            }
-
-            if ($payment) {
-                if (!empty($this->paypal_payer_id)) {
-                    $payerId = $this->paypal_payer_id;
-                } else {
-                    $payerId = $payment->payer->payer_info->payer_id;
-                }
-
+            if ($this->type === self::TYPE_PAYPAL) {
                 try {
-                    $payment->execute(new PaymentExecution([
-                        'payerId' => $payerId,
-                        'transactions' => $payment->transactions
-                    ]), \Yii::$app->payment->getContext());
+                    $payment = PayPalPayment::get($this->paypal_id, \Yii::$app->payment->getContext());
                 } catch (PayPalConnectionException $e) {
-                    Yii::error($e->getData());
                     Yii::error($e->getMessage());
                     return false;
                 }
+
+                if ($payment) {
+                    if (!empty($this->paypal_payer_id)) {
+                        $payerId = $this->paypal_payer_id;
+                    } else {
+                        $payerId = $payment->payer->payer_info->payer_id;
+                    }
+
+                    try {
+                        $payment->execute(new PaymentExecution([
+                            'payerId' => $payerId,
+                            'transactions' => $payment->transactions
+                        ]), \Yii::$app->payment->getContext());
+                    } catch (PayPalConnectionException $e) {
+                        Yii::error($e->getData());
+                        Yii::error($e->getMessage());
+                        return false;
+                    }
+                    $this->is_executed = 1;
+                    return $this->save();
+                }
+                return false;
+            } else {
                 $this->is_executed = 1;
                 return $this->save();
             }
-            return false;
         }
         return true;
     }

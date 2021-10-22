@@ -32,7 +32,7 @@ use hrzg\filemanager\widgets\FileManagerInputWidget;
         echo $form->field($model, 'rank');
         echo $form->field($model, 'staggering_shipping_cost')->checkbox([], false);
         echo $form->field($model, 'shipping_price')->widget(NumberControl::class, ['maskedInputOptions' => [
-            'suffix' => ' €',
+            'suffix' => ' ' . $this->context->module->currency,
             'groupSeparator' => '.',
             'radixPoint' => ',',
             'rightAlign' => false

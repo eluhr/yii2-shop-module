@@ -97,6 +97,7 @@ class ShoppingCartCheckout extends Model
             'email'
         ];
         $rules[] = ['type', 'in', 'range' => [
+            Order::TYPE_SAFERPAY,
             Order::TYPE_PAYPAL,
             Order::TYPE_PREPAYMENT,
         ]
@@ -184,9 +185,11 @@ class ShoppingCartCheckout extends Model
             return false;
         }
 
+        $orderId = Order::generateId();
 
-        if ($this->type === Order::TYPE_PAYPAL) {
-            $this->_payment = \Yii::$app->shoppingCart->checkout();
+        if ($this->type !== Order::TYPE_PREPAYMENT) {
+
+            $this->_payment = \Yii::$app->shoppingCart->checkout($orderId);
         } else {
             $this->_payment = true;
         }
@@ -194,7 +197,7 @@ class ShoppingCartCheckout extends Model
         if ($this->_payment) {
             $transaction = Yii::$app->db->beginTransaction();
             $config = [
-                'id' => Order::generateId(),
+                'id' => $orderId,
                 'type' => $this->type,
                 'first_name' => $this->first_name,
                 'surname' => $this->surname,
