@@ -2,7 +2,6 @@
 
 namespace eluhr\shop\models;
 
-use dmstr\helpers\ImageProxy;
 use eluhr\shop\models\base\Variant as BaseVariant;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
@@ -35,7 +34,7 @@ class Variant extends BaseVariant
      */
     public function thumbnailImage()
     {
-        return ImageProxy::getFile($this->thumbnail_image);
+        return \dmstr\willnorrisImageproxy\Url::image($this->thumbnail_image);
     }
 
     public function detailUrl()
