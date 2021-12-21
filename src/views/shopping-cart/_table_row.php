@@ -32,7 +32,7 @@ use yii\widgets\ActiveForm;
             ActiveForm::end();
             ?>
         </div>
-        <?= Html::tag('span', $position->item()->label, ['class' => 'product-name']); ?>
+        <?= Html::tag('span', $position->item()->label . ($position->extraInfo ? ' - ' . $position->extraInfo : ''), ['class' => 'product-name']); ?>
     </td>
     <td>
         <?php

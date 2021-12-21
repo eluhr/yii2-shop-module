@@ -29,7 +29,7 @@ use yii\web\View;
         ?>
         <tr>
             <td>
-                <?= Html::tag('span', $position->name, ['class' => 'product-name']); ?>
+                <?= Html::tag('span', $position->name . ($position->extra_info !== '-' ? ' - ' . $position->extra_info : ''), ['class' => 'product-name']); ?>
             </td>
             <td>
                 <?= Yii::$app->formatter->asCurrency($position->single_price, Yii::$app->payment->currency) ?>

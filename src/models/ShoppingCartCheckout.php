@@ -250,7 +250,8 @@ class ShoppingCartCheckout extends Model
                         'variant_id' => $position->itemId,
                         'name' => $name,
                         'quantity' => $position->quantity,
-                        'single_price' => $position->price
+                        'single_price' => $position->price,
+                        'extra_info' => $position->extraInfo ?: '-'
                     ]);
 
                     if (!$orderItem->checkout($position->isDiscount)) {

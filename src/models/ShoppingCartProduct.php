@@ -20,12 +20,14 @@ use yii\base\BaseObject;
  * @property int $cost
  * @property int $price
  * @property bool $isDiscount
+ * @property string $extraInfo
  */
 class ShoppingCartProduct extends BaseObject
 {
     public $itemId;
     public $isDiscount = false;
     public $price;
+    public $extraInfo;
     public $_quantity;
 
     protected static $_model;
@@ -35,7 +37,7 @@ class ShoppingCartProduct extends BaseObject
      */
     public function getPositionId()
     {
-        return md5(json_encode(['itemId' => $this->itemId]));
+        return md5(json_encode(['itemId' => $this->itemId,'extraInfo' => $this->extraInfo]));
     }
 
     /**

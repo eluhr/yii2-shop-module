@@ -23,6 +23,7 @@ class OrderItem extends BaseOrderItem
                 return $variant->save();
             }
         }
+        Yii::error($this->getErrors());
         return false;
     }
 }

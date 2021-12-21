@@ -27,6 +27,7 @@ class ShoppingCartModify extends Model
 {
     public $quantity;
     public $variantId;
+    public $extraInfo;
 
     const MAX_QUANTITY = 99;
 
@@ -43,7 +44,10 @@ class ShoppingCartModify extends Model
             ],
             'required'
         ];
-
+        $rules['safe'] = [
+            'extraInfo',
+            'safe'
+        ];
         $rules['product'] = [
             'variantId',
             'exist',
@@ -66,6 +70,8 @@ class ShoppingCartModify extends Model
         $attributeLabels = parent::attributeLabels();
         $attributeLabels['quantity'] = Yii::t('shop', 'Amount');
         $attributeLabels['discountId'] = Yii::t('shop', 'Discount');
+        $attributeLabels['variantId'] = Yii::t('shop', 'Variante');
+        $attributeLabels['extraInfo'] = Yii::t('shop', 'Zusätzliche Optionen');
         return $attributeLabels;
     }
 
@@ -98,7 +104,8 @@ class ShoppingCartModify extends Model
             $position = new ShoppingCartProduct([
                 'itemId' => $this->variantId,
                 'price' => $this->item->price,
-                'quantity' => $this->quantity
+                'quantity' => $this->quantity,
+                'extraInfo' => $this->extraInfo
             ]);
 
             if ($shoppingCart->hasPosition($position->positionId)) {

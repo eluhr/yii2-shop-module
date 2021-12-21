@@ -106,7 +106,7 @@ echo GridView::widget([
                     $labels[] = Html::tag('p', Yii::t('shop', '{quantity} times <a href="{link}" target="_blank">{name}</a> for {price}', [
                         'quantity' => $item->quantity,
                         'link' => $item->variant->detailUrl(),
-                        'name' => $item->name,
+                        'name' => $item->name . ($item->extra_info !== '-' ? ' - ' . $item->extra_info : ''),
                         'price' => Yii::$app->formatter->asCurrency($item->single_price, Yii::$app->payment->currency)
                     ]));
                 }

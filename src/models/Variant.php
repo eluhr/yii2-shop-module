@@ -65,4 +65,18 @@ class Variant extends BaseVariant
     {
         return ArrayHelper::map(self::find()->all(), 'id', 'label');
     }
+
+    public function getExtraInfoList()
+    {
+        if (empty($this->extra_info)) {
+            return [];
+        }
+
+        $list = [];
+        foreach (explode(';', $this->extra_info) as $item) {
+            $list[$item] = $item;
+        }
+
+        return $list;
+    }
 }

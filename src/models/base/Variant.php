@@ -20,6 +20,7 @@ use Yii;
  * @property integer $stock
  * @property string $sku
  * @property string $description
+ * @property string $extra_info
  * @property string $created_at
  * @property string $updated_at
  *
@@ -50,7 +51,7 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
             [['product_id', 'title', 'thumbnail_image', 'rank', 'price', 'hex_color'], 'required'],
             [['product_id', 'is_online', 'rank', 'stock'], 'integer'],
             [['price'], 'number'],
-            [['description'], 'string'],
+            [['description', 'extra_info'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 80],
             [['thumbnail_image', 'sku'], 'string', 'max' => 128],
@@ -76,6 +77,7 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
             'stock' => Yii::t('shop', 'Stock'),
             'sku' => Yii::t('shop', 'Sku'),
             'description' => Yii::t('shop', 'Description'),
+            'extra_info' => Yii::t('shop', 'Extra Info'),
             'created_at' => Yii::t('shop', 'Created At'),
             'updated_at' => Yii::t('shop', 'Updated At'),
         ];

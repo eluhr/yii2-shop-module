@@ -4,6 +4,7 @@ use hrzg\widget\widgets\Cell;
 use eluhr\shop\models\Product;
 use eluhr\shop\models\ShoppingCartModify;
 use eluhr\shop\models\Variant;
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\ActiveForm;
@@ -37,6 +38,15 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
 
                 echo $form->field($shoppingCartModel, 'variantId')->hiddenInput(['value' => $variant->id])->label(false)->hint(false);
                 echo $form->field($shoppingCartModel, 'quantity')->input('number', ['max' => $variant->stock, 'min' => 0]);
+
+                $extraInfos = $variant->getExtraInfoList();
+                if (!empty($extraInfos)) {
+                    echo $form->field($shoppingCartModel, 'extraInfo')->widget(Select2::class, [
+                        'data' => $extraInfos,
+                        'theme' => Select2::THEME_BOOTSTRAP,
+                        'hideSearch' => true
+                    ]);
+                }
 
                 echo Html::submitButton(Yii::t('shop', 'Add to shopping cart'), ['class' => 'btn btn-primary']);
 
