@@ -227,6 +227,8 @@ class DashboardController extends WebCrudController
             $model = new Product();
         }
 
+        $model->loadDefaultValues();
+
         if ($model->load(\Yii::$app->request->post()) && $model->validate() && $model->save()) {
             \Yii::$app->session->addFlash('success', \Yii::t('shop', 'Saved product'));
             return $this->redirect(['product-edit', 'id' => $model->id]);

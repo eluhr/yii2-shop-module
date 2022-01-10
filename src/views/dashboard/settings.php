@@ -76,6 +76,7 @@ JS
                 <?php
                 $form = ActiveForm::begin();
                 echo $form->field($setting, ShopSettings::SHOP_PRODUCT_FEW_AVAILABLE_WARNING)->input('number', ['data-input' => 'textfield', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will change warning an logged in user will get if stock is low.')]);
+                echo $form->field($setting, ShopSettings::SHOP_PRODUCT_SHOW_SHIPPING_COSTS, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will hide/show the shipping costs for all users'), 'class' => 'switch-input'], false);
                 ActiveForm::end();
                 ?>
             </div>

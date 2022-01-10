@@ -4,6 +4,7 @@
  */
 
 use dosamigos\ckeditor\CKEditor;
+use eluhr\shop\models\ShopSettings;
 use kartik\number\NumberControl;
 use kartik\select2\Select2;
 use eluhr\shop\models\Product;
@@ -30,13 +31,15 @@ use hrzg\filemanager\widgets\FileManagerInputWidget;
         echo $form->field($model, 'title');
         echo $form->field($model, 'is_online')->checkbox([], false);
         echo $form->field($model, 'rank');
-        echo $form->field($model, 'staggering_shipping_cost')->checkbox([], false);
-        echo $form->field($model, 'shipping_price')->widget(NumberControl::class, ['maskedInputOptions' => [
-            'suffix' => ' ' . $this->context->module->currency,
-            'groupSeparator' => '.',
-            'radixPoint' => ',',
-            'rightAlign' => false
-        ]]);
+        if (ShopSettings::shopProductShowShippingCosts() || $model->shipping_price > 0) {
+            echo $form->field($model, 'staggering_shipping_cost')->checkbox([], false);
+            echo $form->field($model, 'shipping_price')->widget(NumberControl::class, ['maskedInputOptions' => [
+                'suffix' => ' ' . $this->context->module->currency,
+                'groupSeparator' => '.',
+                'radixPoint' => ',',
+                'rightAlign' => false
+            ]]);
+        }
         echo $form->field($model, 'description')->widget(CKEditor::class);
         echo $form->field($model, 'filterIds')->widget(Select2::class, [
             'data' => ArrayHelper::map(Tag::find()->all(), 'id', 'name'),

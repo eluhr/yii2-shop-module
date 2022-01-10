@@ -5,6 +5,7 @@
 
 use eluhr\shop\controllers\ShoppingCartController;
 use eluhr\shop\models\ShoppingCartModify;
+use eluhr\shop\models\ShopSettings;
 use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
 use yii\web\View;
@@ -34,12 +35,14 @@ $discountPercent = 0;
     }
 }
     ?>
+    <?php if (ShopSettings::shopProductShowShippingCosts() || Yii::$app->shoppingCart->shippingCost() > 0): ?>
     <tr>
         <td><?= Yii::t('shop', 'Versandkosten', [], 'de') ?></td>
         <td></td>
         <td></td>
         <td><?= Yii::$app->formatter->asCurrency(Yii::$app->shoppingCart->shippingCost(), Yii::$app->payment->currency) ?></td>
     </tr>
+    <?php endif ?>
     </tbody>
     <tfoot>
     <tr>

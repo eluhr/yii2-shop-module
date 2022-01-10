@@ -58,6 +58,7 @@ use yii\web\View;
         $total += $total * $percent * -1;
         ?>
     <?php endif ?>
+    <?php if (ShopSettings::shopProductShowShippingCosts() || $order->shipping_price > 0): ?>
     <tr>
         <td><?= Yii::t('shop', 'Versandkosten', [], 'de') ?></td>
         <td></td>
@@ -65,6 +66,7 @@ use yii\web\View;
         <td><?= Yii::$app->formatter->asCurrency($order->shipping_price, Yii::$app->payment->currency) ?></td>
     </tr>
     <?php
+    endif;
     $total += $order->shipping_price;
     ?>
     </tbody>

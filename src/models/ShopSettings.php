@@ -21,6 +21,7 @@ class ShopSettings extends Model
     public const SHOP_MAIL_CONFIRM_REPLY_TO = 'shopMailConfirmReplyTo';
     public const SHOP_MAIL_INFO_REPLY_TO = 'shopMailInfoReplyTo';
     public const SHOP_PRODUCT_FEW_AVAILABLE_WARNING = 'shopProductFewAvailableWarning';
+    public const SHOP_PRODUCT_SHOW_SHIPPING_COSTS = 'shopProductShowShippingCosts';
     public const SHOP_MAIL_INFO_SUBJECT = 'shopMailInfoSubject';
     public const SHOP_MAIL_CONFIRM_SUBJECT = 'shopMailConfirmSubject';
     public const SHOP_MAIL_CONFIRM_BCC = 'shopMailConfirmBcc';
@@ -38,6 +39,7 @@ class ShopSettings extends Model
     public $shopMailConfirmReplyTo;
     public $shopMailInfoReplyTo;
     public $shopProductFewAvailableWarning;
+    public $shopProductShowShippingCosts;
     public $shopMailInfoSubject;
     public $shopMailConfirmSubject;
     public $shopMailConfirmBcc;
@@ -114,6 +116,10 @@ class ShopSettings extends Model
             'type' => 'bool',
             'default' => false
         ],
+        self::SHOP_PRODUCT_SHOW_SHIPPING_COSTS => [
+            'type' => 'bool',
+            'default' => true
+        ],
         self::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE => [
             'type' => 'float',
             'default' => 0.00
@@ -131,7 +137,8 @@ class ShopSettings extends Model
                 self::SHOP_GENERAL_SHIPPING_LINK,
                 self::SHOP_GENERAL_SHORT_ORDER_ID,
                 self::SHOP_GENERAL_SHOW_OUT_OF_STOCK_VARIANTS,
-                self::SHOP_GENERAL_SHOP_SELLS_ADULT_PRODUCTS
+                self::SHOP_GENERAL_SHOP_SELLS_ADULT_PRODUCTS,
+                self::SHOP_PRODUCT_SHOW_SHIPPING_COSTS
             ],
             'safe'
         ];
@@ -320,6 +327,11 @@ class ShopSettings extends Model
         return static::getValueByConst(self::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE);
     }
 
+    public static function shopProductShowShippingCosts(): bool
+    {
+        return static::getValueByConst(self::SHOP_PRODUCT_SHOW_SHIPPING_COSTS);
+    }
+
     public function attributeLabels()
     {
         $attributeLabels = parent::attributeLabels();
@@ -340,13 +352,14 @@ class ShopSettings extends Model
         $attributeLabels[self::SHOP_GENERAL_SHOW_OUT_OF_STOCK_VARIANTS] = \Yii::t('shop', 'Show out of stock variants');
         $attributeLabels[self::SHOP_GENERAL_SHOP_SELLS_ADULT_PRODUCTS] = \Yii::t('shop', 'Show sells adult products');
         $attributeLabels[self::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE] = \Yii::t('shop', 'Min shopping cart value');
+        $attributeLabels[self::SHOP_PRODUCT_SHOW_SHIPPING_COSTS] = \Yii::t('shop', 'Show shipping costs');
         return $attributeLabels;
     }
 
     public function attributeHints()
     {
         $attributeHints = parent::attributeHints();
-        $attributeHints[self::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE] = \Yii::t('shop','If 0, there is no min limit');
+        $attributeHints[self::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE] = \Yii::t('shop','If set to 0 (zero), there is no minimum limit');
         return $attributeHints;
     }
 
