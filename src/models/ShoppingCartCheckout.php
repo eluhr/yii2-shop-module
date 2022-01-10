@@ -137,8 +137,18 @@ class ShoppingCartCheckout extends Model
         }
     }
 
+    public $_exception;
+
     public function beforeValidate()
     {
+        if (!Yii::$app->shoppingCart->hasReachedMinValue()) {
+            $this->addError('_exception', Yii::t('shop',
+                'In order to continue you must reach the minimum shopping cart limit of {value}', [
+                    'value' => Yii::$app->formatter->asCurrency(ShopSettings::shopGeneralMinShoppingCartValue(),
+                        Yii::$app->payment->currency)
+                ]));
+        }
+
         if (ShopSettings::shopGeneralShopSellsAdultProducts()) {
             $this->date_of_birth = date('d.m.Y', strtotime($this->date_of_birth));
         }

@@ -6,6 +6,7 @@ namespace eluhr\shop\components;
 use eluhr\shop\models\DiscountCode;
 use eluhr\shop\models\Product;
 use eluhr\shop\models\ShoppingCartProduct;
+use eluhr\shop\models\ShopSettings;
 use eluhr\shop\models\Variant;
 use Yii;
 use yii\base\Component;
@@ -381,5 +382,10 @@ class ShoppingCart extends Component
             return $payment;
         }
         return false;
+    }
+
+    public function hasReachedMinValue()
+    {
+        return $this->total() >= ShopSettings::shopGeneralMinShoppingCartValue();
     }
 }

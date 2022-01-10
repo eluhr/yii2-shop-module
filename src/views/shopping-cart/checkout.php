@@ -17,6 +17,11 @@ use zhuravljov\yii\widgets\DatePicker;
 
 <?= Cell::widget(['id' => 'shopping-cart-checkout-top']) ?>
     <div class="shopping-cart-view shopping-cart-checkout-view">
+        <?php if (!Yii::$app->shoppingCart->hasReachedMinValue()): ?>
+            <div class="alert alert-danger"><?php echo Yii::t('shop', 'In order to continue you must reach the minimum shopping cart limit of {value}', [
+                    'value' => Yii::$app->formatter->asCurrency(ShopSettings::shopGeneralMinShoppingCartValue(), Yii::$app->payment->currency)
+                ])?></div>
+        <?php endif; ?>
         <?php
 
         echo $this->render('_table');
@@ -24,7 +29,10 @@ use zhuravljov\yii\widgets\DatePicker;
 
         $form = ActiveForm::begin(['id' => 'checkout-form']);
 
+
         echo Cell::widget(['id' => 'shopping-cart-checkout-form-begin']);
+
+        echo $form->field($shoppingCartCheckout,'_exception')->hiddenInput()->label(false);
 
         echo Html::beginTag('div', ['class' => 'row']);
 
@@ -92,7 +100,12 @@ use zhuravljov\yii\widgets\DatePicker;
         echo $form->field($shoppingCartCheckout, 'agb_and_gdpr', ['template' => "{input}{label}\n{error}"])->checkbox([], false)->label($shoppingCartCheckout->getAttributeHint('agb_and_gdpr'))->hint(false);
         echo Html::endTag('div');
         echo Html::beginTag('div', ['class' => 'col-xs-12 col-md-6']);
-        echo Html::submitButton(Yii::t('shop', 'Bestellung kostenpflichtig abschließen'), ['class' => 'btn btn-success','data-loading-text' => Yii::t('shop', 'Please wait...'),'id' => 'submit-checkout']);
+        echo Html::submitButton(Yii::t('shop', 'Bestellung kostenpflichtig abschließen'), [
+                'class' => 'btn btn-success',
+            'data-loading-text' => Yii::t('shop', 'Please wait...'),
+            'disabled' => !Yii::$app->shoppingCart->hasReachedMinValue(),
+            'id' => 'submit-checkout'
+        ]);
         echo Html::endTag('div');
 
         echo Html::endTag('div');
