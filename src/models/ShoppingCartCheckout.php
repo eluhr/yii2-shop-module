@@ -3,8 +3,8 @@
 
 namespace eluhr\shop\models;
 
-use PayPal\Api\Payment;
 use eluhr\shop\components\validators\DependencyValidator;
+use PayPal\Api\Payment;
 use Yii;
 use yii\base\Model;
 
@@ -159,6 +159,12 @@ class ShoppingCartCheckout extends Model
         $attributeLabels['type'] = Yii::t('shop', 'Payment Type');
         $attributeLabels['agb_and_gdpr'] = Yii::t('shop', 'AGBs');
         $attributeLabels['date_of_birth'] = Yii::t('shop', 'Date of birth');
+        $attributeLabels['delivery_first_name'] = Yii::t('shop', 'Delivery First Name');
+        $attributeLabels['delivery_surname'] = Yii::t('shop', 'Delivery Surname');
+        $attributeLabels['delivery_street_name'] = Yii::t('shop', 'Delivery Street Name');
+        $attributeLabels['delivery_house_number'] = Yii::t('shop', 'Delivery House Number');
+        $attributeLabels['delivery_postal'] = Yii::t('shop', 'Delivery Postal');
+        $attributeLabels['delivery_city'] = Yii::t('shop', 'Delivery City');
         return $attributeLabels;
     }
 
