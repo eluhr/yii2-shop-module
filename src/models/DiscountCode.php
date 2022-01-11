@@ -110,6 +110,11 @@ class DiscountCode extends BaseDiscountCode
         return $total * $percent * -1;
     }
 
+    public function getActualPrice()
+    {
+        return $this->getPrice();
+    }
+
     public static function data()
     {
         return ArrayHelper::map(self::find()->all(), 'code', 'label');

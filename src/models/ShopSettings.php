@@ -22,6 +22,8 @@ class ShopSettings extends Model
     public const SHOP_MAIL_INFO_REPLY_TO = 'shopMailInfoReplyTo';
     public const SHOP_PRODUCT_FEW_AVAILABLE_WARNING = 'shopProductFewAvailableWarning';
     public const SHOP_PRODUCT_SHOW_SHIPPING_COSTS = 'shopProductShowShippingCosts';
+    public const SHOP_PRODUCT_MIN_DAYS_SHIPPING_DURATION = 'shopProductMinDaysShippingDuration';
+    public const SHOP_PRODUCT_MAX_DAYS_SHIPPING_DURATION = 'shopProductMaxDaysShippingDuration';
     public const SHOP_MAIL_INFO_SUBJECT = 'shopMailInfoSubject';
     public const SHOP_MAIL_CONFIRM_SUBJECT = 'shopMailConfirmSubject';
     public const SHOP_MAIL_CONFIRM_BCC = 'shopMailConfirmBcc';
@@ -31,6 +33,7 @@ class ShopSettings extends Model
     public const SHOP_GENERAL_SHOW_OUT_OF_STOCK_VARIANTS = 'shopGeneralShowOutOfStockVariants';
     public const SHOP_GENERAL_SHOP_SELLS_ADULT_PRODUCTS = 'shopGeneralShopSellsAdultProducts';
     public const SHOP_GENERAL_MIN_SHOPPING_CART_VALUE = 'shopGeneralMinShoppingCartValue';
+    public const SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE = 'shopProductVariantTextTemplate';
     public $shopGeneralShowFilters;
     public $shopGeneralShowSearch;
     public $shopGeneralInvoiceDownload;
@@ -49,6 +52,9 @@ class ShopSettings extends Model
     public $shopGeneralShowOutOfStockVariants;
     public $shopGeneralShopSellsAdultProducts;
     public $shopGeneralMinShoppingCartValue;
+    public $shopProductMinDaysShippingDuration;
+    public $shopProductMaxDaysShippingDuration;
+    public $shopProductVariantTextTemplate;
 
 
     protected static $settings = [
@@ -84,6 +90,14 @@ class ShopSettings extends Model
             'type' => 'int',
             'default' => 15
         ],
+        self::SHOP_PRODUCT_MIN_DAYS_SHIPPING_DURATION => [
+            'type' => 'int',
+            'default' => 5
+        ],
+        self::SHOP_PRODUCT_MAX_DAYS_SHIPPING_DURATION => [
+            'type' => 'int',
+            'default' => 10
+        ],
         self::SHOP_MAIL_INFO_SUBJECT => [
             'type' => 'string',
             'default' => 'Bestellung wurde versendet'
@@ -101,6 +115,10 @@ class ShopSettings extends Model
             'default' => ''
         ],
         self::SHOP_INVOICE_LOGO => [
+            'type' => 'string',
+            'default' => ''
+        ],
+        self::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE => [
             'type' => 'string',
             'default' => ''
         ],
@@ -138,7 +156,8 @@ class ShopSettings extends Model
                 self::SHOP_GENERAL_SHORT_ORDER_ID,
                 self::SHOP_GENERAL_SHOW_OUT_OF_STOCK_VARIANTS,
                 self::SHOP_GENERAL_SHOP_SELLS_ADULT_PRODUCTS,
-                self::SHOP_PRODUCT_SHOW_SHIPPING_COSTS
+                self::SHOP_PRODUCT_SHOW_SHIPPING_COSTS,
+                self::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE
             ],
             'safe'
         ];
@@ -158,7 +177,9 @@ class ShopSettings extends Model
         ];
         $rules[] = [
             [
-                self::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE
+                self::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE,
+                self::SHOP_PRODUCT_MIN_DAYS_SHIPPING_DURATION,
+                self::SHOP_PRODUCT_MAX_DAYS_SHIPPING_DURATION
             ],
             'number',
             'min' => 0,
@@ -171,6 +192,11 @@ class ShopSettings extends Model
             ],
             'string',
             'min' => 1,
+        ];
+        $rules[] = [
+            self::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE,
+            'string',
+            'max' => 255,
         ];
         $rules[] = [
             [
@@ -332,6 +358,22 @@ class ShopSettings extends Model
         return static::getValueByConst(self::SHOP_PRODUCT_SHOW_SHIPPING_COSTS);
     }
 
+    public static function shopProductMinDaysShippingDuration(): int
+    {
+        return static::getValueByConst(self::SHOP_PRODUCT_MIN_DAYS_SHIPPING_DURATION);
+    }
+
+    public static function shopProductMaxDaysShippingDuration(): int
+    {
+        return static::getValueByConst(self::SHOP_PRODUCT_MAX_DAYS_SHIPPING_DURATION);
+    }
+
+
+    public static function shopProductVariantTextTemplate(): string
+    {
+        return static::getValueByConst(self::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE);
+    }
+
     public function attributeLabels()
     {
         $attributeLabels = parent::attributeLabels();
@@ -353,6 +395,9 @@ class ShopSettings extends Model
         $attributeLabels[self::SHOP_GENERAL_SHOP_SELLS_ADULT_PRODUCTS] = \Yii::t('shop', 'Show sells adult products');
         $attributeLabels[self::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE] = \Yii::t('shop', 'Min shopping cart value');
         $attributeLabels[self::SHOP_PRODUCT_SHOW_SHIPPING_COSTS] = \Yii::t('shop', 'Show shipping costs');
+        $attributeLabels[self::SHOP_PRODUCT_MIN_DAYS_SHIPPING_DURATION] = \Yii::t('shop', 'Min days shipping duration');
+        $attributeLabels[self::SHOP_PRODUCT_MAX_DAYS_SHIPPING_DURATION] = \Yii::t('shop', 'Max days shipping duration');
+        $attributeLabels[self::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE] = \Yii::t('shop', 'Variant text template');
         return $attributeLabels;
     }
 

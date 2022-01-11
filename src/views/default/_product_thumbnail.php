@@ -22,7 +22,7 @@ $this->registerCss("#{$id} .thumbnail-image { background-image: url('{$product->
     </div>
     <div class="caption">
         <h3 class="product-title"><?= $product->title ?></h3>
-        <div class="variant-price"><?=Yii::$app->formatter->asCurrency($product->firstVariant->price, $this->context->module->currency)?></div>
+        <div class="variant-price"><?=Yii::$app->formatter->asCurrency($product->firstVariant->getActualPrice(), $this->context->module->currency)?></div>
         <?php
         echo Html::ul($product->activeVariants, [
             'item' => function ($variant) use ($id) {

@@ -280,7 +280,7 @@ class ShoppingCart extends Component
                     'name' => $name,
                     'quantity' => $position->getQuantity(),
                     'sku' => $sku,
-                    'price' => $item->price,
+                    'price' => $item->getActualPrice(),
                     'isDiscount' => $position->isDiscount,
                     'percent' => $item instanceof DiscountCode ? $item->percent : 0
                 ];
@@ -387,5 +387,50 @@ class ShoppingCart extends Component
     public function hasReachedMinValue()
     {
         return $this->total() >= ShopSettings::shopGeneralMinShoppingCartValue();
+    }
+
+    public function deliveryTimeText()
+    {
+        $highestMin = 0;
+        $highestMax = 0;
+
+        foreach ($this->_positions as $position) {
+            $item = $position->item();
+            if ($item instanceof Variant) {
+                if (!empty($item->min_days_shipping_duration) && $item->min_days_shipping_duration > $highestMin) {
+                    $highestMin = $item->min_days_shipping_duration;
+                }
+                if (!empty($item->max_days_shipping_duration) && $item->max_days_shipping_duration > $highestMax) {
+                    $highestMax = $item->max_days_shipping_duration;
+                }
+            }
+        }
+
+        $min = null;
+        $max = null;
+
+        if ($highestMin > 0) {
+            $min = $highestMin;
+        }
+        if ($highestMax > 0) {
+            $max = $highestMax;
+        }
+        
+        if (!empty($min) && !empty($max)) {
+            return \Yii::t('shop', 'About {min}-{max} working days.', [
+                'min' => $min,
+                'max' => $max
+            ]);
+        }
+        if (!empty($min)) {
+            return \Yii::t('shop', 'About {min} working days.', [
+                'min' => $min
+            ]);
+        }
+
+        return \Yii::t('shop', 'About {min}-{max} working days.', [
+            'min' => ShopSettings::shopProductMinDaysShippingDuration(),
+            'max' => ShopSettings::shopProductMaxDaysShippingDuration()
+        ]);
     }
 }

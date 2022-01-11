@@ -17,7 +17,7 @@ use yii\web\View;
         <th><?= Yii::t('shop', 'Produkt') ?></th>
         <th><?= Yii::t('shop', 'Preis') ?></th>
         <th><?= Yii::t('shop', 'Anzahl') ?></th>
-        <th><?= Yii::t('shop', 'Gesamtpreis') ?></th>
+        <th><?= Yii::t('shop', 'Preis') ?></th>
     </tr>
     </thead>
     <tbody>
@@ -73,7 +73,7 @@ use yii\web\View;
     <tfoot>
     <tr class="total-pice">
         <th colspan="3">
-            <?= Yii::t('shop', 'Gesamtpreis') ?>
+            <?= Yii::t('shop', 'Gesamtsumme') ?>
         </th>
         <th>
             <?= Yii::$app->formatter->asCurrency($total, Yii::$app->payment->currency) ?>

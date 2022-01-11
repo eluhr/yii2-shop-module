@@ -77,6 +77,13 @@ JS
                 $form = ActiveForm::begin();
                 echo $form->field($setting, ShopSettings::SHOP_PRODUCT_FEW_AVAILABLE_WARNING)->input('number', ['data-input' => 'textfield', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will change warning an logged in user will get if stock is low.')]);
                 echo $form->field($setting, ShopSettings::SHOP_PRODUCT_SHOW_SHIPPING_COSTS, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will hide/show the shipping costs for all users'), 'class' => 'switch-input'], false);
+                ?>
+                <div class="row">
+                    <div class="col-xs-12 col-md-2"><?php echo $form->field($setting, ShopSettings::SHOP_PRODUCT_MIN_DAYS_SHIPPING_DURATION)->input('number', ['data-input' => 'textfield', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?')]); ?></div>
+                    <div class="col-xs-12 col-md-2"><?php echo $form->field($setting, ShopSettings::SHOP_PRODUCT_MAX_DAYS_SHIPPING_DURATION)->input('number', ['data-input' => 'textfield', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?')]); ?></div>
+                </div>
+                <?php
+                echo $form->field($setting, ShopSettings::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE)->textarea(['data-input' => 'textfield', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will change the product variant text template.'), 'rows' => 8,'placeholder' => Yii::t('shop', 'You can write your custom HTML template here')]);
                 ActiveForm::end();
                 ?>
             </div>
@@ -94,8 +101,6 @@ JS
                 echo $form->field($setting, ShopSettings::SHOP_GENERAL_ENABLE_DISCOUNT_CODES, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'checkout', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will hide/show the discount code in frontend'), 'class' => 'switch-input'], false);
                 ActiveForm::end();
                 ?>
-                <!--                <p>shop.checkout.viaPrepayment - bool</p>-->
-                <!--                <p>shop.checkout.viaPrepayment - bool</p>-->
             </div>
             <div class="overlay hidden"
                  data-overlay="checkout"><?= FA::icon(FA::_SPINNER, ['class' => 'fa-spin']) ?></div>

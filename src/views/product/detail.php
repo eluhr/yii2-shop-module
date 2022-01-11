@@ -58,7 +58,7 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
         </div>
         <div class="item-content">
             <div class="variant-content-left">
-                <div class="price"><?= Yii::$app->formatter->asCurrency($variant->price, $this->context->module->currency) ?></div>
+                <div class="price"><?= Yii::$app->formatter->asCurrency($variant->getActualPrice(), $this->context->module->currency) ?></div>
             </div>
             <div class="variant-content-right">
                 <div class="thumbnail-image"></div>
@@ -71,7 +71,10 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
                 }
                 ?>
             </div>
-            <div class="variant-description"><?= $variant->description ?></div>
+            <div class="variant-description">
+                <div class="variant-delivery-time-text"><?php echo $variant->deliveryTimeText() ?></div>
+                <?= $variant->description ?>
+            </div>
         </div>
     </div>
 <?= Cell::widget(['id' => 'product-bottom-' . $product->id]) ?>

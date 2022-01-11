@@ -103,7 +103,7 @@ class ShoppingCartModify extends Model
 
             $position = new ShoppingCartProduct([
                 'itemId' => $this->variantId,
-                'price' => $this->item->price,
+                'price' => $this->item->getActualPrice(),
                 'quantity' => $this->quantity,
                 'extraInfo' => $this->extraInfo
             ]);

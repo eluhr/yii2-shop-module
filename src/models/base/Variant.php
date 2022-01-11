@@ -21,6 +21,8 @@ use Yii;
  * @property string $sku
  * @property string $description
  * @property string $extra_info
+ * @property integer $min_days_shipping_duration
+ * @property integer $max_days_shipping_duration
  * @property string $created_at
  * @property string $updated_at
  *
@@ -49,7 +51,7 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
     {
         return [
             [['product_id', 'title', 'thumbnail_image', 'rank', 'price', 'hex_color'], 'required'],
-            [['product_id', 'is_online', 'rank', 'stock'], 'integer'],
+            [['product_id', 'is_online', 'rank', 'stock','min_days_shipping_duration','max_days_shipping_duration'], 'integer'],
             [['price'], 'number'],
             [['description', 'extra_info'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
@@ -78,6 +80,8 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
             'sku' => Yii::t('shop', 'Sku'),
             'description' => Yii::t('shop', 'Description'),
             'extra_info' => Yii::t('shop', 'Extra Info'),
+            'min_days_shipping_duration' => Yii::t('shop', 'Min Days Shipping Duration'),
+            'max_days_shipping_duration' => Yii::t('shop', 'Max Days Shipping Duration'),
             'created_at' => Yii::t('shop', 'Created At'),
             'updated_at' => Yii::t('shop', 'Updated At'),
         ];

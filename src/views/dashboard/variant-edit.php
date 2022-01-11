@@ -36,6 +36,19 @@ use yii\widgets\ActiveForm;
 
         echo $form->field($model, 'title');
         echo $form->field($model, 'sku');
+        ?>
+        <div class="row">
+            <div class="col-xs-12 col-md-3">
+                <?php echo $form->field($model, 'min_days_shipping_duration')->input('number',['min' => 1]); ?>
+            </div>
+            <div class="col-xs-12 col-md-3">
+                <?php echo $form->field($model, 'max_days_shipping_duration')->input('number',['min' => 1]); ?>
+            </div>
+        </div>
+        <?php
+        if ($model->getIsNewRecord()) {
+            $model->setAttribute('description', ShopSettings::shopProductVariantTextTemplate());
+        }
         echo $form->field($model, 'description')->widget(CKEditor::class);
         echo $form->field($model, 'thumbnail_image')->widget(FileManagerInputWidget::class, ['handlerUrl' => '/filefly/api']);
         echo $form->field($model, 'price')->widget(NumberControl::class, ['maskedInputOptions' => [

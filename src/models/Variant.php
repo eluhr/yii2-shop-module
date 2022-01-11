@@ -18,6 +18,15 @@ class Variant extends BaseVariant
     {
         $rules = parent::rules();
         $rules[] = ['stock', 'required'];
+        $rules[] = [
+            [
+                'min_days_shipping_duration',
+                'max_days_shipping_duration'
+            ],
+            'integer',
+            'min' => 1,
+            'max' => 365
+        ];
         return $rules;
     }
 
@@ -78,5 +87,26 @@ class Variant extends BaseVariant
         }
 
         return $list;
+    }
+
+    public function deliveryTimeText(): string
+    {
+        if (!empty($this->min_days_shipping_duration) && !empty($this->max_days_shipping_duration)) {
+            return \Yii::t('shop', 'Delivery time: about {min}-{max} working days.', [
+                'min' => $this->min_days_shipping_duration,
+                'max' => $this->max_days_shipping_duration
+            ]);
+        }
+        if (!empty($this->min_days_shipping_duration)) {
+            return \Yii::t('shop', 'Delivery time: about {min} working days.', [
+                'min' => $this->min_days_shipping_duration
+            ]);
+        }
+        return '';
+    }
+
+    public function getActualPrice(): float
+    {
+        return (float)$this->price;
     }
 }

@@ -53,7 +53,7 @@ class ShoppingCartProduct extends BaseObject
      */
     public function getPrice()
     {
-        return $this->item()->price;
+        return $this->item()->getActualPrice();
     }
 
     /**

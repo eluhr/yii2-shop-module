@@ -19,7 +19,7 @@ $discountPercent = 0;
         <th><?= Yii::t('shop', 'Produkt', [], 'de') ?></th>
         <th><?= Yii::t('shop', 'Preis', [], 'de') ?></th>
         <th><?= Yii::t('shop', 'Anzahl', [], 'de') ?></th>
-        <th><?= Yii::t('shop', 'Gesamtpreis', [], 'de') ?></th>
+        <th><?= Yii::t('shop', 'Preis', [], 'de') ?></th>
     </tr>
     </thead>
     <tbody>
@@ -47,7 +47,7 @@ $discountPercent = 0;
     <tfoot>
     <tr>
         <th colspan="3">
-            <?= Yii::t('shop', 'Gesamtpreis', [], 'de') ?>
+            <?= Yii::t('shop', 'Gesamtsumme', [], 'de') ?>
         </th>
         <th>
             <span class="total"
@@ -55,6 +55,12 @@ $discountPercent = 0;
             <div class="discount" data-content="discount"></div>
         </th>
         <td></td>
+    </tr>
+    <tr>
+        <th colspan="4">
+            <?= Yii::t('shop', 'Delivery Time', [], 'de') ?>
+            <p><?= Yii::$app->shoppingCart->deliveryTimeText() ?></p>
+        </th>
     </tr>
     </tfoot>
 </table>
