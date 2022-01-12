@@ -34,6 +34,7 @@ class ShopSettings extends Model
     public const SHOP_GENERAL_SHOP_SELLS_ADULT_PRODUCTS = 'shopGeneralShopSellsAdultProducts';
     public const SHOP_GENERAL_MIN_SHOPPING_CART_VALUE = 'shopGeneralMinShoppingCartValue';
     public const SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE = 'shopProductVariantTextTemplate';
+    public const SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS = 'shopGeneralAllowCustomerDetails';
     public $shopGeneralShowFilters;
     public $shopGeneralShowSearch;
     public $shopGeneralInvoiceDownload;
@@ -55,6 +56,7 @@ class ShopSettings extends Model
     public $shopProductMinDaysShippingDuration;
     public $shopProductMaxDaysShippingDuration;
     public $shopProductVariantTextTemplate;
+    public $shopGeneralAllowCustomerDetails;
 
 
     protected static $settings = [
@@ -77,6 +79,10 @@ class ShopSettings extends Model
         self::SHOP_GENERAL_ENABLE_DISCOUNT_CODES => [
             'type' => 'bool',
             'default' => true
+        ],
+        self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS => [
+            'type' => 'bool',
+            'default' => false
         ],
         self::SHOP_MAIL_CONFIRM_REPLY_TO => [
             'type' => 'string',
@@ -157,7 +163,8 @@ class ShopSettings extends Model
                 self::SHOP_GENERAL_SHOW_OUT_OF_STOCK_VARIANTS,
                 self::SHOP_GENERAL_SHOP_SELLS_ADULT_PRODUCTS,
                 self::SHOP_PRODUCT_SHOW_SHIPPING_COSTS,
-                self::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE
+                self::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE,
+                self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS
             ],
             'safe'
         ];
@@ -368,10 +375,14 @@ class ShopSettings extends Model
         return static::getValueByConst(self::SHOP_PRODUCT_MAX_DAYS_SHIPPING_DURATION);
     }
 
-
     public static function shopProductVariantTextTemplate(): string
     {
         return static::getValueByConst(self::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE);
+    }
+
+    public static function shopGeneralAllowCustomerDetails(): string
+    {
+        return static::getValueByConst(self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS);
     }
 
     public function attributeLabels()
@@ -398,6 +409,7 @@ class ShopSettings extends Model
         $attributeLabels[self::SHOP_PRODUCT_MIN_DAYS_SHIPPING_DURATION] = \Yii::t('shop', 'Min days shipping duration');
         $attributeLabels[self::SHOP_PRODUCT_MAX_DAYS_SHIPPING_DURATION] = \Yii::t('shop', 'Max days shipping duration');
         $attributeLabels[self::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE] = \Yii::t('shop', 'Variant text template');
+        $attributeLabels[self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS] = \Yii::t('shop', 'Show customer details text box in checkout');
         return $attributeLabels;
     }
 

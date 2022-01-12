@@ -109,6 +109,17 @@ use yii\web\View;
         <td></td>
     </tr>
     <?php endif; ?>
+    <?php if (ShopSettings::shopGeneralAllowCustomerDetails()): ?>
+    <tr class="order-customer-details">
+        <th colspan="3">
+            <?= Yii::t('shop', 'Customer Details', [], 'de') ?>
+        </th>
+        <th>
+            <?= Html::encode($order->customer_details) ?>
+        </th>
+        <td></td>
+    </tr>
+    <?php endif; ?>
     <?php if (!empty($order->invoice_number) && ShopSettings::shopGeneralInvoiceDownload()): ?>
     <tr class="order-status">
         <th colspan="3">

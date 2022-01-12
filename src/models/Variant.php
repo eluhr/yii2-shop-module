@@ -105,8 +105,22 @@ class Variant extends BaseVariant
         return '';
     }
 
+    /**
+     * @return float
+     */
     public function getActualPrice(): float
     {
+        if (!empty($this->discount_price)) {
+            return (float)$this->discount_price;
+        }
         return (float)$this->price;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getHasDiscount(): bool
+    {
+        return !empty($this->discount_price);
     }
 }

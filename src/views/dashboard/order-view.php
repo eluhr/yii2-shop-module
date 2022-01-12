@@ -37,7 +37,7 @@ use yii\widgets\ActiveForm;
         <?php endif; ?>
     </div>
     <?php if ($order->has_different_delivery_address): ?>
-    <div class="col-xs-12 col-md-6">
+    <div class="col-xs-12 col-md-4">
         <h3><?= Yii::t('shop', 'Lieferadresse') ?></h3>
         <label><?= Yii::t('shop', 'First Name and Surname') ?></label>
         <p><?= $order->delivery_first_name ?> <?= $order->delivery_surname ?></p>
@@ -47,6 +47,12 @@ use yii\widgets\ActiveForm;
             <?= $order->delivery_postal ?> <?= $order->delivery_city ?>
         </p>
     </div>
+    <?php endif; ?>
+    <?php if (!empty($order->customer_details)): ?>
+        <div class="col-xs-12 col-md-4">
+            <h3><?= Yii::t('shop', 'Customer Details') ?></h3>
+            <pre><?= Html::encode($order->customer_details) ?></pre>
+        </div>
     <?php endif; ?>
     <div class="col-xs-12 col-md-8">
         <?= $this->render('../shopping-cart/order', ['order' => $order, 'showCells' => false]) ?>

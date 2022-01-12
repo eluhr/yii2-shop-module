@@ -89,6 +89,14 @@ use zhuravljov\yii\widgets\DatePicker;
             echo Html::endTag('div');
         }
 
+        if (ShopSettings::shopGeneralAllowCustomerDetails()) {
+            echo Html::beginTag('div', ['class' => 'col-xs-12 col-md-4']);
+            echo $form->field($shoppingCartCheckout, 'customer_details')->textarea([
+                    'rows' => 3
+            ]);
+            echo Html::endTag('div');
+        }
+
 
         echo Html::endTag('div');
 

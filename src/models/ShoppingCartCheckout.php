@@ -31,6 +31,7 @@ class ShoppingCartCheckout extends Model
     public $discount_code;
     public $type;
     public $date_of_birth;
+    public $customer_details;
     public $agb_and_gdpr;
 
     private $_payment;
@@ -101,6 +102,11 @@ class ShoppingCartCheckout extends Model
             Order::TYPE_PAYPAL,
             Order::TYPE_PREPAYMENT,
         ]
+        ];
+        $rules[] = [
+            'customer_details',
+            'string',
+            'max' => 250
         ];
         if (ShopSettings::shopGeneralShopSellsAdultProducts()) {
             $rules[] = [
@@ -175,6 +181,7 @@ class ShoppingCartCheckout extends Model
         $attributeLabels['delivery_house_number'] = Yii::t('shop', 'Delivery House Number');
         $attributeLabels['delivery_postal'] = Yii::t('shop', 'Delivery Postal');
         $attributeLabels['delivery_city'] = Yii::t('shop', 'Delivery City');
+        $attributeLabels['customer_details'] = Yii::t('shop', 'Customer Details');
         return $attributeLabels;
     }
 
@@ -231,8 +238,13 @@ class ShoppingCartCheckout extends Model
                 'delivery_city' => $this->delivery_city,
                 'discount_code_id' => $this->getDiscountCodeId(),
                 'shipping_price' => Yii::$app->shoppingCart->shippingCost(),
-                'status' => Order::STATUS_PENDING
+                'status' => Order::STATUS_PENDING,
+                'customer_details' => $this->customer_details
             ];
+
+            if (ShopSettings::shopGeneralAllowCustomerDetails()) {
+                $config['customer_details'] = $this->customer_details;
+            }
 
             if (ShopSettings::shopGeneralShopSellsAdultProducts()) {
                 $config['date_of_birth'] = date('Y-m-d', strtotime($this->date_of_birth));

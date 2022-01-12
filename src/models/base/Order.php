@@ -16,6 +16,7 @@ use Yii;
  * @property integer $is_executed
  * @property string $date_of_birth
  * @property string $internal_notes
+ * @property string $customer_details
  * @property integer $discount_code_id
  * @property integer $info_mail_has_been_sent
  * @property string $first_name
@@ -81,7 +82,7 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
             [['id', 'first_name', 'surname', 'email', 'street_name', 'house_number', 'postal', 'city'], 'required'],
             [['is_executed', 'discount_code_id', 'info_mail_has_been_sent', 'has_different_delivery_address', 'paid'], 'integer'],
             [['date_of_birth', 'created_at', 'updated_at'], 'safe'],
-            [['internal_notes', 'status', 'type'], 'string'],
+            [['internal_notes','customer_details', 'status', 'type'], 'string'],
             [['shipping_price'], 'number'],
             [['id'], 'string', 'max' => 36],
             [['paypal_id', 'paypal_token', 'paypal_payer_id', 'first_name', 'surname', 'email', 'street_name', 'house_number', 'postal', 'city', 'delivery_first_name', 'delivery_surname', 'delivery_street_name', 'delivery_house_number', 'delivery_postal', 'delivery_city'], 'string', 'max' => 45],
@@ -120,6 +121,7 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
             'is_executed' => Yii::t('shop', 'Is Executed'),
             'date_of_birth' => Yii::t('shop', 'Date Of Birth'),
             'internal_notes' => Yii::t('shop', 'Internal Notes'),
+            'customer_details' => Yii::t('shop', 'Customer Details'),
             'discount_code_id' => Yii::t('shop', 'Discount Code ID'),
             'info_mail_has_been_sent' => Yii::t('shop', 'Info Mail Has Been Sent'),
             'first_name' => Yii::t('shop', 'First Name'),

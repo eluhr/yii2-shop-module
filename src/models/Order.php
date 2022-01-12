@@ -94,6 +94,11 @@ class Order extends BaseOrder
             'max' => 250,
             'on' => self::SCENARIO_INTERNAL_NOTES
         ];
+        $rules[] = [
+            'customer_details',
+            'string',
+            'max' => 250
+        ];
         return $rules;
     }
 

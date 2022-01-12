@@ -1,5 +1,6 @@
 <?php
 
+use eluhr\shop\widgets\PriceDisplay;
 use hrzg\widget\widgets\Cell;
 use eluhr\shop\models\Product;
 use eluhr\shop\models\ShoppingCartModify;
@@ -22,7 +23,7 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
 ?>
 <?= Cell::widget(['id' => 'product-top-global']) ?>
 <?= Cell::widget(['id' => 'product-top-' . $product->id]) ?>
-    <div class="item-detail-view">
+    <div class="item-detail-view <?=$variant->getHasDiscount() ? 'has-discount' : ''?>">
         <div class="item-top">
             <h1 class="product-title"><?= $product->title ?></h1>
             <h2 class="variant-title"><?= $variant->title ?></h2>
@@ -58,7 +59,7 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
         </div>
         <div class="item-content">
             <div class="variant-content-left">
-                <div class="price"><?= Yii::$app->formatter->asCurrency($variant->getActualPrice(), $this->context->module->currency) ?></div>
+                <div class="price"><?=PriceDisplay::widget(['variant' => $variant])?></div>
             </div>
             <div class="variant-content-right">
                 <div class="thumbnail-image"></div>

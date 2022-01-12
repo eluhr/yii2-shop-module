@@ -12,6 +12,7 @@
 use eluhr\shop\controllers\ShoppingCartController;
 use eluhr\shop\models\ShoppingCartModify;
 use eluhr\shop\models\ShoppingCartProduct;
+use eluhr\shop\widgets\PriceDisplay;
 use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -37,7 +38,7 @@ use yii\widgets\ActiveForm;
     <td>
         <?php
         if ($position->isDiscount === false) {
-            echo Yii::$app->formatter->asCurrency($position->price, Yii::$app->payment->currency);
+            echo PriceDisplay::widget(['variant' => $position->item()]);
         }
         ?>
     </td>

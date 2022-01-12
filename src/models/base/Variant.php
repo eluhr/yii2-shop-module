@@ -16,6 +16,7 @@ use Yii;
  * @property integer $is_online
  * @property integer $rank
  * @property string $price
+ * @property string $discount_price
  * @property string $hex_color
  * @property integer $stock
  * @property string $sku
@@ -52,7 +53,7 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
         return [
             [['product_id', 'title', 'thumbnail_image', 'rank', 'price', 'hex_color'], 'required'],
             [['product_id', 'is_online', 'rank', 'stock','min_days_shipping_duration','max_days_shipping_duration'], 'integer'],
-            [['price'], 'number'],
+            [['price','discount_price'], 'number'],
             [['description', 'extra_info'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 80],
@@ -75,6 +76,7 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
             'is_online' => Yii::t('shop', 'Is Online'),
             'rank' => Yii::t('shop', 'Rank'),
             'price' => Yii::t('shop', 'Price'),
+            'discount_price' => Yii::t('shop', 'Discount Price'),
             'hex_color' => Yii::t('shop', 'Hex Color'),
             'stock' => Yii::t('shop', 'Stock'),
             'sku' => Yii::t('shop', 'Sku'),

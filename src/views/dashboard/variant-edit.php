@@ -57,6 +57,12 @@ use yii\widgets\ActiveForm;
             'radixPoint' => ',',
             'rightAlign' => false
         ]]);
+        echo $form->field($model, 'discount_price')->widget(NumberControl::class, ['maskedInputOptions' => [
+            'suffix' => ' ' . $this->context->module->currency,
+            'groupSeparator' => '.',
+            'radixPoint' => ',',
+            'rightAlign' => false
+        ]]);
         echo $form->field($model, 'extra_info')->textInput(['placeholder' => Yii::t('shop', 'Size S;Size M;Size L')]);
         echo $form->field($model, 'is_online')->checkbox([], false);
         echo $form->field($model, 'rank');
