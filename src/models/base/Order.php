@@ -63,8 +63,8 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
     const STATUS_FINISHED = 'FINISHED';
     const TYPE_PAYPAL = 'PAYPAL';
     const TYPE_SAFERPAY = 'SAFERPAY';
+    const TYPE_PAYREXX = 'PAYREXX';
     const TYPE_PREPAYMENT = 'PREPAYMENT';
-    var $enum_labels = false;
     /**
      * @inheritdoc
      */
@@ -102,6 +102,7 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
             ['type', 'in', 'range' => [
                     self::TYPE_PAYPAL,
                     self::TYPE_SAFERPAY,
+                    self::TYPE_PAYREXX,
                     self::TYPE_PREPAYMENT,
                 ]
             ]
@@ -205,12 +206,12 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
     public static function optsStatus()
     {
         return [
-            self::STATUS_PENDING => Yii::t('shop', self::STATUS_PENDING),
-            self::STATUS_RECEIVED => Yii::t('shop', self::STATUS_RECEIVED),
-            self::STATUS_RECEIVED_PAID => Yii::t('shop', self::STATUS_RECEIVED_PAID),
-            self::STATUS_IN_PROGRESS => Yii::t('shop', self::STATUS_IN_PROGRESS),
-            self::STATUS_SHIPPED => Yii::t('shop', self::STATUS_SHIPPED),
-            self::STATUS_FINISHED => Yii::t('shop', self::STATUS_FINISHED),
+            self::STATUS_PENDING => Yii::t('shop', 'Pending'),
+            self::STATUS_RECEIVED => Yii::t('shop', 'Received'),
+            self::STATUS_RECEIVED_PAID => Yii::t('shop', 'Received Paid'),
+            self::STATUS_IN_PROGRESS => Yii::t('shop', 'In Progress'),
+            self::STATUS_SHIPPED => Yii::t('shop', 'Shipped'),
+            self::STATUS_FINISHED => Yii::t('shop', 'Finished'),
         ];
     }
 
@@ -234,9 +235,10 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
     public static function optsType()
     {
         return [
-            self::TYPE_PAYPAL => Yii::t('shop', self::TYPE_PAYPAL),
-            self::TYPE_SAFERPAY => Yii::t('shop', self::TYPE_SAFERPAY),
-            self::TYPE_PREPAYMENT => Yii::t('shop', self::TYPE_PREPAYMENT),
+            self::TYPE_PAYPAL => Yii::t('shop', 'PayPal'),
+            self::TYPE_SAFERPAY => Yii::t('shop','Saferpay'),
+            self::TYPE_PREPAYMENT => Yii::t('shop', 'Prepayment'),
+            self::TYPE_PAYREXX => Yii::t('shop', 'Payrexx'),
         ];
     }
 

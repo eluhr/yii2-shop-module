@@ -277,6 +277,24 @@ class ShoppingCartController extends Controller
         return $this->redirect($order->detailUrl);
     }
 
+    public function actionSuccessPayrexx($orderId)
+    {
+        $order = Order::findOne(['id' => $orderId,'type' => Order::TYPE_PAYREXX]);
+
+        if ($order === null) {
+            throw new NotFoundHttpException(Yii::t('shop', 'There is no such order'));
+        }
+
+        $order->status = Order::STATUS_RECEIVED_PAID;
+
+        if (!$order->checkout()) {
+            throw new HttpException(500, Yii::t('shop', 'Error while updating order. Please contact an admin'));
+        }
+        Yii::$app->session->addFlash('success', Yii::t('shop', 'Transaction completed. You will receive an email with further instructions'));
+        Yii::$app->shoppingCart->removeAll();
+        return $this->redirect($order->detailUrl);
+    }
+
     public function actionCanceled()
     {
         Yii::$app->session->addFlash('info', Yii::t('shop', 'Transaction canceled'));

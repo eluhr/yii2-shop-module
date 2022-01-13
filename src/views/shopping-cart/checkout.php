@@ -71,8 +71,7 @@ use zhuravljov\yii\widgets\DatePicker;
         echo $this->render('_different_delivery_address', ['form' => $form, 'shoppingCartCheckout' => $shoppingCartCheckout]);
 
         echo Html::beginTag('div', ['class' => 'col-xs-12']);
-        $shoppingCartCheckout->type = Order::TYPE_SAFERPAY;
-//        echo $form->field($shoppingCartCheckout, 'type')->radioList(Order::optsType());
+        $shoppingCartCheckout->type = Order::TYPE_PAYREXX;
         echo $form->field($shoppingCartCheckout, 'type')->hiddenInput()->label(false);
         echo Html::endTag('div');
 

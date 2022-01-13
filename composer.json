@@ -19,6 +19,9 @@
         "dompdf/dompdf": "^0.8.5",
         "dmstr/yii2-helpers": "^0.4.18"
     },
+    "suggest": {
+        "payrexx/payrexx": "Allows usage of the Payrexx payment component"
+    },
     "autoload": {
         "psr-4": {
             "eluhr\\shop\\": "src/"

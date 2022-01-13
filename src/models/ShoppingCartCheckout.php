@@ -97,11 +97,7 @@ class ShoppingCartCheckout extends Model
             'email',
             'email'
         ];
-        $rules[] = ['type', 'in', 'range' => [
-            Order::TYPE_SAFERPAY,
-            Order::TYPE_PAYPAL,
-            Order::TYPE_PREPAYMENT,
-        ]
+        $rules[] = ['type', 'in', 'range' => array_keys(Order::optsType())
         ];
         $rules[] = [
             'customer_details',

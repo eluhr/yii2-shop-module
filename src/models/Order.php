@@ -284,19 +284,6 @@ class Order extends BaseOrder
     }
 
     /**
-     * column type ENUM value labels
-     * @return array
-     */
-    public static function optsType()
-    {
-        return [
-            self::TYPE_PREPAYMENT => Yii::t('shop', 'Prepayment'),
-            self::TYPE_PAYPAL => Yii::t('shop', 'PayPal'),
-            self::TYPE_SAFERPAY => Yii::t('shop', 'Saferpay')
-        ];
-    }
-
-    /**
      * @return int
      */
     public function getTotalAmount()
@@ -406,6 +393,20 @@ class Order extends BaseOrder
             self::STATUS_IN_PROGRESS => Yii::t('shop', 'STATUS IN PROGRESS'),
             self::STATUS_SHIPPED => Yii::t('shop', 'STATUS SHIPPED'),
             self::STATUS_FINISHED => Yii::t('shop', 'STATUS FINISHED'),
+        ];
+    }
+
+    /**
+     * column type ENUM value labels
+     * @return array
+     */
+    public static function optsType()
+    {
+        return [
+            self::TYPE_PAYPAL => Yii::t('shop', 'PayPal'),
+            self::TYPE_SAFERPAY => Yii::t('shop','Saferpay'),
+            self::TYPE_PREPAYMENT => Yii::t('shop', 'Prepayment'),
+            self::TYPE_PAYREXX => Yii::t('shop', 'Payrexx'),
         ];
     }
 
