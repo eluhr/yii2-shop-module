@@ -26,6 +26,8 @@ class SaferPayPayment extends Component implements PaymentInterface
 
     protected $_response_data;
 
+    protected $_orderId;
+
     public $currency = 'CHF';
 
     public function init()
@@ -55,6 +57,16 @@ class SaferPayPayment extends Component implements PaymentInterface
     public function setSuccessUrl($orderId)
     {
         $this->_body_data['ReturnUrls']['Success'] = Url::to(['/shop/shopping-cart/success-saferpay','orderId' => $orderId], true);
+    }
+
+    public function getOrderId()
+    {
+        return $this->_orderId;
+    }
+
+    public function setOrderId($orderId)
+    {
+        $this->_orderId = $orderId;
     }
 
 
@@ -101,7 +113,7 @@ class SaferPayPayment extends Component implements PaymentInterface
                 'Value' => (string)$total,
                 'CurrencyCode' => $this->currency
             ],
-            'OrderId' => uniqid('dd-os-', false),
+            'OrderId' => $this->getOrderId() ?: uniqid('dd-os-', false),
             'Description' => 'Bestellung'
         ];
 

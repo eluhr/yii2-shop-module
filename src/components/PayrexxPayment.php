@@ -26,6 +26,7 @@ class PayrexxPayment extends Component implements PaymentInterface
 
     protected $payrexx;
     protected $_approvalLink;
+    protected $_orderId;
     protected $_successUrl;
     protected $_shippingCost = 0;
 
@@ -55,6 +56,7 @@ class PayrexxPayment extends Component implements PaymentInterface
 
         if ($add) {
             $this->_items[] = [
+                'name' => $itemData['name'],
                 'price' => (float)($itemData['price'] ?? 0) * (float)($itemData['quantity'] ?? 0) * 100
             ];
         }
@@ -79,6 +81,16 @@ class PayrexxPayment extends Component implements PaymentInterface
         $this->_successUrl = Url::to(['/shop/shopping-cart/success-payrexx','orderId' => $orderId], true);
     }
 
+    public function getOrderId()
+    {
+        return $this->_orderId;
+    }
+
+    public function setOrderId($orderId)
+    {
+        $this->_orderId = $orderId;
+    }
+
     /**
      * Get Approval Link
      *
@@ -101,11 +113,11 @@ class PayrexxPayment extends Component implements PaymentInterface
     public function execute()
     {
         $invoice = new Invoice();
-        $referenceId = time();
+        $referenceId = $this->getOrderId() ?: uniqid('order-', true);
         $invoice->setReferenceId($referenceId);
-        $invoice->setTitle('Online-Shop Bezahlung');
-        $invoice->setDescription('Danke, dass Sie Payrexx zur Bezahlung Ihrer Bestellung verwendet haben');
-        $invoice->setPurpose('Online-Shop Bezahlung #' . $referenceId);
+        $invoice->setTitle(\Yii::t('shop','Online-Shop Payment'));
+        $invoice->setDescription(\Yii::t('shop','Thank you for using Payrexx to pay for your order'));
+        $invoice->setPurpose(\Yii::t('shop','Online-Shop Payment {orderId}', ['orderId' => $referenceId]));
         $invoice->setAmount($this->getTotalPrice());
         $invoice->setCurrency($this->currency);
         $invoice->setSuccessRedirectUrl($this->getSuccessUrl());

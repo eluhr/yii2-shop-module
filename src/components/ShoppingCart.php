@@ -375,6 +375,7 @@ class ShoppingCart extends Component
         }
         $payment->setShippingCost($this->shippingCost());
         if ($orderId) {
+            $payment->setOrderId($orderId);
             $payment->setSuccessUrl($orderId);
         }
 
