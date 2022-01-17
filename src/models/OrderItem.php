@@ -4,7 +4,6 @@ namespace eluhr\shop\models;
 
 use Yii;
 use \eluhr\shop\models\base\OrderItem as BaseOrderItem;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "sp_order_item".

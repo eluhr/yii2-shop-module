@@ -78,7 +78,9 @@ class Order extends BaseOrder
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_INTERNAL_NOTES] = [
-            'internal_notes'
+            'internal_notes',
+            'shipment_link',
+            'invoice_number'
         ];
         return $scenarios;
     }
@@ -313,6 +315,19 @@ class Order extends BaseOrder
         return round($total, 2);
     }
 
+    /**
+     * @return int
+     */
+    public function getTotalNetAmount()
+    {
+        $total = 0;
+        foreach ($this->orderItems as $position) {
+            $total += $position->single_net_price * $position->quantity;
+        }
+
+        return round($total, 2);
+    }
+
 
     /**
      * @throws \yii\base\Exception
@@ -454,10 +469,10 @@ class Order extends BaseOrder
                     return $this->save();
                 }
                 return false;
-            } else {
-                $this->is_executed = 1;
-                return $this->save();
             }
+
+            $this->is_executed = 1;
+            return $this->save();
         }
         return true;
     }

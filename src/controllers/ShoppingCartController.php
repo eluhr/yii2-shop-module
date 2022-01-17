@@ -345,6 +345,7 @@ class ShoppingCartController extends Controller
         FileHelper::createDirectory($directory);
         $filename = $directory . DIRECTORY_SEPARATOR . $order->invoiceFileName();
 
+
         if ($order->pdfObject()->saveAs($filename)) {
             return Yii::$app->response->sendFile($filename);
         }

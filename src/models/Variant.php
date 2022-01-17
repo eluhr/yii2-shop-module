@@ -33,6 +33,15 @@ class Variant extends BaseVariant
             'min' => 0,
             'max' => 100
         ];
+        $rules[] = [
+            'vat',
+            'required',
+            'when' => function (self $model) {
+                if (ShopSettings::shopProductShowVat() && empty($model->vat)) {
+                    $this->addError('vat', \Yii::t('shop', 'Required value'));
+                }
+            }
+        ];
         return $rules;
     }
 
@@ -117,9 +126,27 @@ class Variant extends BaseVariant
     public function getActualPrice(): float
     {
         if (!empty($this->discount_price)) {
-            return (float)$this->discount_price;
+            $price = (float)$this->discount_price;
+        } else {
+            $price = (float)$this->price;
         }
-        return (float)$this->price;
+
+        if (!$this->include_vat) {
+            $price *= (($this->vat / 100) + 1);
+        }
+        return round($price, 2);
+    }
+
+    /**
+     * @return float
+     */
+    public function getPotentialActualPrice(): float
+    {
+        $price = (float)$this->price;
+        if (!$this->include_vat) {
+            $price *= (($this->vat / 100) + 1);
+        }
+        return round($price, 2);
     }
 
     /**
@@ -128,5 +155,10 @@ class Variant extends BaseVariant
     public function getHasDiscount(): bool
     {
         return !empty($this->discount_price);
+    }
+
+    public function getNetPrice(): ?float
+    {
+        return round($this->getActualPrice() * ($this->vat / 100), 2);
     }
 }

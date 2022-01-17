@@ -66,7 +66,9 @@ use yii\widgets\ActiveForm;
         if (ShopSettings::shopProductShowVat())
             if ($model->getIsNewRecord()) {
                 $model->vat = ShopSettings::shopProductDefaultVat();
+                $model->include_vat = 1;
             }
+        echo $form->field($model, 'include_vat')->checkbox([], false);
         echo $form->field($model, 'vat')->widget(NumberControl::class, ['maskedInputOptions' => [
             'suffix' => ' ' . '%',
             'groupSeparator' => '.',

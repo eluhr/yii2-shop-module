@@ -265,9 +265,14 @@ class ShoppingCartCheckout extends Model
                 $item = $position->item();
                 if ($item) {
                     if ($position->isDiscount === false) {
+                        /** @var \eluhr\shop\models\Variant $item */
                         $name = $item->product->title . ' - ' . $item->title;
+                        $vat = $item->vat;
+                        $netPrice = $item->getNetPrice();
                     } else {
                         $name = $item->label;
+                        $vat = 0;
+                        $netPrice = 0;
                     }
                     $orderItem = new OrderItem([
                         'order_id' => $order->id,
@@ -275,6 +280,8 @@ class ShoppingCartCheckout extends Model
                         'name' => $name,
                         'quantity' => $position->quantity,
                         'single_price' => $position->price,
+                        'vat' => $vat,
+                        'single_net_price' => $netPrice,
                         'extra_info' => $position->extraInfo ?: '-'
                     ]);
 

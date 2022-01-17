@@ -43,7 +43,7 @@ abstract class OrderItem extends \eluhr\shop\models\ActiveRecord
         return [
             [['order_id', 'variant_id', 'name', 'quantity', 'single_price'], 'required'],
             [['variant_id', 'quantity'], 'integer'],
-            [['single_price'], 'number'],
+            [['single_price','single_net_price','vat'], 'number'],
             [['extra_info', 'created_at', 'updated_at'], 'safe'],
             [['order_id'], 'string', 'max' => 36],
             [['name'], 'string', 'max' => 128],
@@ -64,6 +64,8 @@ abstract class OrderItem extends \eluhr\shop\models\ActiveRecord
             'name' => Yii::t('shop', 'Name'),
             'quantity' => Yii::t('shop', 'Quantity'),
             'single_price' => Yii::t('shop', 'Single Price'),
+            'single_net_price' => Yii::t('shop', 'Single Net Price'),
+            'vat' => Yii::t('shop', 'Order Item VaT'),
             'extra_info' => Yii::t('shop', 'Zusätzliche Informationen'),
             'created_at' => Yii::t('shop', 'Created At'),
             'updated_at' => Yii::t('shop', 'Updated At'),

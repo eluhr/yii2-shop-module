@@ -72,7 +72,7 @@
             clear: right;
         }
 
-        .currency {
+        .currency,.vat {
             text-align: right;
         }
     </style>
@@ -121,11 +121,12 @@
                     <p class="space"><b>{{ t('shop', 'Invoice') }} {{ order.invoice_number }}</b></p>
                     <p class="space">{{ t('shop', 'Order Number') }} {{ order.id }}</p>
                 </th>
-                <th style="text-align: left;">{{ order.created_at|date("d.m.Y") }}</th>
+                <th style="text-align: left;" colspan="2">{{ order.created_at|date("d.m.Y") }}</th>
             </tr>
             <tr>
                 <th style="text-align: left;border: 1px solid #000000; border-left: none; border-right: none;"><b>{{ t('shop', 'Product Name') }}</b></th>
                 <th style="text-align: left;border: 1px solid #000000; border-left: none; border-right: none;"><b>{{ t('shop', 'Quantity') }}</b></th>
+                <th style="text-align: right;border: 1px solid #000000; border-left: none; border-right: none;"><b>{{ t('shop', 'VAT') }}</b></th>
                 <th style="text-align: right;border: 1px solid #000000; border-left: none; border-right: none;"><b>{{ t('shop', 'Price') }}</b></th>
             </tr>
             </thead>
@@ -134,6 +135,7 @@
                 <tr>
                     <td><b>{{ orderItem.name }}</b></td>
                     <td>{{ orderItem.quantity }}</td>
+                    <td class="vat">{{ app.formatter.asPercent(orderItem.vat / 100) }}</td>
                     <td class="currency">{{ app.formatter.asCurrency(orderItem.single_price, app.payment.currency) }}</td>
                 </tr>
             {% endfor %}
@@ -141,18 +143,27 @@
                 <tr>
                     <td><b>{{ order.discountCode.label }}</b></td>
                     <td></td>
+                    <td></td>
                     <td class="currency">{{ '-' ~ order.discountCode.prettyPercent() }}</td>
                 </tr>
             {% endif %}
             <tr>
                 <td><b>{{ t('shop', 'Shipping costs') }}</b></td>
                 <td></td>
+                <td></td>
                 <td class="currency">{{ app.formatter.asCurrency(order.shipping_price, app.payment.currency) }}</td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
+                <td style="border: 1px solid #000000; border-left: none; border-right: none;"><p class="space"><b>{{ t('shop', 'excl. VAT') }}</b></p></td>
+                <td style="border: 1px solid #000000; border-left: none; border-right: none;"></td>
+                <td style="border: 1px solid #000000; border-left: none; border-right: none;text-align: right;"></td>
+                <td style="border: 1px solid #000000; border-left: none; border-right: none;text-align: right;">{{ app.formatter.asCurrency(order.totalNetAmount, app.payment.currency) }}</td>
+            </tr>
+            <tr>
                 <td style="border: 1px solid #000000; border-left: none; border-right: none;"><p class="space"><b>{{ t('shop', 'Total') }}</b></p></td>
+                <td style="border: 1px solid #000000; border-left: none; border-right: none;"></td>
                 <td style="border: 1px solid #000000; border-left: none; border-right: none;"></td>
                 <td style="border: 1px solid #000000; border-left: none; border-right: none;text-align: right;">{{ app.formatter.asCurrency(order.totalAmount, app.payment.currency) }}</td>
             </tr>

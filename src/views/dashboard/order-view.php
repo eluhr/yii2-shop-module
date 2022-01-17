@@ -66,6 +66,8 @@ use yii\widgets\ActiveForm;
     <div class="col-xs-12 col-md-4">
         <?php
         $form = ActiveForm::begin(['action' => ['save-order-internal-notes', 'id' => $order->id]]);
+        echo $form->field($order, 'shipment_link');
+        echo $form->field($order, 'invoice_number');
         echo $form->field($order, 'internal_notes')->textarea(['rows' => 4]);
         echo Html::submitButton(Yii::t('shop', '{icon} Save', ['icon' => FA::icon(FA::_SAVE)]), ['class' => 'btn btn-primary']);
         ActiveForm::end();

@@ -25,6 +25,7 @@ use Yii;
  * @property string $extra_info
  * @property integer $min_days_shipping_duration
  * @property integer $max_days_shipping_duration
+ * @property integer $include_vat
  * @property string $created_at
  * @property string $updated_at
  *
@@ -60,6 +61,7 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
             [['title'], 'string', 'max' => 80],
             [['thumbnail_image', 'sku'], 'string', 'max' => 128],
             [['hex_color'], 'string', 'max' => 9],
+            [['include_vat'], 'boolean'],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => \eluhr\shop\models\Product::className(), 'targetAttribute' => ['product_id' => 'id']]
         ];
     }
@@ -86,6 +88,7 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
             'extra_info' => Yii::t('shop', 'Extra Info'),
             'min_days_shipping_duration' => Yii::t('shop', 'Min Days Shipping Duration'),
             'max_days_shipping_duration' => Yii::t('shop', 'Max Days Shipping Duration'),
+            'include_vat' => Yii::t('shop', 'VAT Included'),
             'created_at' => Yii::t('shop', 'Created At'),
             'updated_at' => Yii::t('shop', 'Updated At'),
         ];
