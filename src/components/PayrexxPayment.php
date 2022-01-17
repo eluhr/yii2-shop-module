@@ -3,12 +3,11 @@
 namespace eluhr\shop\components;
 
 use eluhr\shop\components\interfaces\PaymentInterface;
-use Payrexx\Models\Request\Invoice;
+use Payrexx\Models\Request\Gateway;
 use Payrexx\Payrexx;
 use Payrexx\PayrexxException;
 use yii\base\Component;
 use yii\helpers\Url;
-use yii\helpers\VarDumper;
 
 /**
  * --- PROPERTIES ---
@@ -45,7 +44,6 @@ class PayrexxPayment extends Component implements PaymentInterface
     }
 
 
-
     public function addItem(array $itemData)
     {
         $add = true;
@@ -66,7 +64,7 @@ class PayrexxPayment extends Component implements PaymentInterface
     {
         $itemsSum = 0;
         foreach ($this->_items as $item) {
-            $itemsSum+= $item['price'] ?? 0;
+            $itemsSum += $item['price'] ?? 0;
         }
         return $itemsSum + $this->_shippingCost;
     }
@@ -78,7 +76,7 @@ class PayrexxPayment extends Component implements PaymentInterface
 
     public function setSuccessUrl($orderId)
     {
-        $this->_successUrl = Url::to(['/shop/shopping-cart/success-payrexx','orderId' => $orderId], true);
+        $this->_successUrl = Url::to(['/shop/shopping-cart/success-payrexx', 'orderId' => $orderId], true);
     }
 
     public function getOrderId()
@@ -100,6 +98,7 @@ class PayrexxPayment extends Component implements PaymentInterface
     {
         return $this->_approvalLink;
     }
+
     /**
      * Get Approval Link
      *
@@ -112,19 +111,17 @@ class PayrexxPayment extends Component implements PaymentInterface
 
     public function execute()
     {
-        $invoice = new Invoice();
         $referenceId = $this->getOrderId() ?: uniqid('order-', true);
-        $invoice->setReferenceId($referenceId);
-        $invoice->setTitle(\Yii::t('shop','Online-Shop Payment'));
-        $invoice->setDescription(\Yii::t('shop','Thank you for using Payrexx to pay for your order'));
-        $invoice->setPurpose(\Yii::t('shop','Online-Shop Payment {orderId}', ['orderId' => $referenceId]));
-        $invoice->setAmount($this->getTotalPrice());
-        $invoice->setCurrency($this->currency);
-        $invoice->setSuccessRedirectUrl($this->getSuccessUrl());
+        $gateway = new Gateway();
+        $gateway->setReferenceId($referenceId);
+        $gateway->setAmount($this->getTotalPrice());
+        $gateway->setCurrency($this->currency);
+        $gateway->setSuccessRedirectUrl($this->getSuccessUrl());
+        $gateway->setSkipResultPage(true);
 
         try {
-            $response = $this->payrexx->create($invoice);
-            if ($response instanceof \Payrexx\Models\Response\Invoice) {
+            $response = $this->payrexx->create($gateway);
+            if ($response instanceof \Payrexx\Models\Response\Gateway) {
                 $this->setApprovalLink($response->getLink());
             }
             return $response;
