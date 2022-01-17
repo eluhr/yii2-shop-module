@@ -63,6 +63,16 @@ use yii\widgets\ActiveForm;
             'radixPoint' => ',',
             'rightAlign' => false
         ]]);
+        if (ShopSettings::shopProductShowVat())
+            if ($model->getIsNewRecord()) {
+                $model->vat = ShopSettings::shopProductDefaultVat();
+            }
+        echo $form->field($model, 'vat')->widget(NumberControl::class, ['maskedInputOptions' => [
+            'suffix' => ' ' . '%',
+            'groupSeparator' => '.',
+            'radixPoint' => ',',
+            'rightAlign' => false
+        ]]);
         echo $form->field($model, 'extra_info')->textInput(['placeholder' => Yii::t('shop', 'Size S;Size M;Size L')]);
         echo $form->field($model, 'is_online')->checkbox([], false);
         echo $form->field($model, 'rank');

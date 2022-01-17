@@ -464,4 +464,12 @@ class Order extends BaseOrder
         }
         return false;
     }
+
+    public function getShowBankDetails(): bool
+    {
+        if ($this->type === self::TYPE_PREPAYMENT) {
+            return true;
+        }
+        return ShopSettings::shopMailShowBankDetails();
+    }
 }

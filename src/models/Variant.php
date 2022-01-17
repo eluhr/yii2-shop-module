@@ -27,6 +27,12 @@ class Variant extends BaseVariant
             'min' => 1,
             'max' => 365
         ];
+        $rules[] = [
+            'vat',
+            'number',
+            'min' => 0,
+            'max' => 100
+        ];
         return $rules;
     }
 

@@ -165,9 +165,13 @@ $totalPrice = 0;
             </table>
         </div>
 
-        <?php if ($order->type === $order::TYPE_PAYPAL): ?>
-            <p class="informative-text-2 bolder"><?= Yii::t('shop', '__MAIL_INFO_PAID_VIA_PAYPAL__') ?></p>
-        <?php else: ?>
+
+        <?php if ($order->type !== $order::TYPE_PREPAYMENT): ?>
+            <p class="informative-text-2 bolder"><?= Yii::t('shop', '__MAIL_INFO_PAID_VIA__ {paymentMethod}', [
+                    'paymentMethod' => Order::optsType()[$order->type] ?? Yii::t('shop','Undefined')
+                ]) ?></p>
+        <?php endif ?>
+        <?php if($order->getShowBankDetails()): ?>
             <p class="informative-text-2 bolder"><?= Yii::t('shop', '__MAIL_NOT_PAID_YET__') ?></p>
             <p class="no-mar"><?= Yii::t('shop', '__COMPANY_NAME__') ?></p>
             <p class="no-mar"><?= Yii::t('shop', '__IBAN__') ?></p>

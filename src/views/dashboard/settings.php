@@ -84,7 +84,16 @@ JS
                     <div class="col-xs-12 col-md-2"><?php echo $form->field($setting, ShopSettings::SHOP_PRODUCT_MAX_DAYS_SHIPPING_DURATION)->input('number', ['data-input' => 'textfield', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?')]); ?></div>
                 </div>
                 <?php
-                echo $form->field($setting, ShopSettings::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE)->textarea(['data-input' => 'textfield', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will change the product variant text template.'), 'rows' => 8,'placeholder' => Yii::t('shop', 'You can write your custom HTML template here')]);
+                echo $form->field($setting, ShopSettings::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE)->textarea(['data-input' => 'textfield', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will change the product variant text template.'), 'rows' => 6,'placeholder' => Yii::t('shop', 'You can write your custom HTML template here')]);
+                echo $form->field($setting, ShopSettings::SHOP_PRODUCT_SHOW_VAT, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?'), 'class' => 'switch-input'], false);
+                echo $form->field($setting, ShopSettings::SHOP_PRODUCT_DEFAULT_VAT)->input('number', [
+                    'data-input' => 'textfield',
+                    'data-group' => 'product',
+                    'step' => 0.01,
+                    'min' => 0,
+                    'max' => 100,
+                    'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?')
+                ]);
                 ActiveForm::end();
                 ?>
             </div>
@@ -132,6 +141,11 @@ JS
                 <?php
                 $form = ActiveForm::begin();
                 echo $form->field($setting, ShopSettings::SHOP_MAIL_LOGO)->textInput(['data-input' => 'textfield', 'data-group' => 'mail', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will the mail header logo image.')]);
+                ActiveForm::end();
+                ?>
+                <?php
+                $form = ActiveForm::begin();
+                echo $form->field($setting, ShopSettings::SHOP_MAIL_SHOW_BANK_DETAILS, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'mail', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?'), 'class' => 'switch-input'], false);
                 ActiveForm::end();
                 ?>
                 <h4><?= Yii::t('shop', 'Confirm Mail') ?></h4>

@@ -170,6 +170,7 @@
             <p>{{ t('shop', '__INVOICE_INFO_BOTTOM_2__') }}</p>
         </div>
     </div>
+    {% if order.showBankDetails %}
     <footer class="footer">
         <table>
             <tbody>
@@ -184,6 +185,7 @@
             </tbody>
         </table>
     </footer>
+    {%  endif %}
 </div>
 </body>
 </html>

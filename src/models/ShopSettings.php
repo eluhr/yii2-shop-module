@@ -34,7 +34,12 @@ class ShopSettings extends Model
     public const SHOP_GENERAL_SHOP_SELLS_ADULT_PRODUCTS = 'shopGeneralShopSellsAdultProducts';
     public const SHOP_GENERAL_MIN_SHOPPING_CART_VALUE = 'shopGeneralMinShoppingCartValue';
     public const SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE = 'shopProductVariantTextTemplate';
+    public const SHOP_PRODUCT_SHOW_VAT = 'shopProductShowVat';
     public const SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS = 'shopGeneralAllowCustomerDetails';
+    public const SHOP_PRODUCT_DEFAULT_VAT = 'shopProductDefaultVat';
+    public const SHOP_MAIL_SHOW_BANK_DETAILS = 'shopMailShowBankDetails';
+    public $shopMailShowBankDetails;
+    public $shopProductDefaultVat;
     public $shopGeneralShowFilters;
     public $shopGeneralShowSearch;
     public $shopGeneralInvoiceDownload;
@@ -57,6 +62,7 @@ class ShopSettings extends Model
     public $shopProductMaxDaysShippingDuration;
     public $shopProductVariantTextTemplate;
     public $shopGeneralAllowCustomerDetails;
+    public $shopProductShowVat;
 
 
     protected static $settings = [
@@ -68,7 +74,15 @@ class ShopSettings extends Model
             'type' => 'bool',
             'default' => true
         ],
+        self::SHOP_PRODUCT_SHOW_VAT => [
+            'type' => 'bool',
+            'default' => false
+        ],
         self::SHOP_GENERAL_INVOICE_DOWNLOAD => [
+            'type' => 'bool',
+            'default' => true
+        ],
+        self::SHOP_MAIL_SHOW_BANK_DETAILS => [
             'type' => 'bool',
             'default' => true
         ],
@@ -147,6 +161,10 @@ class ShopSettings extends Model
         self::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE => [
             'type' => 'float',
             'default' => 0.00
+        ],
+        self::SHOP_PRODUCT_DEFAULT_VAT => [
+            'type' => 'float',
+            'default' => 0.00
         ]
     ];
 
@@ -164,7 +182,9 @@ class ShopSettings extends Model
                 self::SHOP_GENERAL_SHOP_SELLS_ADULT_PRODUCTS,
                 self::SHOP_PRODUCT_SHOW_SHIPPING_COSTS,
                 self::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE,
-                self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS
+                self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS,
+                self::SHOP_PRODUCT_SHOW_VAT,
+                self::SHOP_MAIL_SHOW_BANK_DETAILS
             ],
             'safe'
         ];
@@ -191,6 +211,12 @@ class ShopSettings extends Model
             'number',
             'min' => 0,
             'max' => 9999999
+        ];
+        $rules[] = [
+               self::SHOP_PRODUCT_DEFAULT_VAT,
+            'number',
+            'min' => 0,
+            'max' => 100
         ];
         $rules[] = [
             [
@@ -385,6 +411,21 @@ class ShopSettings extends Model
         return static::getValueByConst(self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS);
     }
 
+    public static function shopProductShowVat(): bool
+    {
+        return static::getValueByConst(self::SHOP_PRODUCT_SHOW_VAT);
+    }
+
+    public static function shopProductDefaultVat(): float
+    {
+        return static::getValueByConst(self::SHOP_PRODUCT_DEFAULT_VAT);
+    }
+
+    public static function shopMailShowBankDetails(): bool
+    {
+        return static::getValueByConst(self::SHOP_MAIL_SHOW_BANK_DETAILS);
+    }
+
     public function attributeLabels()
     {
         $attributeLabels = parent::attributeLabels();
@@ -400,6 +441,7 @@ class ShopSettings extends Model
         $attributeLabels[self::SHOP_MAIL_CONFIRM_SUBJECT] = \Yii::t('shop', 'Confirm Mail Subject');
         $attributeLabels[self::SHOP_MAIL_CONFIRM_BCC] = \Yii::t('shop', 'Confirm Mail Bcc');
         $attributeLabels[self::SHOP_MAIL_LOGO] = \Yii::t('shop', 'Mail Logo');
+        $attributeLabels[self::SHOP_MAIL_SHOW_BANK_DETAILS] = \Yii::t('shop', 'Mail Show Bank details');
         $attributeLabels[self::SHOP_INVOICE_LOGO] = \Yii::t('shop', 'Invoice Logo');
         $attributeLabels[self::SHOP_GENERAL_SHORT_ORDER_ID] = \Yii::t('shop', 'Enable Short Order Numbers');
         $attributeLabels[self::SHOP_GENERAL_SHOW_OUT_OF_STOCK_VARIANTS] = \Yii::t('shop', 'Show out of stock variants');
@@ -410,6 +452,8 @@ class ShopSettings extends Model
         $attributeLabels[self::SHOP_PRODUCT_MAX_DAYS_SHIPPING_DURATION] = \Yii::t('shop', 'Max days shipping duration');
         $attributeLabels[self::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE] = \Yii::t('shop', 'Variant text template');
         $attributeLabels[self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS] = \Yii::t('shop', 'Show customer details text box in checkout');
+        $attributeLabels[self::SHOP_PRODUCT_SHOW_VAT] = \Yii::t('shop', 'Show VAT in product variants');
+        $attributeLabels[self::SHOP_PRODUCT_DEFAULT_VAT] = \Yii::t('shop', 'Default Variant VAT for new products');
         return $attributeLabels;
     }
 
