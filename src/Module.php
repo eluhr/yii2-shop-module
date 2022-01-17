@@ -3,6 +3,7 @@
 namespace eluhr\shop;
 
 use eluhr\shop\assets\ShopFrontendAsset;
+use eluhr\shop\models\Order;
 use yii\base\Module as BaseModule;
 use yii\swiftmailer\Mailer;
 
@@ -18,6 +19,10 @@ class Module extends BaseModule
 
     //  3-letter ISO 4217 currency code indicating the currency to use.
     public $currency = 'EUR';
+
+    public $allowedPaymentMethods = [
+        Order::TYPE_PREPAYMENT
+    ];
 
     public function beforeAction($action)
     {

@@ -71,8 +71,17 @@ use zhuravljov\yii\widgets\DatePicker;
         echo $this->render('_different_delivery_address', ['form' => $form, 'shoppingCartCheckout' => $shoppingCartCheckout]);
 
         echo Html::beginTag('div', ['class' => 'col-xs-12']);
-        $shoppingCartCheckout->type = Order::TYPE_PAYREXX;
-        echo $form->field($shoppingCartCheckout, 'type')->hiddenInput()->label(false);
+
+        $paymentMethods = (array)Yii::$app->getModule('shop')->allowedPaymentMethods;
+        if (count($paymentMethods) === 1) {
+            $shoppingCartCheckout->type = $paymentMethods[0];
+            echo $form->field($shoppingCartCheckout, 'type')->hiddenInput()->label(false);
+        }
+        if (count($paymentMethods) > 1) {
+            echo $form->field($shoppingCartCheckout, 'type')->radioList(Order::getAllowedPaymentMethodsList())->label(false);
+        }
+
+
         echo Html::endTag('div');
 
         if (ShopSettings::shopGeneralShopSellsAdultProducts()) {
