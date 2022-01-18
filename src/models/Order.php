@@ -2,14 +2,16 @@
 
 namespace eluhr\shop\models;
 
+use eluhr\shop\models\base\Order as BaseOrder;
+use eluhr\shop\Module;
 use PayPal\Api\Payment as PayPalPayment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Exception\PayPalConnectionException;
-use eluhr\shop\models\base\Order as BaseOrder;
-use eluhr\shop\Module;
 use Ramsey\Uuid\Uuid;
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\db\Expression;
+use yii\db\Query;
 use yii\helpers\FileHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -98,8 +100,12 @@ class Order extends BaseOrder
             'value' => self::INFO_MAIL_STATUS_NOT_SENT
         ];
         $rules[] = [
-            'internal_notes',
-            'required',
+            [
+                'internal_notes',
+                'shipment_link',
+                'invoice_number'
+            ],
+            'safe',
             'on' => self::SCENARIO_INTERNAL_NOTES
         ];
         $rules[] = [
@@ -166,8 +172,7 @@ class Order extends BaseOrder
 
     public function getStatusLabel()
     {
-        return Html::tag('span', self::statusText($this->status), ['class' => 'label label-primary']);
-        ;
+        return Html::tag('span', self::statusText($this->status), ['class' => 'label label-primary']);;
     }
 
     public static function statusText($status)
@@ -195,7 +200,8 @@ class Order extends BaseOrder
             self::STATUS_SHIPPED,
             self::STATUS_FINISHED
         ];
-        return ($this->type === self::TYPE_PREPAYMENT && in_array($this->status, $paidStatus, true)) || ($this->type === self::TYPE_PAYPAL && $this->is_executed);
+        return ($this->type === self::TYPE_PREPAYMENT && in_array($this->status, $paidStatus,
+                    true)) || ($this->type === self::TYPE_PAYPAL && $this->is_executed);
     }
 
     public function checkout($status = null)
@@ -330,8 +336,8 @@ class Order extends BaseOrder
 
 
     /**
-     * @throws \yii\base\Exception
      * @return Pdf
+     * @throws \yii\base\Exception
      */
     public function pdfObject()
     {
@@ -339,16 +345,21 @@ class Order extends BaseOrder
         if (empty($originalLogoPath)) {
             $filepath = '';
         } else {
-            $fileName = basename($originalLogoPath);
+            $fileName = 'invoice-logo-' . md5(ShopSettings::shopInvoiceLogo()) . '.png';
             $directory = Yii::getAlias('@runtime/tmp/download');
             $filepath = $directory . DIRECTORY_SEPARATOR . $fileName;
 
             if (!is_file($filepath)) {
-                FileHelper::createDirectory($directory);
-                file_put_contents($filepath, file_get_contents($originalLogoPath));
+                if (FileHelper::createDirectory($directory)) {
+                    if (file_put_contents($filepath, file_get_contents($originalLogoPath)) === false) {
+                        Yii::$app->getModule('audit')->data(__METHOD__, 'Error while downloading file');
+                    }
+                } else {
+                    Yii::$app->getModule('audit')->data(__METHOD__, 'Error while creating directory');
+                }
             }
+            $filepath = realpath($directory) . DIRECTORY_SEPARATOR . $fileName;
         }
-
 
         $pdf = new Pdf();
 
@@ -361,8 +372,8 @@ class Order extends BaseOrder
     }
 
     /**
-     * @throws \yii\base\Exception
      * @return bool
+     * @throws \yii\base\Exception
      */
     public function generateInvoice()
     {
@@ -409,6 +420,7 @@ class Order extends BaseOrder
 
     /**
      * column status ENUM value labels
+     *
      * @return array
      */
     public static function optsStatus()
@@ -425,13 +437,14 @@ class Order extends BaseOrder
 
     /**
      * column type ENUM value labels
+     *
      * @return array
      */
     public static function optsType()
     {
         return [
             self::TYPE_PAYPAL => Yii::t('shop', 'PayPal'),
-            self::TYPE_SAFERPAY => Yii::t('shop','Saferpay'),
+            self::TYPE_SAFERPAY => Yii::t('shop', 'Saferpay'),
             self::TYPE_PREPAYMENT => Yii::t('shop', 'Prepayment'),
             self::TYPE_PAYREXX => Yii::t('shop', 'Payrexx'),
         ];
@@ -498,5 +511,17 @@ class Order extends BaseOrder
             return true;
         }
         return ShopSettings::shopMailShowBankDetails();
+    }
+
+    public function getItemsNetPricesByVat(): array
+    {
+        return (new Query())->select([
+            'vat',
+            'sum' => new Expression('TRUNCATE(SUM([[single_price]] * [[quantity]] * ([[vat]] / 100)), 2)')
+        ])
+            ->from(OrderItem::tableName())
+            ->where(['order_id' => $this->id])
+            ->groupBy(['vat'])
+            ->all();
     }
 }

@@ -155,12 +155,14 @@
             </tr>
             </tbody>
             <tfoot>
+            {% for item in order.itemsNetPricesByVat %}
             <tr>
-                <td style="border: 1px solid #000000; border-left: none; border-right: none;"><p class="space"><b>{{ t('shop', 'excl. VAT') }}</b></p></td>
+                <td style="border: 1px solid #000000; border-left: none; border-right: none;"><p class="space"><b>{{ t('shop', 'excl. VAT {vat}%', { vat: item['vat']|round(2, 'floor') }) }}</b></p></td>
                 <td style="border: 1px solid #000000; border-left: none; border-right: none;"></td>
                 <td style="border: 1px solid #000000; border-left: none; border-right: none;text-align: right;"></td>
-                <td style="border: 1px solid #000000; border-left: none; border-right: none;text-align: right;">{{ app.formatter.asCurrency(order.totalNetAmount, app.payment.currency) }}</td>
+                <td style="border: 1px solid #000000; border-left: none; border-right: none;text-align: right;">{{ app.formatter.asCurrency(item['sum'], app.payment.currency) }}</td>
             </tr>
+            {% endfor %}
             <tr>
                 <td style="border: 1px solid #000000; border-left: none; border-right: none;"><p class="space"><b>{{ t('shop', 'Total') }}</b></p></td>
                 <td style="border: 1px solid #000000; border-left: none; border-right: none;"></td>

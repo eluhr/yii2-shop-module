@@ -10,6 +10,8 @@
 namespace eluhr\shop\models;
 
 use Dompdf\Dompdf;
+use Dompdf\Options;
+use Yii;
 
 class Pdf
 {
@@ -25,6 +27,10 @@ class Pdf
     public function __construct()
     {
         $this->_pdf = new Dompdf();
+        $options = new Options();
+        $options->setChroot(Yii::getAlias('@runtime/tmp/download'));
+        $this->_pdf->setOptions($options);
+
     }
 
     public function saveAs($filename)
