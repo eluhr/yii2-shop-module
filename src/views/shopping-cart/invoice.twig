@@ -135,7 +135,7 @@
                 <tr>
                     <td><b>{{ orderItem.name }}</b></td>
                     <td>{{ orderItem.quantity }}</td>
-                    <td class="vat">{{ app.formatter.asPercent(orderItem.vat / 100) }}</td>
+                    <td class="vat">{{ orderItem.vat|round(2, 'floor') }}%</td>
                     <td class="currency">{{ app.formatter.asCurrency(orderItem.single_price, app.payment.currency) }}</td>
                 </tr>
             {% endfor %}
