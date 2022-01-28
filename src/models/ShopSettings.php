@@ -184,7 +184,9 @@ class ShopSettings extends Model
                 self::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE,
                 self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS,
                 self::SHOP_PRODUCT_SHOW_VAT,
-                self::SHOP_MAIL_SHOW_BANK_DETAILS
+                self::SHOP_MAIL_SHOW_BANK_DETAILS,
+                self::SHOP_MAIL_LOGO,
+                self::SHOP_INVOICE_LOGO
             ],
             'safe'
         ];
@@ -232,21 +234,6 @@ class ShopSettings extends Model
             'max' => 255,
         ];
         $rules[] = [
-            [
-                self::SHOP_MAIL_LOGO,
-                self::SHOP_INVOICE_LOGO
-            ],
-            'url'
-        ];
-
-        $rules[] = [
-            [
-                self::SHOP_MAIL_LOGO,
-                self::SHOP_INVOICE_LOGO
-            ],
-            'checkIfDownloadableImage'
-        ];
-        $rules[] = [
             self::SHOP_MAIL_CONFIRM_BCC,
             'confirmBccCheck'
         ];
@@ -261,22 +248,6 @@ class ShopSettings extends Model
                 $this->addError($attribute, \Yii::t('shop', 'Items must be a valid email'));
                 break;
             }
-        }
-    }
-
-    public function checkIfDownloadableImage($attribute)
-    {
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $this->$attribute);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
-        curl_setopt($ch, CURLOPT_NOBODY, 1);
-        $output = curl_exec($ch);
-        curl_close($ch);
-
-        if (strpos($output, ' image/') === false) {
-            $this->addError($attribute, \Yii::t('shop', 'Url must be a reachable image url'));
         }
     }
 
