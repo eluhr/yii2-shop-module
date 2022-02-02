@@ -3,6 +3,7 @@
 namespace eluhr\shop\components;
 
 use eluhr\shop\components\interfaces\PaymentInterface;
+use Payrexx\Communicator;
 use Payrexx\Models\Request\Gateway;
 use Payrexx\Payrexx;
 use Payrexx\PayrexxException;
@@ -35,12 +36,14 @@ class PayrexxPayment extends Component implements PaymentInterface
 
     public $apiKey;
     public $instanceName;
+    public $communicationHandler = '';
+    public $apiBaseDomain = Communicator::API_URL_BASE_DOMAIN;
 
     public function init()
     {
         parent::init();
 
-        $this->payrexx = new Payrexx($this->instanceName, $this->apiKey);
+        $this->payrexx = new Payrexx($this->instanceName, $this->apiKey, $this->communicationHandler, $this->apiBaseDomain);
     }
 
 
