@@ -17,6 +17,10 @@ use yii\widgets\ActiveForm;
  * @var ShoppingCartModify $shoppingCartModel
  */
 
+$this->registerMetaTag(['property' => 'og:image', 'content' => $variant->thumbnailImage()]);
+$this->registerMetaTag(['property' => 'og:title', 'content' => $this->title]);
+$this->registerMetaTag(['property' => 'og:description', 'content' => $variant->description]);
+
 $this->registerCss(".thumbnail-image { background-image: url('{$variant->thumbnailImage()}');}");
 
 echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/default/index'], ['class' => 'btn btn-back btn-link']);
