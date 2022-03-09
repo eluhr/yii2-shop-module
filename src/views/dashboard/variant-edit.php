@@ -23,6 +23,10 @@ use yii\widgets\ActiveForm;
             </div>
             <?php if (!$model->isNewRecord): ?>
                 <div class="btn-toolbar pull-right">
+                    <?= Html::a(FA::icon(FA::_COPY), ['variant-copy', 'id' => $model->id], ['class' => 'btn btn-warning', 'data' => [
+                            'confirm' => Yii::t('shop', 'Are you sure you want to copy this?'),
+                        'method' => 'post'
+                    ]]) ?>
                     <?= Html::a(FA::icon(FA::_TRASH_O), ['variant-delete', 'id' => $model->id], ['class' => 'btn btn-danger', 'data-confirm' => Yii::t('shop', 'Are you sure you want to delete this?')]) ?>
                 </div>
             <?php endif; ?>

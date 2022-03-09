@@ -19,12 +19,26 @@ use eluhr\shop\models\ShopSettings;
 use eluhr\shop\models\Statistics;
 use eluhr\shop\models\Tag;
 use eluhr\shop\models\Variant;
+use yii\filters\VerbFilter;
 use yii\helpers\FileHelper;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 
 class DashboardController extends WebCrudController
 {
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['verbs'] = [
+            'class' => VerbFilter::class,
+            'actions' => [
+                'variant-copy' => ['POST']
+            ]
+        ];
+        return $behaviors;
+    }
+
     public function actions()
     {
         $actions = parent::actions();
@@ -480,6 +494,21 @@ class DashboardController extends WebCrudController
         }
 
         return $this->redirect(['order-view', 'id' => $id]);
+    }
+
+    public function actionVariantCopy($id)
+    {
+        $model = Variant::findOne($id);
+
+        if ($model === null) {
+            throw new NotFoundHttpException(\Yii::t('shop', 'Variant not found'));
+        }
+
+        $modelCopy = $model->copy();
+        if ($modelCopy !== null) {
+            return $this->redirect(['variant-edit','id' => $modelCopy->id]);
+        }
+        throw new HttpException(500, \Yii::t('shop', 'Error while coping variant'));
     }
 
     public function actionDeleteOrder($id)

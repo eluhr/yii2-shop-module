@@ -161,4 +161,18 @@ class Variant extends BaseVariant
     {
         return round($this->getActualPrice() * ($this->vat / 100), 2);
     }
+
+    public function copy(): ?Variant
+    {
+        $copy = new Variant();
+        $copy->attributes = $this->attributes;
+        $copy->title .= ' ' . \Yii::t('shop','(copy)');
+        $copy->is_online = 0;
+        if ($copy->save()) {
+            return $copy;
+        }
+
+        \Yii::error($copy->getErrors());
+        return null;
+    }
 }
