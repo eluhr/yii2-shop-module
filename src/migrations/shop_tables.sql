@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `sp_product` (
   `updated_at` DATETIME NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `title_UNIQUE` (`title` ASC))
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8  COLLATE utf8_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `sp_variant` (
     REFERENCES `sp_product` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8  COLLATE utf8_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `sp_tag` (
   `updated_at` DATETIME NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC))
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8  COLLATE utf8_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `sp_filter` (
   `updated_at` DATETIME NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC))
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8  COLLATE utf8_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `sp_tag_x_product` (
     REFERENCES `sp_product` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8  COLLATE utf8_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `sp_tag_x_filter` (
     REFERENCES `sp_filter` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8  COLLATE utf8_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `sp_order` (
   `created_at` DATETIME NULL,
   `updated_at` DATETIME NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8  COLLATE utf8_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -157,4 +157,4 @@ CREATE TABLE IF NOT EXISTS `sp_order_item` (
     REFERENCES `sp_variant` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8  COLLATE utf8_unicode_ci;
