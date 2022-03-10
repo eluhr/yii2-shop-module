@@ -31,11 +31,12 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
         <div class="item-top">
             <h1 class="product-title"><?= $product->title ?></h1>
             <h2 class="variant-title"><?= $variant->title ?></h2>
-            <?php if (Yii::$app->user->can('Editor')): ?>
+            <?php if (Yii::$app->user->can('Editor') && !$product->is_inventory_independent): ?>
                 <p class="variant-stock"><?= Yii::t('shop', 'Stock: {stock}', ['stock' => $variant->stock]) ?></p>
             <?php endif; ?>
             <?php
-            if ($variant->stock > 0) {
+
+            if ($variant->stock > 0 || $product->is_inventory_independent) {
                 $form = ActiveForm::begin([
                     'id' => 'add-to-shopping-cart',
                     'action' => ['/shop/shopping-cart/update-item']
@@ -57,7 +58,9 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
 
                 ActiveForm::end();
             } else {
-                echo Html::tag('p', Yii::t('shop','Currently out of stock'),['class' => 'out-of-stock-info']);
+                if (!$product->is_inventory_independent) {
+                    echo Html::tag('p', Yii::t('shop','Currently out of stock'),['class' => 'out-of-stock-info']);
+                }
             }
             ?>
         </div>

@@ -17,7 +17,6 @@ class Variant extends BaseVariant
     public function rules()
     {
         $rules = parent::rules();
-        $rules[] = ['stock', 'required'];
         $rules[] = [
             [
                 'min_days_shipping_duration',

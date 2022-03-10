@@ -83,11 +83,13 @@ use yii\widgets\ActiveForm;
         echo $form->field($model, 'is_online')->checkbox([], false);
         echo $form->field($model, 'rank');
         echo $form->field($model, 'hex_color')->widget(ColorInput::class);
-        $stockField = $form->field($model, 'stock')->input('number');
-        if (!$model->isNewRecord && $model->fewAvailable()) {
-            $stockField->hint(Yii::t('shop', 'There are less than {count} in stock', ['count' => ShopSettings::shopProductFewAvailableWarning()]), ['class' => 'text-warning']);
+        if (!$model->product->is_inventory_independent) {
+            $stockField = $form->field($model, 'stock')->input('number');
+            if (!$model->isNewRecord && $model->fewAvailable()) {
+                $stockField->hint(Yii::t('shop', 'There are less than {count} in stock', ['count' => ShopSettings::shopProductFewAvailableWarning()]), ['class' => 'text-warning']);
+            }
+            echo $stockField;
         }
-        echo $stockField;
 
         echo Html::errorSummary($model);
 

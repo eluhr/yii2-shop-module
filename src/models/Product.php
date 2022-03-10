@@ -40,6 +40,7 @@ class Product extends BaseProduct
     {
         $rules = $this->traitRules();
         $rules[] = ['shipping_price', 'required'];
+        $rules[] = ['is_inventory_independent', 'boolean'];
         return $rules;
     }
 

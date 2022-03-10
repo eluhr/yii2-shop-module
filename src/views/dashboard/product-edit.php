@@ -30,6 +30,7 @@ use hrzg\filemanager\widgets\FileManagerInputWidget;
 
         echo $form->field($model, 'title');
         echo $form->field($model, 'is_online')->checkbox([], false);
+        echo $form->field($model, 'is_inventory_independent')->checkbox([], false);
         echo $form->field($model, 'rank');
         if (ShopSettings::shopProductShowShippingCosts() || $model->shipping_price > 0) {
             echo $form->field($model, 'staggering_shipping_cost')->checkbox([], false);
