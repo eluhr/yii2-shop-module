@@ -61,7 +61,11 @@ JS
                 echo $form->field($setting, ShopSettings::SHOP_GENERAL_SHOW_OUT_OF_STOCK_VARIANTS, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'general', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will hide/show out of stock variants'), 'class' => 'switch-input'], false);
                 echo $form->field($setting, ShopSettings::SHOP_GENERAL_SHOP_SELLS_ADULT_PRODUCTS, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'general', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will hide/show age verification in checkout'), 'class' => 'switch-input'], false);
                 echo $form->field($setting, ShopSettings::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'general', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?'), 'class' => 'switch-input'], false);
-                echo $form->field($setting, ShopSettings::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE)->input('number', ['data-input' => 'textfield', 'data-group' => 'general', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will change the min shopping cart value for all users.'),'step' => 0.01, 'min' => 0]);
+                ?>
+                <div class="row">
+                    <div class="col-xs-12 col-md-2"><?php echo $form->field($setting, ShopSettings::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE)->input('number', ['data-input' => 'textfield', 'data-group' => 'general', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will change the min shopping cart value for all users.'),'step' => 0.01, 'min' => 0]); ?></div>
+                </div>
+                <?php
                 ActiveForm::end();
                 ?>
             </div>
@@ -76,7 +80,11 @@ JS
             <div class="box-body">
                 <?php
                 $form = ActiveForm::begin();
-                echo $form->field($setting, ShopSettings::SHOP_PRODUCT_FEW_AVAILABLE_WARNING)->input('number', ['data-input' => 'textfield', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will change warning an logged in user will get if stock is low.')]);
+                ?>
+                <div class="row">
+                    <div class="col-xs-12 col-md-2"><?php echo $form->field($setting, ShopSettings::SHOP_PRODUCT_FEW_AVAILABLE_WARNING)->input('number', ['data-input' => 'textfield', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will change warning an logged in user will get if stock is low.')]); ?></div>
+                </div>
+                <?php
                 echo $form->field($setting, ShopSettings::SHOP_PRODUCT_SHOW_SHIPPING_COSTS, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will hide/show the shipping costs for all users'), 'class' => 'switch-input'], false);
                 ?>
                 <div class="row">
@@ -86,14 +94,18 @@ JS
                 <?php
                 echo $form->field($setting, ShopSettings::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE)->textarea(['data-input' => 'textfield', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will change the product variant text template.'), 'rows' => 6,'placeholder' => Yii::t('shop', 'You can write your custom HTML template here')]);
                 echo $form->field($setting, ShopSettings::SHOP_PRODUCT_SHOW_VAT, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?'), 'class' => 'switch-input'], false);
-                echo $form->field($setting, ShopSettings::SHOP_PRODUCT_DEFAULT_VAT)->input('number', [
-                    'data-input' => 'textfield',
-                    'data-group' => 'product',
-                    'step' => 0.01,
-                    'min' => 0,
-                    'max' => 100,
-                    'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?')
-                ]);
+                ?>
+                <div class="row">
+                    <div class="col-xs-12 col-md-2"><?php echo $form->field($setting, ShopSettings::SHOP_PRODUCT_DEFAULT_VAT)->input('number', [
+                            'data-input' => 'textfield',
+                            'data-group' => 'product',
+                            'step' => 0.01,
+                            'min' => 0,
+                            'max' => 100,
+                            'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?')
+                        ]); ?></div>
+                </div>
+                <?php
                 ActiveForm::end();
                 ?>
             </div>
