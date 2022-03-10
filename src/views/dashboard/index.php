@@ -212,6 +212,7 @@ JS
             </div>
         </div>
     </div>
+    <?php if (ShopSettings::shopGeneralEnableDiscountCodes()): ?>
     <div class="col-xs-12 col-md-4">
         <div class="box box-solid box-default">
             <div class="box-header no-bg">
@@ -221,6 +222,6 @@ JS
                 <?= $this->render('stats/_discount_code_usages', ['data' => $model->discountCodeUsages()]); ?>
             </div>
         </div>
-
     </div>
+    <?php endif ?>
 </div>

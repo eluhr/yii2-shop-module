@@ -27,15 +27,76 @@ $('.btn-change').on('click', function () {
     $(this).button('loading')
 });
 
-$(document).on('hidden.bs.modal', '#alert', function (event) {
-    console.log(event);
+$(document).on('hidden.bs.modal', '#alert', function () {
     $('.btn-change').button('reset');
 });
+
+$(function() {
+    $('.checkbox-select-all').on('change', function() {
+        var checked = $(this).is(':checked');
+        $('.checkbox-select-single').attr('checked', checked);
+        $(document).trigger('order-checkbox-buttons');
+    });
+    
+    $('.checkbox-select-single').on('change', function() {
+        $(document).trigger('order-checkbox-buttons');
+    });
+    
+    $(document).on('order-checkbox-buttons', function() {
+      var buttonGroup = $('.btn-group-move-orders');
+      var backwardButtons = $('.btn-move-backwards');
+      var forwardButtons = $('.btn-move-forwards');
+      if ($('.checkbox-select-single:checked').length > 0) {
+          buttonGroup.removeClass('hidden');
+          backwardButtons.addClass('hidden');
+          forwardButtons.addClass('hidden');
+      } else {
+          buttonGroup.addClass('hidden');
+          backwardButtons.removeClass('hidden');
+          forwardButtons.removeClass('hidden');
+      }
+    });
+    
+    $('button[data-move]').on('click', function(event) {
+      event.preventDefault();
+      var selectedOrders = $('.checkbox-select-single:checked').toArray().map(function(el) {
+        return $(el).val();
+      });
+      $.post('/shop/data/multi-move', {orders: selectedOrders, direction: $(this).data('move')},function(response) {
+        if (response.success) {
+            location.reload();
+        }
+      });
+    })
+});
+
 JS
 );
 ?>
     <div class="form-group">
         <?= Html::a(Yii::t('shop', '{icon} Back', ['icon' => FA::icon(FA::_CHEVRON_LEFT)]), ['index'], ['class' => 'btn btn-default']); ?>
+    </div>
+    <div class="btn-group btn-group-move-orders hidden">
+        <?php
+        if (!in_array($activeStatus, [Order::ALL, Order::STATUS_RECEIVED], true)) {
+            echo Html::button(FA::icon(FA::_CHEVRON_LEFT), [
+                'class' => 'btn btn-default',
+                'data' => [
+                    'move' => 'backwards'
+                ]
+            ]);
+        }
+        ?>
+        <?php
+        if (!in_array($activeStatus, [Order::ALL, Order::STATUS_FINISHED], true)) {
+            echo Html::button(FA::icon(FA::_CHEVRON_RIGHT), [
+                'class' => 'btn btn-default',
+                'data' => [
+                    'move' => 'forwards'
+                ]
+            ]);
+        }
+        ?>
     </div>
     <div class="btn-group">
         <?php
@@ -46,6 +107,8 @@ JS
         <?= Html::a(Order::getStatusValueLabel(Order::STATUS_IN_PROGRESS), ['', 'status' => Order::STATUS_IN_PROGRESS], ['class' => 'btn btn-' . ($activeStatus === Order::STATUS_IN_PROGRESS ? 'primary' : 'default')]) ?>
         <?= Html::a(Order::getStatusValueLabel(Order::STATUS_SHIPPED), ['', 'status' => Order::STATUS_SHIPPED], ['class' => 'btn btn-' . ($activeStatus === Order::STATUS_SHIPPED ? 'primary' : 'default')]) ?>
         <?= Html::a(Order::getStatusValueLabel(Order::STATUS_FINISHED), ['', 'status' => Order::STATUS_FINISHED], ['class' => 'btn btn-' . ($activeStatus === Order::STATUS_FINISHED ? 'primary' : 'default')]) ?>
+        <?= Html::a(Yii::t('shop', 'Alle'), ['','status' => Order::ALL],
+            ['class' => 'btn btn-' . ($activeStatus === Order::ALL ? 'primary' : 'default')]) ?>
     </div>
 <?php
 
@@ -58,32 +121,76 @@ echo GridView::widget([
     'columns' => [
         [
             'class' => ActionColumn::class,
+            'template' => '{checkbox}',
+            'header' => Html::checkbox('all-orders', false,
+                ['class' => 'checkbox-select-all', 'title' => Yii::t('shop', 'Alle auswählen')]),
+            'headerOptions' => [
+                'style' => 'width: 30px;'
+            ],
+            'contentOptions' => [
+                'style' => 'width: 30px;'
+            ],
+            'buttons' => [
+                'checkbox' => function ($url, Order $model) {
+                    return Html::checkbox('order[' . $model->id . ']', false, ['class' => 'checkbox-select-single','value' => $model->id]);
+                }
+            ],
+            'visible' => $activeStatus !== Order::ALL
+        ],
+        [
+            'class' => ActionColumn::class,
             'template' => '{backwards} {forwards} {view}',
             'buttons' => [
-                'backwards' => function ($url, Order $model) use ($activeStatus) {
+                'backwards' => function ($url, \project\modules\shop\models\Order $model) use ($activeStatus) {
                     $newStatus = Order::statusData($activeStatus)['backwards'];
                     if ($newStatus) {
-                        return Html::a(FA::icon(FA::_CHEVRON_LEFT), ['order-move', 'id' => $model->id, 'newStatus' => $newStatus], ['class' => 'btn btn-change btn-default', 'data-loading-text' => FA::icon(FA::_SPINNER, ['class' => 'fa-spin'])]);
+                        return Html::a(FA::icon(FA::_CHEVRON_LEFT),
+                            ['order-move', 'id' => $model->id, 'newStatus' => $newStatus], [
+                                'class' => 'btn btn-change btn-default btn-move-backwards',
+                                'data-loading-text' => FA::icon(FA::_SPINNER, ['class' => 'fa-spin'])
+                            ]);
                     }
-                    return Html::tag('div', FA::icon(FA::_CHEVRON_LEFT), ['class' => 'btn disabled btn-default']);
+                    return Html::tag('div', FA::icon(FA::_CHEVRON_LEFT),
+                        ['class' => 'btn disabled btn-default btn-move-backwards']);
                 },
                 'forwards' => function ($url, Order $model) use ($activeStatus) {
                     $newStatus = Order::statusData($activeStatus)['forwards'];
                     if ($newStatus) {
                         $confirmText = null;
                         if ($newStatus === Order::STATUS_SHIPPED && $model->info_mail_has_been_sent === Order::INFO_MAIL_STATUS_NOT_SENT) {
-                            $confirmText = Yii::t('shop', 'Mit dem verschieben der Bestellung in die Kategorie "{category}" wird zusätzlich eine Info E-Mail an den Kunden versendet. Willst du sicher fortfahren?', ['category' => Order::getStatusValueLabel($newStatus)], 'de');
+                            $confirmText = Yii::t('shop',
+                                'Mit dem verschieben der Bestellung in die Kategorie "{category}" wird zusätzlich eine Info E-Mail an den Kunden versendet. Willst du sicher fortfahren?',
+                                ['category' => Order::getStatusValueLabel($newStatus)]);
                         }
-                        return Html::a(FA::icon(FA::_CHEVRON_RIGHT), ['order-move', 'id' => $model->id, 'newStatus' => $newStatus], ['class' => 'btn btn-change btn-default', 'data-loading-text' => FA::icon(FA::_SPINNER, ['class' => 'fa-spin']),'data-confirm' => $confirmText]);
+                        return Html::a(FA::icon(FA::_CHEVRON_RIGHT),
+                            ['order-move', 'id' => $model->id, 'newStatus' => $newStatus], [
+                                'class' => 'btn btn-change btn-default btn-move-forwards',
+                                'data-loading-text' => FA::icon(FA::_SPINNER, ['class' => 'fa-spin']),
+                                'data-confirm' => $confirmText
+                            ]);
                     }
-                    return Html::tag('div', FA::icon(FA::_CHEVRON_RIGHT), ['class' => 'btn disabled btn-default']);
+                    return Html::tag('div', FA::icon(FA::_CHEVRON_RIGHT),
+                        ['class' => 'btn disabled btn-default btn-move-forwards']);
                 },
                 'view' => function ($url, Order $model) {
-                    return Html::a(FA::icon(FA::_EYE), ['order-view', 'id' => $model->id], ['class' => 'btn btn-default']);
+                    return Html::a(FA::icon(FA::_EYE), ['order-view', 'id' => $model->id],
+                        ['class' => 'btn btn-default']);
                 }
+            ],
+            'visibleButtons' => [
+                'backwards' => $activeStatus !== Order::ALL,
+                'forwards' => $activeStatus !== Order::ALL
             ]
         ],
         'id',
+        [
+            'attribute' => 'status',
+            'filter' => Order::optsStatus(),
+            'value' => function (Order $model) {
+                return Order::optsStatus()[$model->status] ?? Yii::t('shop', 'Nicht definiert');
+            },
+            'visible' => $activeStatus === Order::ALL
+        ],
         [
             'attribute' => 'type',
             'filter' => Order::optsType(),
@@ -145,10 +252,6 @@ echo GridView::widget([
         ],
         [
             'class' => EditableColumn::class,
-            'filter' => [
-                Orders::INVOICE_NUMBER_FILLED => Yii::t('shop', 'Invoice number filled'),
-                Orders::INVOICE_NUMBER_NOT_FILLED => Yii::t('shop', 'Invoice number not filled')
-            ],
             'attribute' => 'invoice_number',
             'refreshGrid' => false,
             'editableOptions' => [

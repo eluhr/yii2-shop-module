@@ -10,8 +10,6 @@
 namespace eluhr\shop\controllers;
 
 use http\Exception\InvalidArgumentException as HttpInvalidArgumentException;
-use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Writer\PDF\DomPDF;
 use eluhr\shop\components\ShoppingCart;
 use eluhr\shop\models\DiscountCode;
 use eluhr\shop\models\Order;

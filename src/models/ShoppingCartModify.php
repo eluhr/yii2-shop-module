@@ -29,7 +29,7 @@ class ShoppingCartModify extends Model
     public $variantId;
     public $extraInfo;
 
-    const MAX_QUANTITY = 99;
+    public const MAX_QUANTITY = 99;
 
     /**
      * @return array

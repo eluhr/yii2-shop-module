@@ -37,10 +37,13 @@ class Order extends BaseOrder
     public const INFO_MAIL_STATUS_NOT_SENT = 0;
 
     public const SCENARIO_INTERNAL_NOTES = 'internal-notes';
+    public const SCENARIO_MOVE = 'move';
 
     public $moduleId = 'shop';
 
     private $_invoiceSavePath;
+
+    public const ALL = 'ALL';
 
     public static function generateId()
     {
@@ -83,6 +86,9 @@ class Order extends BaseOrder
             'internal_notes',
             'shipment_link',
             'invoice_number'
+        ];
+        $scenarios[self::SCENARIO_MOVE] = [
+            'status'
         ];
         return $scenarios;
     }

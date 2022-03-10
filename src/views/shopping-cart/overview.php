@@ -24,24 +24,26 @@ use yii\widgets\ActiveForm;
                     ]) ?></div>
         <?php endif; ?>
         <?= $this->render('_table') ?>
-        <?php
-        if (ShopSettings::shopGeneralEnableDiscountCodes()) {
-            $form = ActiveForm::begin(['id' => 'overview-form']);
-
-            if ($shoppingCartDiscount->isActive()) {
-                $submitButton = Html::submitButton(FA::icon(FA::_CHECK),
-                    ['class' => 'btn btn-check-discount-code btn-success disabled', 'disabled' => 'disabled']);
-            } else {
-                $submitButton = Html::submitButton(Yii::t('shop', 'Apply Discount Code'),
-                    ['class' => 'btn btn-check-discount-code btn-info']);
-            }
-
-            echo $form->field($shoppingCartDiscount, 'discount_code', [
-                'template' => "{label}\n<div class='input-group'>{input}<span class='input-group-btn'>{$submitButton}</span></div>\n{hint}\n{error}",
-            ])->textInput(['readonly' => $shoppingCartDiscount->isActive()]);
-            ActiveForm::end();
-        }
-        ?>
+        <?php if (ShopSettings::shopGeneralEnableDiscountCodes()): ?>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <?php
+                    $form = ActiveForm::begin(['id' => 'overview-form']);
+                    if ($shoppingCartDiscount->isActive()) {
+                        $submitButton = Html::submitButton(FA::icon(FA::_CHECK),
+                            ['class' => 'btn btn-check-discount-code btn-success disabled', 'disabled' => 'disabled']);
+                    } else {
+                        $submitButton = Html::submitButton(Yii::t('shop', 'Apply Discount Code'),
+                            ['class' => 'btn btn-check-discount-code btn-info']);
+                    }
+                    echo $form->field($shoppingCartDiscount, 'discount_code', [
+                        'template' => "{label}\n<div class='input-group'>{input}<span class='input-group-btn'>{$submitButton}</span></div>\n{hint}\n{error}",
+                    ])->textInput(['readonly' => $shoppingCartDiscount->isActive()]);
+                    ActiveForm::end();
+                    ?>
+                </div>
+            </div>
+        <?php endif ?>
 
         <?php
         if (!Yii::$app->shoppingCart->hasReachedMinValue()) {

@@ -28,7 +28,7 @@ class Orders extends OrderModel
     public function rules()
     {
         return [
-            [['id', 'name', 'code','shipment_link','type','invoice_number'], 'safe'],
+            [['id', 'name', 'code','status','shipment_link','type','invoice_number'], 'safe'],
         ];
     }
 
@@ -83,7 +83,11 @@ class Orders extends OrderModel
 
 
         $query->andFilterWhere(['code' => $this->code]);
-        $query->andWhere(['status' => $status]);
+        if ($status !== \eluhr\shop\models\Order::ALL) {
+            $query->andWhere(['status' => $status]);
+        } else {
+            $query->andFilterWhere(['status' => $this->status]);
+        }
         $query->andFilterWhere(['type' => $this->type]);
 
         $query->orderBy(['created_at' => SORT_DESC]);
