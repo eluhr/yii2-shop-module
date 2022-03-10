@@ -34,7 +34,8 @@ use dosamigos\chartjs\ChartJs;
                 'yAxes' => [
                     [
                         'ticks' => [
-                            'beginAtZero' => true
+                            'beginAtZero' => true,
+                            'stepSize' => 1
                         ],
                         'scaleLabel' => [
                             'display' => true,
@@ -48,6 +49,7 @@ use dosamigos\chartjs\ChartJs;
             'labels' => $data['labels'],
             'datasets' => [
                 [
+                    'maxBarThickness' => 20,
                     'fill' => false,
                     'data' => $data['data'],
                     'backgroundColor' => 'rgb(60,141,188)',
