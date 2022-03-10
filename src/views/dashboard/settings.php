@@ -60,7 +60,6 @@ JS
                 echo $form->field($setting, ShopSettings::SHOP_GENERAL_SHORT_ORDER_ID, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'general', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will enable/disable short order ids'), 'class' => 'switch-input'], false);
                 echo $form->field($setting, ShopSettings::SHOP_GENERAL_SHOW_OUT_OF_STOCK_VARIANTS, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'general', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will hide/show out of stock variants'), 'class' => 'switch-input'], false);
                 echo $form->field($setting, ShopSettings::SHOP_GENERAL_SHOP_SELLS_ADULT_PRODUCTS, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'general', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will hide/show age verification in checkout'), 'class' => 'switch-input'], false);
-                echo $form->field($setting, ShopSettings::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'general', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?'), 'class' => 'switch-input'], false);
                 ?>
                 <div class="row">
                     <div class="col-xs-12 col-md-2"><?php echo $form->field($setting, ShopSettings::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE)->input('number', ['data-input' => 'textfield', 'data-group' => 'general', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will change the min shopping cart value for all users.'),'step' => 0.01, 'min' => 0]); ?></div>
@@ -121,6 +120,7 @@ JS
                 <?php
                 $form = ActiveForm::begin();
                 echo $form->field($setting, ShopSettings::SHOP_GENERAL_ENABLE_DISCOUNT_CODES, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'checkout', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting? This will hide/show the discount code in frontend'), 'class' => 'switch-input'], false);
+                echo $form->field($setting, ShopSettings::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'general', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?'), 'class' => 'switch-input'], false);
                 ActiveForm::end();
                 ?>
             </div>

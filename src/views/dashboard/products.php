@@ -93,7 +93,12 @@ echo GridView::widget([
                 1 => Yii::t('shop', 'Online'),
             ],
             'value' => function (Product $model) {
-                return FA::icon(FA::_CIRCLE, ['class' => 'text-' . ($model->is_online ? 'success' : 'danger')]);
+                $dot = FA::icon(FA::_CIRCLE, ['class' => 'text-' . ($model->is_online ? 'success' : 'danger')]);
+                $info = '';
+                if ($model->hide_in_overview) {
+                    $info = ' ' . Html::tag('small', Yii::t('shop','Online but not visible in overview'));
+                }
+                return $dot . $info;
             },
             'format' => 'html'
         ]

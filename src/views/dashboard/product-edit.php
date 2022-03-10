@@ -19,9 +19,13 @@ use hrzg\filemanager\widgets\FileManagerInputWidget;
 
 <div class="row">
     <div class="col-xs-12">
-        <div class="form-group">
+        <div class="form-group pull-left">
             <?= Html::a(Yii::t('shop', '{icon} Back', ['icon' => FA::icon(FA::_CHEVRON_LEFT)]), ['products'], ['class' => 'btn btn-default']); ?>
         </div>
+        <div class="form-group pull-right">
+            <?= Html::a(Yii::t('shop', '{icon} Show in frontend', ['icon' => FA::icon(FA::_EYE)]),$model->detailUrl(), ['class' => 'btn btn-primary','target' => '_blank']); ?>
+        </div>
+        <span class="clearfix"></span>
     </div>
     <div class="col-xs-12 col-md-8">
         <h2><?= $model->isNewRecord ? Yii::t('shop', 'New Product') : $model->title ?></h2>
@@ -30,6 +34,7 @@ use hrzg\filemanager\widgets\FileManagerInputWidget;
 
         echo $form->field($model, 'title');
         echo $form->field($model, 'is_online')->checkbox([], false);
+        echo $form->field($model, 'hide_in_overview')->checkbox([], false);
         echo $form->field($model, 'is_inventory_independent')->checkbox([], false);
         echo $form->field($model, 'rank');
         if (ShopSettings::shopProductShowShippingCosts() || $model->shipping_price > 0) {
