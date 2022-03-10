@@ -141,7 +141,7 @@ echo GridView::widget([
             'class' => ActionColumn::class,
             'template' => '{backwards} {forwards} {view}',
             'buttons' => [
-                'backwards' => function ($url, \project\modules\shop\models\Order $model) use ($activeStatus) {
+                'backwards' => function ($url, Order $model) use ($activeStatus) {
                     $newStatus = Order::statusData($activeStatus)['backwards'];
                     if ($newStatus) {
                         return Html::a(FA::icon(FA::_CHEVRON_LEFT),

@@ -154,7 +154,7 @@ JS
         </div>
     </div>
 
-
+    <?php if (ShopSettings::shopGeneralEnableDiscountCodes()): ?>
     <div class="col-xs-12 col-md-4">
         <div class="box box-solid box-default">
             <div class="box-header no-bg">
@@ -166,25 +166,10 @@ JS
             </div>
         </div>
     </div>
+    <?php endif ?>
 </div>
 <hr>
 <div class="row">
-    <div class="col-xs-12 col-md-4">
-        <div class="box box-solid box-default">
-            <div class="box-header no-bg">
-                <h3 class="box-title"><?= Yii::t('shop', 'Orders by day') ?></h3>
-            </div>
-            <div class="box-body">
-                <div class="tab-content">
-                    <?= $this->render('stats/_orders_by_day', ['data' => $model->ordersByDay()]) ?>
-                    <?php
-//                    echo $this->render('stats/_sales_by_day', ['data' => $model->salesByDay()]);
-                    ?>
-                </div>
-
-            </div>
-        </div>
-    </div>
     <div class="col-xs-12 col-md-4">
         <div class="box box-solid box-default">
             <div class="box-header no-bg">
@@ -209,6 +194,19 @@ JS
                     <?=Html::a(Yii::t('shop', '<b>{count}</b> orders to fulfill', ['count' => Order::find()->andWhere(['status' => Order::STATUS_RECEIVED_PAID])->count()]), ['orders','status' => Order::STATUS_RECEIVED_PAID], ['class' => 'list-group-item'])?>
                     <?=Html::a(Yii::t('shop', '<b>{count}</b> orders in progress', ['count' => Order::find()->andWhere(['status' => Order::STATUS_IN_PROGRESS])->count()]), ['orders','status' => Order::STATUS_IN_PROGRESS], ['class' => 'list-group-item'])?>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-4">
+        <div class="box box-solid box-default">
+            <div class="box-header no-bg">
+                <h3 class="box-title"><?= Yii::t('shop', 'Orders by day') ?></h3>
+            </div>
+            <div class="box-body">
+                <div class="tab-content">
+                    <?= $this->render('stats/_orders_by_day', ['data' => $model->ordersByDay()]) ?>
+                </div>
+
             </div>
         </div>
     </div>

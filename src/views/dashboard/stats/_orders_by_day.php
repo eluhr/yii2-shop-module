@@ -14,7 +14,7 @@ use dosamigos\chartjs\ChartJs;
 <div class="chart-container">
     <?= ChartJs::widget([
         'id' => 'orderByDay',
-        'type' => 'bar',
+        'type' => 'line',
         'options' => [
             'responsive' => true,
             'maintainAspectRatio' => false
