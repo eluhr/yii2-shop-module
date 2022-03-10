@@ -13,10 +13,6 @@ use yii\widgets\ActiveForm;
  * @var $filterForm FilterForm
  */
 ?>
-
-<?php
-if (!empty($filters)):
-?>
 <div class="filters">
     <?php
 
@@ -61,6 +57,3 @@ if (!empty($filters)):
         ActiveForm::end();
     ?>
 </div>
-<?php
-endif;
-?>
