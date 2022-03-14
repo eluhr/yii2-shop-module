@@ -266,7 +266,7 @@ class ShoppingCartCheckout extends Model
                 if ($item) {
                     if ($position->isDiscount === false) {
                         /** @var \eluhr\shop\models\Variant $item */
-                        $name = $item->product->title . ' - ' . $item->title;
+                        $name = $item->product->title . ' - ' . $item->title  . ($position->extraInfo ? ' - ' . $position->extraInfo : '');
                         $vat = $item->vat;
                         $netPrice = $item->getNetPrice();
                     } else {

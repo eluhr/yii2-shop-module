@@ -9,6 +9,7 @@ use kartik\color\ColorInput;
 use kartik\number\NumberControl;
 use eluhr\shop\models\ShopSettings;
 use eluhr\shop\models\Variant;
+use kartik\select2\Select2;
 use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -54,7 +55,12 @@ use yii\widgets\ActiveForm;
             $model->setAttribute('description', ShopSettings::shopProductVariantTextTemplate());
         }
         echo $form->field($model, 'description')->widget(CKEditor::class);
-        echo $form->field($model, 'thumbnail_image')->widget(FileManagerInputWidget::class, ['handlerUrl' => '/filefly/api']);
+        echo $form->field($model, 'thumbnail_image')->widget(FileManagerInputWidget::class, [
+            'handlerUrl' => '/filefly/api',
+            'select2Options' => [
+                'theme' => Select2::THEME_BOOTSTRAP
+            ]
+        ]);
         echo $form->field($model, 'price')->widget(NumberControl::class, ['maskedInputOptions' => [
             'suffix' => ' ' . $this->context->module->currency,
             'groupSeparator' => '.',
