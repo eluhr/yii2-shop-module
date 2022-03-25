@@ -2,6 +2,7 @@
 
 namespace eluhr\shop\models;
 
+use eluhr\shop\interfaces\PaymentProvider;
 use eluhr\shop\models\base\Order as BaseOrder;
 use eluhr\shop\Module;
 use PayPal\Api\Payment as PayPalPayment;
@@ -56,7 +57,7 @@ class Order extends BaseOrder
 
     public static function getAllowedPaymentMethodsList()
     {
-        $paymentMethods = (array)Yii::$app->getModule('shop')->allowedPaymentMethods;
+        $paymentMethods = array_keys(Yii::$app->payment->providers);
         $allowed = [];
         foreach (self::optsType() as $type => $label) {
             if (in_array($type, $paymentMethods, true)) {
@@ -210,13 +211,13 @@ class Order extends BaseOrder
                     true)) || ($this->type === self::TYPE_PAYPAL && $this->is_executed);
     }
 
-    public function checkout($status = null)
+    public function checkout(PaymentProvider $provider)
     {
-        if ($status) {
-            $this->status = $status;
-        }
-        if ($this->save() && $this->execute()) {
-            return $this->sendConfirmMail();
+        $order = $provider->performCheckoutProcedure($this);
+        if ($order !== null) {
+            if ($order->save()) {
+                return $this->sendConfirmMail();
+            }
         }
         Yii::error($this->errors);
         return false;

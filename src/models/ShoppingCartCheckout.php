@@ -34,6 +34,9 @@ class ShoppingCartCheckout extends Model
     public $customer_details;
     public $agb_and_gdpr;
 
+    /**
+     * @var \eluhr\shop\components\Payment
+     */
     private $_payment;
 
     private $_order;
@@ -189,14 +192,6 @@ class ShoppingCartCheckout extends Model
         return $attributeHints;
     }
 
-    public function approvalLink()
-    {
-        if ($this->_payment) {
-            return $this->_payment->getApprovalLink();
-        }
-        return false;
-    }
-
     public function checkout()
     {
         if (!$this->validate() || Yii::$app->shoppingCart->isEmpty) {
@@ -206,18 +201,13 @@ class ShoppingCartCheckout extends Model
 
         $orderId = Order::generateId();
 
-        if ($this->type !== Order::TYPE_PREPAYMENT) {
+        $this->_payment = \Yii::$app->shoppingCart->checkout($orderId, $this->type);
 
-            $this->_payment = \Yii::$app->shoppingCart->checkout($orderId);
-        } else {
-            $this->_payment = true;
-        }
-
-        if ($this->_payment) {
+        if ($this->_payment !== false) {
             $transaction = Yii::$app->db->beginTransaction();
             $config = [
                 'id' => $orderId,
-                'type' => $this->type,
+                'type' => $this->_payment->paymentProvider()::getType(),
                 'first_name' => $this->first_name,
                 'surname' => $this->surname,
                 'email' => $this->email,
@@ -246,9 +236,7 @@ class ShoppingCartCheckout extends Model
                 $config['date_of_birth'] = date('Y-m-d', strtotime($this->date_of_birth));
             }
 
-            if ($this->type === Order::TYPE_PAYPAL) {
-                $config['paypal_id'] = $this->_payment->getId();
-            }
+            $config['payment_details'] = $this->_payment->getPaymentDetails();
 
             $order = new Order($config);
 

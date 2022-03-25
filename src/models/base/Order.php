@@ -81,11 +81,11 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
         return [
             [['id', 'first_name', 'surname', 'email', 'street_name', 'house_number', 'postal', 'city'], 'required'],
             [['is_executed', 'discount_code_id', 'info_mail_has_been_sent', 'has_different_delivery_address', 'paid'], 'integer'],
-            [['date_of_birth', 'created_at', 'updated_at'], 'safe'],
+            [['date_of_birth', 'created_at', 'updated_at','payment_details'], 'safe'],
             [['internal_notes','customer_details', 'status', 'type'], 'string'],
             [['shipping_price'], 'number'],
             [['id'], 'string', 'max' => 36],
-            [['paypal_id', 'paypal_token', 'paypal_payer_id', 'first_name', 'surname', 'email', 'street_name', 'house_number', 'postal', 'city', 'delivery_first_name', 'delivery_surname', 'delivery_street_name', 'delivery_house_number', 'delivery_postal', 'delivery_city'], 'string', 'max' => 45],
+            [['first_name', 'surname', 'email', 'street_name', 'house_number', 'postal', 'city', 'delivery_first_name', 'delivery_surname', 'delivery_street_name', 'delivery_house_number', 'delivery_postal', 'delivery_city'], 'string', 'max' => 45],
             [['shipment_link', 'invoice_number'], 'string', 'max' => 128],
             [['invoice_number'], 'unique'],
             [['id'], 'unique'],
