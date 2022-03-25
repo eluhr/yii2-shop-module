@@ -96,4 +96,9 @@ class PayrexxPayment extends BasePaymentProvider implements ExternalPaymentProvi
     {
         throw new NotSupportedException();
     }
+
+    public function getPayPalContext()
+    {
+        return $this->_apiContext;
+    }
 }

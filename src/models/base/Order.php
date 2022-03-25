@@ -37,6 +37,7 @@ use Yii;
  * @property string $shipment_link
  * @property integer $paid
  * @property string $shipping_price
+ * @property string $payment_details
  * @property string $type
  * @property string $invoice_number
  * @property string $created_at

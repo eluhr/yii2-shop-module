@@ -5,9 +5,6 @@ namespace eluhr\shop\models;
 use eluhr\shop\interfaces\PaymentProvider;
 use eluhr\shop\models\base\Order as BaseOrder;
 use eluhr\shop\Module;
-use PayPal\Api\Payment as PayPalPayment;
-use PayPal\Api\PaymentExecution;
-use PayPal\Exception\PayPalConnectionException;
 use Ramsey\Uuid\Uuid;
 use Yii;
 use yii\base\InvalidConfigException;
@@ -460,37 +457,6 @@ class Order extends BaseOrder
     public function execute()
     {
         if ($this->is_executed === 0) {
-            if ($this->type === self::TYPE_PAYPAL) {
-                try {
-                    $payment = PayPalPayment::get($this->paypal_id, \Yii::$app->payment->getContext());
-                } catch (PayPalConnectionException $e) {
-                    Yii::error($e->getMessage());
-                    return false;
-                }
-
-                if ($payment) {
-                    if (!empty($this->paypal_payer_id)) {
-                        $payerId = $this->paypal_payer_id;
-                    } else {
-                        $payerId = $payment->payer->payer_info->payer_id;
-                    }
-
-                    try {
-                        $payment->execute(new PaymentExecution([
-                            'payerId' => $payerId,
-                            'transactions' => $payment->transactions
-                        ]), \Yii::$app->payment->getContext());
-                    } catch (PayPalConnectionException $e) {
-                        Yii::error($e->getData());
-                        Yii::error($e->getMessage());
-                        return false;
-                    }
-                    $this->is_executed = 1;
-                    return $this->save();
-                }
-                return false;
-            }
-
             $this->is_executed = 1;
             return $this->save();
         }

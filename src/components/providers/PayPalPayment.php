@@ -10,13 +10,17 @@ use PayPal\Api\Item;
 use PayPal\Api\ItemList;
 use PayPal\Api\Payer;
 use PayPal\Api\Payment;
+use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Exception\PayPalConnectionException;
 use PayPal\Rest\ApiContext;
 use yii\helpers\FileHelper;
 use yii\helpers\Inflector;
+use yii\helpers\Json;
 use yii\helpers\Url;
+use Yii;
 
 /**
  * --- PROPERTIES ---
@@ -181,8 +185,44 @@ class PayPalPayment extends BasePaymentProvider implements ExternalPaymentProvid
 
     public function performCheckoutProcedure(Order $order): ?Order
     {
-        return $order;
-//        var_dump($order->id);exit;
+        try {
+            $data = Json::decode($order->payment_details);
+        } catch (\Exception $e) {
+            Yii::error($e->getMessage());
+            return null;
+        }
+
+        try {
+            $payment = Payment::get($data['paymentId'] ?? '', $this->_paypal);
+        } catch (PayPalConnectionException $e) {
+            Yii::error($e->getMessage());
+            return null;
+        }
+
+        if ($payment) {
+            if (!empty($this->paypal_payer_id)) {
+                $payerId = $this->paypal_payer_id;
+            } else {
+                $payerId = $payment->payer->payer_info->payer_id;
+            }
+
+            try {
+                $payment->execute(new PaymentExecution([
+                    'payerId' => $payerId,
+                    'transactions' => $payment->transactions
+                ]), $this->_paypal);
+            } catch (PayPalConnectionException $e) {
+                Yii::error($e->getData());
+                Yii::error($e->getMessage());
+                return null;
+            }
+            $order->is_executed = 1;
+            $order->status = Order::STATUS_RECEIVED_PAID;
+            if ($order->save()) {
+                return $order;
+            }
+        }
+        return null;
     }
 
     public function getPaymentDetails(): string
