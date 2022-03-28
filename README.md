@@ -97,12 +97,9 @@ return [
 ];
 ```
 
-#Potential ideas
+# Future plans
 
- - Wishlist
- - Project as Yii2 extension
- - View files from .php to .twig
- - Events for Order and Product (out of stock?)
+ - Add orders to user by id and postal
  
  
 # Giiant
