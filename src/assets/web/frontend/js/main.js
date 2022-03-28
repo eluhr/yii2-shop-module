@@ -33,3 +33,38 @@ $('.filter > label').on('click', function() {
 $('#checkout-form').on("beforeSubmit", function (event) {
     $('#submit-checkout').button('loading')
 });
+
+
+$('select[name="stored-addresses"]').on("change", function () {
+    var idPrefix = "shoppingcartcheckout-";
+    var json = JSON.parse($(this).val());
+    if (json === 0) {
+        $('#' + idPrefix + 'first_name').val('');
+        $('#' + idPrefix + 'surname').val('');
+        $('#' + idPrefix + 'email').val('');
+        $('#' + idPrefix + 'street_name').val('');
+        $('#' + idPrefix + 'house_number').val('');
+        $('#' + idPrefix + 'postal').val('');
+        $('#' + idPrefix + 'city').val('');
+        $('#' + idPrefix + '-has_different_delivery_address').attr('checked', false);
+        $('#' + idPrefix + 'delivery_first_name').val('');
+        $('#' + idPrefix + 'delivery_surname').val('');
+        $('#' + idPrefix + 'delivery_street_name').val('');
+        $('#' + idPrefix + 'delivery_house_number').val('');
+        $('#' + idPrefix + 'delivery_postal').val('');
+        $('#' + idPrefix + 'delivery_city').val('');
+    } else {
+        var keys = Object.keys(json);
+        for (var i = 0; i < keys.length; i++) {
+            var attribute = keys[i];
+            var input = $("#" + idPrefix + attribute);
+            if (input.attr('type') === 'checkbox') {
+                var checked = json[attribute] === '1';
+                input.attr('checked',checked);
+                $("#different-delivery-address").collapse(checked ? 'show' : 'hide')
+            } else {
+                input.val(json[attribute]);
+            }
+        }
+    }
+});

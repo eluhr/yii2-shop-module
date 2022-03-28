@@ -54,7 +54,6 @@ $discountPercent = 0;
                   data-content="total"><?= Yii::$app->formatter->asCurrency(Yii::$app->shoppingCart->total(), Yii::$app->payment->currency) ?></span>
             <div class="discount" data-content="discount"></div>
         </th>
-        <td></td>
     </tr>
     <tr>
         <th colspan="4">

@@ -41,6 +41,21 @@ class ShoppingCartCheckout extends Model
 
     private $_order;
 
+    public static function storedAddresses()
+    {
+        $model = User::findOne(Yii::$app->getUser()->getId());
+        $addressed = [];
+        if ($model) {
+            foreach ($model->getAddresses() as $address) {
+                $invoiceAddress = $address['street_name'] . ' ' . $address['house_number'] . ', ' . $address['postal'] . ' ' . $address['city'] . ' (' . $address['first_name'] . ' ' . $address['surname'] . ', ' . $address['email'] . ')';
+                $deliveryAddress = (int)$address['has_different_delivery_address'] === 1 ? (', ' . $address['delivery_street_name'] . ' ' . $address['delivery_house_number'] . ', ' . $address['delivery_postal'] . ' ' . $address['delivery_city'] . ' (' . $address['delivery_first_name'] . ' ' . $address['delivery_surname'] . ')') : '';
+                $addressed[json_encode($address)] = $invoiceAddress . $deliveryAddress;
+            }
+        }
+        $addressed[0] = Yii::t('shop','Use a new address');
+        return $addressed;
+    }
+
     /**
      * @return Order|null
      */
