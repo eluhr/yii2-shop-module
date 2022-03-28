@@ -7,7 +7,7 @@ namespace eluhr\shop\models;
  *
  * @author Elias Luhr
  */
-class User
+class User extends \Da\User\Model\User
 {
 
 }

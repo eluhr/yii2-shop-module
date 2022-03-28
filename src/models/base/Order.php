@@ -81,7 +81,7 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
         return [
             [['id', 'first_name', 'surname', 'email', 'street_name', 'house_number', 'postal', 'city'], 'required'],
             [['is_executed', 'discount_code_id', 'info_mail_has_been_sent', 'has_different_delivery_address', 'paid'], 'integer'],
-            [['date_of_birth', 'created_at', 'updated_at','payment_details'], 'safe'],
+            [['date_of_birth', 'created_at', 'updated_at','payment_details','user_id'], 'safe'],
             [['internal_notes','customer_details', 'status', 'type'], 'string'],
             [['shipping_price'], 'number'],
             [['id'], 'string', 'max' => 36],
@@ -90,7 +90,7 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
             [['invoice_number'], 'unique'],
             [['id'], 'unique'],
             [['discount_code_id'], 'exist', 'skipOnError' => true, 'targetClass' => \eluhr\shop\models\DiscountCode::className(), 'targetAttribute' => ['discount_code_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \eluhr\shop\models\User::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true,'skipOnEmpty' => true, 'targetClass' => \eluhr\shop\models\User::class, 'targetAttribute' => ['user_id' => 'id']],
             ['status', 'in', 'range' => [
                     self::STATUS_PENDING,
                     self::STATUS_RECEIVED,
