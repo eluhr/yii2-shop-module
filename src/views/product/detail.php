@@ -1,5 +1,6 @@
 <?php
 
+use eluhr\shop\helpers\RbacHelper;
 use eluhr\shop\widgets\PriceDisplay;
 use hrzg\widget\widgets\Cell;
 use eluhr\shop\models\Product;
@@ -31,7 +32,7 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
         <div class="item-top">
             <h1 class="product-title"><?= $product->title ?></h1>
             <h2 class="variant-title"><?= $variant->title ?></h2>
-            <?php if (Yii::$app->user->can('Editor') && !$product->is_inventory_independent): ?>
+            <?php if (RbacHelper::userIsShopEditor() && !$product->is_inventory_independent): ?>
                 <p class="variant-stock"><?= Yii::t('shop', 'Stock: {stock}', ['stock' => $variant->stock]) ?></p>
             <?php endif; ?>
             <?php

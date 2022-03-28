@@ -12,6 +12,8 @@ class Module extends BaseModule
     public $frontendLayout = '@app/views/layouts/main';
     public $backendLayout = '@app/views/layouts/main';
 
+    public const SHOP_EDITOR_ROLE = 'ShopEditor';
+
     /**
      * @var Mailer
      */

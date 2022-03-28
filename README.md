@@ -67,7 +67,8 @@ return [
                 'warenkorb/uebersicht' => 'shop/shopping-cart/overview',
                 'warenkorb/checkout' => 'shop/shopping-cart/checkout',
                 'warenkorb/meine-bestellung/<orderId>' => 'shop/shopping-cart/prepayment',
-                'shop/meine-bestellung/<orderId>' => 'shop/shopping-cart/order',
+                'shop/meine-bestellungen' => 'shop/orders/all',
+                'shop/meine-bestellungen/<orderId>' => 'shop/orders/detail',
                 'shop/<productTitle>-<productId:\d+>/<variantTitle>-<variantId:\d+>' => 'shop/product/detail',
                 'shop/<productTitle>-<productId:\d+>' => 'shop/product/detail'
             ],

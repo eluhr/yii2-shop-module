@@ -78,7 +78,6 @@ use yii\web\View;
         <th>
             <?= Yii::$app->formatter->asCurrency($total, Yii::$app->payment->currency) ?>
         </th>
-        <td></td>
     </tr>
     <tr class="order-number">
         <th colspan="3">
@@ -87,7 +86,6 @@ use yii\web\View;
         <th>
             <?= $order->id ?>
         </th>
-        <td></td>
     </tr>
     <tr class="order-status">
         <th colspan="3">
@@ -96,7 +94,6 @@ use yii\web\View;
         <th>
             <?= $order->statusLabel ?>
         </th>
-        <td></td>
     </tr>
     <?php if (!empty($order->shipment_link) && ShopSettings::shopGeneralShippingLink()): ?>
     <tr class="order-status">
@@ -106,7 +103,6 @@ use yii\web\View;
         <th>
             <?= Html::a($order->shipment_link, $order->shipment_link, ['target' => '_blank']) ?>
         </th>
-        <td></td>
     </tr>
     <?php endif; ?>
     <?php if (ShopSettings::shopGeneralAllowCustomerDetails()): ?>
@@ -117,7 +113,6 @@ use yii\web\View;
         <th>
             <?= Html::encode($order->customer_details) ?>
         </th>
-        <td></td>
     </tr>
     <?php endif; ?>
     <?php if (!empty($order->invoice_number) && ShopSettings::shopGeneralInvoiceDownload()): ?>
@@ -128,7 +123,6 @@ use yii\web\View;
         <th>
             <?= Html::a(Yii::t('shop', '{icon} Herunterladen', ['icon' => FA::icon(FA::_DOWNLOAD)], 'de'), $order->invoiceUrl, ['class' => 'btn btn-primary']) ?>
         </th>
-        <td></td>
     </tr>
     <?php endif; ?>
     </tfoot>

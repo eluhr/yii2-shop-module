@@ -41,6 +41,9 @@ $(".toggle-img").on("click", function(event) {
 });
 JS
 );
+
+$allowedProviders = ShopSettings::allowedPaymentProviders();
+
 ?>
 
 <div class="form-group">
@@ -212,7 +215,7 @@ JS
                  data-overlay="product"><?= FA::icon(FA::_SPINNER, ['class' => 'fa-spin']) ?></div>
         </div>
 
-        <div class="box box-solid box-default">
+        <div class="box box-solid <?php echo empty($allowedProviders) ? 'box-danger' : 'box-default'?>">
             <div class="box-header no-bg">
                 <h3 class="box-title"><?= Yii::t('shop', 'Checkout Settings') ?></h3>
             </div>
@@ -234,7 +237,7 @@ JS
                     'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?'),
                     'class' => 'switch-input'
                 ], false);
-                $setting->{ShopSettings::SHOP_CHECKOUT_PAYMENT_PROVIDERS} = array_keys(ShopSettings::allowedPaymentProviders());
+                $setting->{ShopSettings::SHOP_CHECKOUT_PAYMENT_PROVIDERS} = array_keys($allowedProviders);
                 echo $form->field($setting,
                     ShopSettings::SHOP_CHECKOUT_PAYMENT_PROVIDERS)->checkboxList(ShopSettings::allPaymentProviders(), [
                     'itemOptions' => [
@@ -244,6 +247,9 @@ JS
                         'class' => 'switch-input'
                     ]
                 ]);
+                if (empty($allowedProviders)) {
+                    echo Html::tag('b', Yii::t('shop','No providers means no checkout is possible. Please choose at least one!'),['class' => 'text-danger']);
+                }
                 ActiveForm::end();
                 ?>
             </div>

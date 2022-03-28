@@ -2,6 +2,8 @@
 
 namespace eluhr\shop\models\query;
 
+use Yii;
+
 /**
  * This is the ActiveQuery class for [[\eluhr\shop\models\Order]].
  *
@@ -9,11 +11,10 @@ namespace eluhr\shop\models\query;
  */
 class OrderQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
+    public function isOwn()
     {
-        $this->andWhere('[[status]]=1');
-        return $this;
-    }*/
+        return $this->andWhere(['user_id' => Yii::$app->getUser()->getId()]);
+    }
 
     /**
      * @inheritdoc

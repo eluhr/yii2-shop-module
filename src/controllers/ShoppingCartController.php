@@ -202,6 +202,10 @@ class ShoppingCartController extends Controller
      */
     public function actionCheckout()
     {
+
+        if (empty(ShopSettings::allowedPaymentProviders())) {
+            throw new HttpException(500, Yii::t('shop', 'Shop has no payment providers configured.'));
+        }
         $model = new ShoppingCartCheckout();
 
         if ($model->load(Yii::$app->request->post()) && $model->checkout()) {
@@ -292,19 +296,7 @@ class ShoppingCartController extends Controller
         Yii::$app->session->addFlash('success', Yii::t('shop', 'Thank you for your purchase. You will receive an email with further instructions'));
         Yii::$app->shoppingCart->removeAll();
 
-        return $this->redirect(['order', 'orderId' => $order->id]);
-    }
-
-    public function actionOrder($orderId)
-    {
-        $order = Order::findOne($orderId);
-
-        if ($order === null) {
-            throw new NotFoundHttpException(Yii::t('shop', 'There is no such order'));
-        }
-
-        $this->view->title = \Yii::t('shop', '__SHOP_ORDER_TITLE__');
-        return $this->render('order', ['order' => $order, 'showCells' => true]);
+        return $this->redirect(['/' . $this->module->id . '/orders/detail', 'orderId' => $order->id]);
     }
 
     public function actionInvoice($orderId)
