@@ -34,6 +34,11 @@ $("form").on("afterValidate", function() {
         $('.box .overlay').addClass('hidden');
     }
 });
+$(".toggle-img").on("click", function(event) {
+    event.preventDefault();
+    $($(this).data('target')).toggleClass('hidden');
+    $(this).find('i').toggleClass('fa-eye-slash');
+});
 JS
 );
 ?>
@@ -253,7 +258,19 @@ JS
             <div class="box-body">
                 <?php
                 $form = ActiveForm::begin();
-                echo $form->field($setting, ShopSettings::SHOP_INVOICE_LOGO)->textInput([
+                $invoiceLogoInputTemplate = "{label}\n{input}\n{hint}\n{error}";
+                if (!empty($setting->shopInvoiceLogo)) {
+                    echo Html::img($setting->shopInvoiceLogo, [
+                        'alt' => Yii::t('shop', 'Invoice logo not reachable'),
+                        'style' => [
+                            'max-width' => '150px'
+                        ],
+                        'class' => 'hidden',
+                        'id' => 'img-' . ShopSettings::SHOP_INVOICE_LOGO
+                    ]);
+                    $invoiceLogoInputTemplate = '{label}<div class="input-group">{input}<span class="input-group-btn"><button class="btn btn-primary toggle-img" data-target="#img-' . ShopSettings::SHOP_INVOICE_LOGO . '" type="button"><i class="fa fa-eye"></i></button></span></div>{hint}{error}';
+                }
+                echo $form->field($setting, ShopSettings::SHOP_INVOICE_LOGO, ['template' => $invoiceLogoInputTemplate])->textInput([
                     'data-input' => 'textfield',
                     'data-group' => 'invoice',
                     'data-confirm-text' => Yii::t('shop',
@@ -275,7 +292,19 @@ JS
                 <h4><?= Yii::t('shop', 'General') ?></h4>
                 <?php
                 $form = ActiveForm::begin();
-                echo $form->field($setting, ShopSettings::SHOP_MAIL_LOGO)->textInput([
+                $mailLogoInputTemplate = "{label}\n{input}\n{hint}\n{error}";
+                if (!empty($setting->shopMailLogo)) {
+                    echo Html::img($setting->shopMailLogo, [
+                        'alt' => Yii::t('shop', 'Mail logo not reachable'),
+                        'style' => [
+                            'max-width' => '150px'
+                        ],
+                        'class' => 'hidden',
+                        'id' => 'img-' . ShopSettings::SHOP_MAIL_LOGO
+                    ]);
+                    $mailLogoInputTemplate = '{label}<div class="input-group">{input}<span class="input-group-btn"><button class="btn btn-primary toggle-img" data-target="#img-' . ShopSettings::SHOP_MAIL_LOGO . '" type="button"><i class="fa fa-eye"></i></button></span></div>{hint}{error}';
+                }
+                echo $form->field($setting, ShopSettings::SHOP_MAIL_LOGO,['template' => $mailLogoInputTemplate])->textInput([
                     'data-input' => 'textfield',
                     'data-group' => 'mail',
                     'data-confirm-text' => Yii::t('shop',
