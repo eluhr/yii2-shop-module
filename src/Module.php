@@ -20,10 +20,6 @@ class Module extends BaseModule
     //  3-letter ISO 4217 currency code indicating the currency to use.
     public $currency = 'EUR';
 
-    public $allowedPaymentMethods = [
-        Order::TYPE_PREPAYMENT
-    ];
-
     public function beforeAction($action)
     {
         ShopFrontendAsset::register(\Yii::$app->controller->view);

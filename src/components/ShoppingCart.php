@@ -4,7 +4,6 @@
 namespace eluhr\shop\components;
 
 use eluhr\shop\models\DiscountCode;
-use eluhr\shop\models\Product;
 use eluhr\shop\models\ShoppingCartProduct;
 use eluhr\shop\models\ShopSettings;
 use eluhr\shop\models\Variant;
@@ -26,7 +25,7 @@ use yii\web\Session;
  */
 class ShoppingCart extends Component
 {
-    public $cartId = __CLASS__ .'::v1';
+    public $cartId = __CLASS__ . '::v1';
 
     const EVENT_POSITION_PUT = 'putPosition';
     const EVENT_POSITION_UPDATE = 'updatePosition';
@@ -361,24 +360,20 @@ class ShoppingCart extends Component
     }
 
     /**
-     * @param \eluhr\shop\models\Order|null $orderId
-     * @return \eluhr\shop\components\SaferPayPayment|false
+     * @param string $orderId
+     * @return \eluhr\shop\components\Payment|false
      * @throws \yii\web\HttpException
      */
-    public function checkout($orderId = null)
+    public function checkout($orderId, string $type)
     {
-        /** @var \eluhr\shop\components\SaferPayPayment $payment */
+        /** @var \eluhr\shop\components\Payment $payment */
         $payment = \Yii::$app->payment;
-
+        $payment->setProvider($type);
         foreach ($this->items() as $item) {
             $payment->addItem($item);
         }
         $payment->setShippingCost($this->shippingCost());
-        if ($orderId) {
-            $payment->setOrderId($orderId);
-            $payment->setSuccessUrl($orderId);
-        }
-
+        $payment->setOrderId($orderId);
         if ($payment->execute()) {
             return $payment;
         }
@@ -416,7 +411,7 @@ class ShoppingCart extends Component
         if ($highestMax > 0) {
             $max = $highestMax;
         }
-        
+
         if (!empty($min) && !empty($max)) {
             return \Yii::t('shop', 'About {min}-{max} working days.', [
                 'min' => $min,

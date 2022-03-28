@@ -9,6 +9,7 @@
 
 namespace eluhr\shop\models;
 
+use Yii;
 use yii\base\Model;
 
 class ShopSettings extends Model
@@ -38,6 +39,7 @@ class ShopSettings extends Model
     public const SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS = 'shopGeneralAllowCustomerDetails';
     public const SHOP_PRODUCT_DEFAULT_VAT = 'shopProductDefaultVat';
     public const SHOP_MAIL_SHOW_BANK_DETAILS = 'shopMailShowBankDetails';
+    public const SHOP_CHECKOUT_PAYMENT_PROVIDERS = 'shopCheckoutPaymentProviders';
     public $shopMailShowBankDetails;
     public $shopProductDefaultVat;
     public $shopGeneralShowFilters;
@@ -63,6 +65,7 @@ class ShopSettings extends Model
     public $shopProductVariantTextTemplate;
     public $shopGeneralAllowCustomerDetails;
     public $shopProductShowVat;
+    public $shopCheckoutPaymentProviders;
 
 
     protected static $settings = [
@@ -165,6 +168,10 @@ class ShopSettings extends Model
         self::SHOP_PRODUCT_DEFAULT_VAT => [
             'type' => 'float',
             'default' => 0.00
+        ],
+        self::SHOP_CHECKOUT_PAYMENT_PROVIDERS => [
+            'type' => 'string',
+            'default' => '_default_'
         ]
     ];
 
@@ -183,12 +190,18 @@ class ShopSettings extends Model
                 self::SHOP_PRODUCT_SHOW_SHIPPING_COSTS,
                 self::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE,
                 self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS,
-                self::SHOP_PRODUCT_SHOW_VAT,
                 self::SHOP_MAIL_SHOW_BANK_DETAILS,
                 self::SHOP_MAIL_LOGO,
-                self::SHOP_INVOICE_LOGO
+                self::SHOP_INVOICE_LOGO,
+                self::SHOP_CHECKOUT_PAYMENT_PROVIDERS
             ],
             'safe'
+        ];
+        $rules[] = [
+            [
+                self::SHOP_PRODUCT_SHOW_VAT,
+            ],
+            'boolean'
         ];
         $rules[] = [
             [
@@ -397,6 +410,11 @@ class ShopSettings extends Model
         return static::getValueByConst(self::SHOP_MAIL_SHOW_BANK_DETAILS);
     }
 
+    public static function shopCheckoutPaymentProviders(): string
+    {
+        return static::getValueByConst(self::SHOP_CHECKOUT_PAYMENT_PROVIDERS);
+    }
+
     public function attributeLabels()
     {
         $attributeLabels = parent::attributeLabels();
@@ -425,6 +443,7 @@ class ShopSettings extends Model
         $attributeLabels[self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS] = \Yii::t('shop', 'Show customer details text box in checkout');
         $attributeLabels[self::SHOP_PRODUCT_SHOW_VAT] = \Yii::t('shop', 'Show VAT in product variants');
         $attributeLabels[self::SHOP_PRODUCT_DEFAULT_VAT] = \Yii::t('shop', 'Default Variant VAT for new products');
+        $attributeLabels[self::SHOP_CHECKOUT_PAYMENT_PROVIDERS] = \Yii::t('shop', 'Active Payment providers');
         return $attributeLabels;
     }
 
@@ -450,6 +469,7 @@ class ShopSettings extends Model
             $this->$attribute = $value;
             if ($this->validate() === false) {
                 $transaction->rollBack();
+                Yii::error($this->getErrors());
                 return false;
             }
             $model = Setting::findOne(['key' => $attribute]);
@@ -461,10 +481,40 @@ class ShopSettings extends Model
             $model->value = $this->$attribute;
             if (!$model->save()) {
                 $transaction->rollBack();
+                Yii::error([$attribute, $model->getErrors()]);
                 return false;
             }
         }
         $transaction->commit();
         return true;
+    }
+
+    /**
+     * @return array
+     */
+    public static function allPaymentProviders(): array
+    {
+        $installedProviders = Yii::$app->payment->providers;
+        $providers = [];
+        foreach ($installedProviders as $name => $config) {
+            $providers[$name] = Order::getTypeValueLabel($name);
+        }
+        return $providers;
+    }
+
+    public static function allowedPaymentProviders(): array {
+        $providers = self::shopCheckoutPaymentProviders();
+        if ($providers === '_default_') {
+            $_list = array_keys(Yii::$app->payment->providers);
+        } else {
+            $_list = explode(',', $providers);
+        }
+        $list = [];
+        foreach ($_list as $item) {
+            if (isset(Order::optsType()[$item])) {
+                $list[$item] = Order::optsType()[$item];
+            }
+        }
+        return $list;
     }
 }
