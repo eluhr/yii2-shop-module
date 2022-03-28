@@ -8,19 +8,13 @@ composer require eluhr/yii2-shop-module
 ```php
 use kartik\grid\Module as GridViewModule;
 use eluhr\shop\Module as ShopModule;
-use eluhr\shop\components\PayPalPayment;
+use eluhr\shop\components\Payment;
+use eluhr\shop\components\providers\DirectDebitPayment;
+use eluhr\shop\components\providers\PayPalPayment;
+use eluhr\shop\components\providers\PayrexxPayment;
+use eluhr\shop\components\providers\SaferPayPayment;
+use eluhr\shop\models\Order;
 use eluhr\shop\components\ShoppingCart;
-
-$requiredEnvs = [
-    'PAYPAL_MODE',
-    'PAYPAL_CLIENT_ID',
-    'PAYPAL_CLIENT_SECRET'
-];
-foreach ($requiredEnvs as $requiredEnv) {
-    if (getenv($requiredEnv) === false) {
-        throw new Exception('ENV ' . $requiredEnv . ' not set');
-    }
-}
 
 return [
 'aliases' => [
@@ -32,19 +26,40 @@ return [
         ],
          'gridview' => [
                     'class' => GridViewModule::class
-                ]
+         ]
 ],
 'components' => [
         'shoppingCart' => [
             'class' => ShoppingCart::class
         ],
         'payment' => [
-            'class' => PayPalPayment::class,
-            'mode' => getenv('PAYPAL_MODE') ?: 'sandbox',
-            'clientId' => getenv('PAYPAL_CLIENT_ID'),
-            'clientSecret' => getenv('PAYPAL_CLIENT_SECRET'),
-            'returnUrl' => ['/shop/shopping-cart/success'],
-            'cancelUrl' => ['/shop/shopping-cart/canceled']
+            'class' => Payment::class,
+            'currency' => 'EUR',
+            'providers' => [
+                Order::TYPE_PREPAYMENT => [
+                    'class' => DirectDebitPayment::class
+                ],
+                Order::TYPE_PAYREXX => [
+                    'class' => PayrexxPayment::class,
+                    'apiKey' => getenv('PAYREXX_API_KEY'),
+                    'instanceName' => getenv('PAYREXX_INSTANCE_NAME'),
+                    'apiBaseDomain' => getenv('PAYREXX_API_BASE_DOMAIN')
+                ],
+                Order::TYPE_PAYPAL => [
+                    'class' => PayPalPayment::class,
+                    'mode' => getenv('PAYPAL_MODE'),
+                    'clientId' => getenv('PAYPAL_CLIENT_ID'),
+                    'clientSecret' => getenv('PAYPAL_CLIENT_SECRET')
+                ],
+                Order::TYPE_SAFERPAY => [
+                    'class' => SaferPayPayment::class,
+                    'baseUrl' => getenv('SAFERPAY_BASE_URL'),
+                    'customerId' => getenv('SAFERPAY_CUSTOMER_ID'),
+                    'terminalId' => getenv('SAFERPAY_TERMINAL_ID'),
+                    'username' => getenv('SAFERPAY_USERNAME'),
+                    'password' => getenv('SAFERPAY_PASSWORD')
+                ]
+            ]
         ],
         'urlManager' => [
             'rules' => [

@@ -72,13 +72,13 @@ use zhuravljov\yii\widgets\DatePicker;
 
         echo Html::beginTag('div', ['class' => 'col-xs-12']);
 
-        $paymentMethods = array_keys(Yii::$app->payment->providers);
+        $paymentMethods = array_keys(ShopSettings::allowedPaymentProviders());
         if (count($paymentMethods) === 1) {
             $shoppingCartCheckout->type = $paymentMethods[0];
             echo $form->field($shoppingCartCheckout, 'type')->hiddenInput()->label(false);
         }
         if (count($paymentMethods) > 1) {
-            echo $form->field($shoppingCartCheckout, 'type')->radioList(Order::getAllowedPaymentMethodsList())->label(false);
+            echo $form->field($shoppingCartCheckout, 'type')->radioList(ShopSettings::allowedPaymentProviders());
         }
 
 

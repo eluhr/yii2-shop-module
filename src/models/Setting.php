@@ -11,4 +11,12 @@ use yii\helpers\ArrayHelper;
  */
 class Setting extends BaseSetting
 {
+    public function beforeValidate()
+    {
+        if ($this->key === ShopSettings::SHOP_CHECKOUT_PAYMENT_PROVIDERS && is_array($this->value)) {
+            $this->value = implode(',', $this->value);
+        }
+
+        return parent::beforeValidate();
+    }
 }

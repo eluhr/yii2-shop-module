@@ -52,18 +52,6 @@ class Order extends BaseOrder
         return $uuid;
     }
 
-    public static function getAllowedPaymentMethodsList()
-    {
-        $paymentMethods = array_keys(Yii::$app->payment->providers);
-        $allowed = [];
-        foreach (self::optsType() as $type => $label) {
-            if (in_array($type, $paymentMethods, true)) {
-                $allowed[$type] = $label;
-            }
-        }
-        return $allowed;
-    }
-
     public function getFullName()
     {
         return $this->first_name . ' ' . $this->surname;
