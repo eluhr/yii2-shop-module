@@ -205,8 +205,10 @@ class ShoppingCartCheckout extends Model
 
         if ($this->_payment !== false) {
             $transaction = Yii::$app->db->beginTransaction();
+            $user = Yii::$app->getUser();
             $config = [
                 'id' => $orderId,
+                'user_id' => $user->getIsGuest() ? null : $user->getId(),
                 'type' => $this->_payment->paymentProvider()::getType(),
                 'first_name' => $this->first_name,
                 'surname' => $this->surname,
