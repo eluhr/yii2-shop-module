@@ -15,9 +15,11 @@ $isAllowedToViewShippingDetails = $model->isOwn() || RbacHelper::userIsShopEdito
 ?>
 <div class="order-view">
     <div class="container">
+        <?php if($isAllowedToViewShippingDetails): ?>
         <div class="form-group">
             <?php echo Html::a(\Yii::t('shop', 'Back to my orders'), ['all'],['class' => 'btn btn-back btn-primary'])?>
         </div>
+        <?php endif ?>
         <h2><?php echo \Yii::t('shop', 'Order {orderId}', [
                 'orderId' => $model->id
             ]) ?></h2>
