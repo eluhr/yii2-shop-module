@@ -6,7 +6,6 @@ use eluhr\shop\models\Order as OrderModel;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use yii\db\Expression;
 
 /**
  * Order represents the model behind the search form about `eluhr\shop\models\Order`.
@@ -28,7 +27,8 @@ class Orders extends OrderModel
     public function rules()
     {
         return [
-            [['id', 'name', 'code','status','shipment_link','type','invoice_number'], 'safe'],
+            [['id', 'name', 'code', 'status', 'shipment_link', 'type', 'invoice_number'], 'safe'],
+            [['id', 'name', 'code', 'status', 'shipment_link', 'type', 'invoice_number'], 'filter', 'filter' => 'trim'],
         ];
     }
 
@@ -64,7 +64,7 @@ class Orders extends OrderModel
         $query->joinWith('discountCode');
 
         $query->andFilterWhere(['OR', ['like', 'first_name', $this->name], ['like', 'surname', $this->name]]);
-        $query->andFilterWhere(['LIKE', 'id', $this->id]);
+        $query->andFilterWhere(['LIKE', OrderModel::tableName() . '.id', $this->id]);
         $query->andFilterWhere(['LIKE', 'code', $this->code]);
 
         if ($this->shipment_link === self::SHIPPING_LINK_FILLED) {

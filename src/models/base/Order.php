@@ -10,9 +10,7 @@ use Yii;
  * This is the base-model class for table "sp_order".
  *
  * @property string $id
- * @property string $paypal_id
- * @property string $paypal_token
- * @property string $paypal_payer_id
+ * @property integer $user_id
  * @property integer $is_executed
  * @property string $date_of_birth
  * @property string $internal_notes
@@ -44,6 +42,7 @@ use Yii;
  * @property string $updated_at
  *
  * @property \eluhr\shop\models\DiscountCode $discountCode
+ * @property \eluhr\shop\models\User $user
  * @property \eluhr\shop\models\OrderItem[] $orderItems
  * @property \eluhr\shop\models\Variant[] $variants
  * @property string $aliasModel
@@ -82,7 +81,7 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
         return [
             [['id', 'first_name', 'surname', 'email', 'street_name', 'house_number', 'postal', 'city'], 'required'],
             [['is_executed', 'discount_code_id', 'info_mail_has_been_sent', 'has_different_delivery_address', 'paid'], 'integer'],
-            [['date_of_birth', 'created_at', 'updated_at','payment_details'], 'safe'],
+            [['date_of_birth', 'created_at', 'updated_at','payment_details','user_id'], 'safe'],
             [['internal_notes','customer_details', 'status', 'type'], 'string'],
             [['shipping_price'], 'number'],
             [['id'], 'string', 'max' => 36],
@@ -91,6 +90,7 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
             [['invoice_number'], 'unique'],
             [['id'], 'unique'],
             [['discount_code_id'], 'exist', 'skipOnError' => true, 'targetClass' => \eluhr\shop\models\DiscountCode::className(), 'targetAttribute' => ['discount_code_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true,'skipOnEmpty' => true, 'targetClass' => \eluhr\shop\models\User::class, 'targetAttribute' => ['user_id' => 'id']],
             ['status', 'in', 'range' => [
                     self::STATUS_PENDING,
                     self::STATUS_RECEIVED,
@@ -117,9 +117,7 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
     {
         return [
             'id' => Yii::t('shop', 'ID'),
-            'paypal_id' => Yii::t('shop', 'Paypal ID'),
-            'paypal_token' => Yii::t('shop', 'Paypal Token'),
-            'paypal_payer_id' => Yii::t('shop', 'Paypal Payer ID'),
+            'user_id' => Yii::t('shop', 'User ID'),
             'is_executed' => Yii::t('shop', 'Is Executed'),
             'date_of_birth' => Yii::t('shop', 'Date Of Birth'),
             'internal_notes' => Yii::t('shop', 'Internal Notes'),
@@ -157,6 +155,14 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
     public function getDiscountCode()
     {
         return $this->hasOne(\eluhr\shop\models\DiscountCode::className(), ['id' => 'discount_code_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(\eluhr\shop\models\User::class, ['id' => 'user_id']);
     }
 
     /**

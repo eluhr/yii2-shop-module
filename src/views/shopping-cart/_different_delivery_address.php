@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
  * @var ActiveForm $form
  * @var ShoppingCartCheckout $shoppingCartCheckout
  */
-echo $form->field($shoppingCartCheckout, 'has_different_delivery_address', ['template' => "{input}{label}\n{error}"])->checkbox(['data-toggle' => 'collapse', 'data-target' => '#different-delivery-address'], false)->label($shoppingCartCheckout->getAttributeHint('has_different_delivery_address'))->hint(false);
+echo $form->field($shoppingCartCheckout, 'has_different_delivery_address', ['template' => "{input}\n{label}\n{error}"])->checkbox(['data-toggle' => 'collapse', 'data-target' => '#different-delivery-address'], false)->label($shoppingCartCheckout->getAttributeHint('has_different_delivery_address'))->hint(false);
 ?>
 <div id="different-delivery-address"
      class="collapse <?= $shoppingCartCheckout->has_different_delivery_address ? 'in' : '' ?>">

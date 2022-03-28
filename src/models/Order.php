@@ -154,7 +154,7 @@ class Order extends BaseOrder
 
     public function getDetailUrl()
     {
-        return Url::to(['/shop/shopping-cart/order', 'orderId' => $this->id], true); // true so link does work in email
+        return Url::to(['/shop/orders/detail', 'orderId' => $this->id], true); // true so link does work in email
     }
 
     public function getInvoiceUrl()
@@ -484,5 +484,10 @@ class Order extends BaseOrder
             ->where(['order_id' => $this->id])
             ->groupBy(['vat'])
             ->all();
+    }
+
+    public function isOwn(): bool
+    {
+        return $this->user_id === Yii::$app->getUser()->getId();
     }
 }

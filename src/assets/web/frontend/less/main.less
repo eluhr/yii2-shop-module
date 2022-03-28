@@ -10,3 +10,21 @@
     cursor: pointer; // clickable on mobile
   }
 }
+
+.order-item {
+  margin-bottom: 20px;
+  .order-item-attribute {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .order-item-label {
+      font-weight: 900;
+    }
+    &:not(:first-of-type) {
+      margin-bottom: 7px;
+    }
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}

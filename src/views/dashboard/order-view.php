@@ -55,7 +55,7 @@ use yii\widgets\ActiveForm;
         </div>
     <?php endif; ?>
     <div class="col-xs-12 col-md-8">
-        <?= $this->render('../shopping-cart/order', ['order' => $order, 'showCells' => false]) ?>
+        <?= $this->render('../shopping-cart/_table_completed', ['order' => $order]) ?>
         <p><?= Yii::t('shop', 'Bezahlung via {type}', ['type' => $order::optsType()[$order->type] ?? '-']) ?></p>
         <?php
         if ($order->type === Order::TYPE_PAYPAL && $order->is_executed !== 1) {
