@@ -35,7 +35,17 @@ class PayrexxPayment extends BasePaymentProvider implements ExternalPaymentProvi
         $this->_payrexx = new Payrexx($this->instanceName, $this->apiKey, $this->communicationHandler, $this->apiBaseDomain);
     }
 
-
+    /**
+     * @param mixed $shippingCost
+     */
+    public function setShippingCost($shippingCost): void
+    {
+        $this->addItem([
+            'price' => $shippingCost,
+            'quantity' => 1,
+            'name' => 'Versandkosten'
+        ]);
+    }
 
     public function addItem(array $itemData): void
     {
@@ -95,10 +105,5 @@ class PayrexxPayment extends BasePaymentProvider implements ExternalPaymentProvi
     public function findOrder(array $condition = []): ?Order
     {
         throw new NotSupportedException();
-    }
-
-    public function getPayPalContext()
-    {
-        return $this->_apiContext;
     }
 }

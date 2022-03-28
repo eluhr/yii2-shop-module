@@ -1,90 +1,92 @@
 <?php
 
-namespace eluhr\shop\components;
+namespace eluhr\shop\components\providers;
 
-use eluhr\shop\components\interfaces\PaymentInterface;
+use eluhr\shop\components\traits\ApprovalLink;
+use eluhr\shop\interfaces\ExternalPaymentProvider;
+use eluhr\shop\models\Order;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Request;
-use yii\base\Component;
+use yii\base\NotSupportedException;
 use yii\helpers\Url;
 use yii\web\HttpException;
 
 /**
  * --- PROPERTIES ---
  *
- * @property Client $_client
+ * @author Elias Luhr
  */
-class SaferPayPayment extends Component implements PaymentInterface
+class SaferPayPayment extends BasePaymentProvider implements ExternalPaymentProvider
 {
 
-    private $_body_data = [];
+    use ApprovalLink;
 
-    private $_client;
+    public $baseUrl;
+    public $customerId;
+    public $terminalId;
+    public $returnUrl = ['/shop/shopping-cart/success'];
+    public $cancelUrl = ['/shop/shopping-cart/cancelled'];
+    public $username;
+    public $password;
+    /**
+     * @var \GuzzleHttp\Client
+     */
+    protected $_client;
 
-    protected $_items = [];
+    protected $_body_data;
 
-    protected $_response_data;
-
-    protected $_orderId;
-
-    public $currency = 'CHF';
 
     public function init()
     {
         parent::init();
 
         $this->_client = new Client([
-            'base_uri' => getenv('SAFERPAY_BASE_URL'),
+            'base_uri' => $this->baseUrl,
             'timeout' => 10
         ]);
 
         $this->_body_data = [
             'RequestHeader' => [
                 'SpecVersion' => '1.10',
-                'CustomerId' => getenv('SAFERPAY_CUSTOMER_ID'),
+                'CustomerId' => $this->customerId,
                 'RequestId' => uniqid('dd-os-', false),
                 'RetryIndicator' => 0
             ],
-            'TerminalId' => getenv('SAFERPAY_TERMINAL_ID'),
+            'TerminalId' => $this->terminalId,
             'ReturnUrls' => [
-                'Success' => Url::to(['/shop/shopping-cart/success-saferpay'], true),
-                'Fail' => Url::to(['/shop/shopping-cart/cancelled'], true)
+                'Success' => Url::to($this->returnUrl, true),
+                'Fail' => Url::to($this->cancelUrl, true)
             ]
         ];
     }
 
-    public function setSuccessUrl($orderId)
+    /**
+     * @return array
+     */
+    public static function identifiableGetParams(): array
     {
-        $this->_body_data['ReturnUrls']['Success'] = Url::to(['/shop/shopping-cart/success-saferpay','orderId' => $orderId], true);
+        return ['orderId', 'type'];
     }
 
-    public function getOrderId()
+    public function findOrder(array $condition = []): ?Order
     {
-        return $this->_orderId;
+        throw new NotSupportedException();
     }
 
-    public function setOrderId($orderId)
-    {
-        $this->_orderId = $orderId;
-    }
-
-
-    public function addItem(array $itemData)
+    public function addItem(array $itemData): void
     {
         $add = true;
-
         if (isset($itemData['isDiscount']) && $itemData['isDiscount'] === true) {
             $add = false;
         }
 
         if ($add) {
-
             $price = (float)($itemData['price'] ?? 0) * (float)($itemData['quantity'] ?? 0) * 100;
             $this->_items[] = [
                 'Amount' => [
                     'Value' => $price,
-                    'CurrencyCode' => $this->currency
+                    'CurrencyCode' => $this->_currency
                 ],
                 'OrderId' => uniqid('dd-os-', false),
                 'Description' => $itemData['name']
@@ -92,16 +94,7 @@ class SaferPayPayment extends Component implements PaymentInterface
         }
     }
 
-    public function setShippingCost($value)
-    {
-        $this->addItem([
-            'price' => $value,
-            'quantity' => 1,
-            'name' => 'Versandkosten'
-        ]);
-    }
-
-    public function execute()
+    public function execute(): bool
     {
         $total = 0.00;
         foreach ($this->_items as $item) {
@@ -111,7 +104,7 @@ class SaferPayPayment extends Component implements PaymentInterface
         $this->_body_data['Payment'] = [
             'Amount' => [
                 'Value' => (string)$total,
-                'CurrencyCode' => $this->currency
+                'CurrencyCode' => $this->_currency
             ],
             'OrderId' => $this->getOrderId() ?: uniqid('dd-os-', false),
             'Description' => 'Bestellung'
@@ -119,7 +112,7 @@ class SaferPayPayment extends Component implements PaymentInterface
 
         $request = new Request('POST', 'api/Payment/v1/PaymentPage/Initialize', [
             'Content-Type' => 'application/json; charset=utf-8',
-            'Authorization' => 'Basic ' . base64_encode(getenv('SAFERPAY_USERNAME') . ':' . getenv('SAFERPAY_PASSWORD'))
+            'Authorization' => 'Basic ' . base64_encode($this->username . ':' . $this->password)
         ], json_encode($this->_body_data));
 
         try {
@@ -131,15 +124,21 @@ class SaferPayPayment extends Component implements PaymentInterface
         }
 
         $this->_response_data = json_decode($response->getBody()->getContents(), true);
-        return isset($this->_response_data['RedirectUrl']);
+        if (isset($this->_response_data['RedirectUrl'])) {
+            $this->setApprovalLink($this->_response_data['RedirectUrl']);
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getApprovalLink()
+    public static function getType(): string
     {
-        return $this->_response_data['RedirectUrl'];
+        return Order::TYPE_SAFERPAY;
     }
 
+    public function performCheckoutProcedure(Order $order): ?Order
+    {
+        $order->status = Order::STATUS_RECEIVED_PAID;
+        return $order;
+    }
 }
