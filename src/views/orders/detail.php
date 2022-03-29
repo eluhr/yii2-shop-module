@@ -31,6 +31,9 @@ $isAllowedToViewShippingDetails = $model->isOwn() || RbacHelper::userIsShopEdito
             <?php if($isAllowedToViewShippingDetails):?>
             <div class="col-xs-12 col-md-4">
                 <?php echo $this->render('_shipping-details', ['order' => $model]); ?>
+                <div class="form-group">
+                    <?php echo Html::a(Yii::t('shop','Order again'),['/' . $this->context->module->id . '/orders/again','orderId' => $model->id], ['class' => 'btn btn-primary'])?>
+                </div>
             </div>
             <?php endif; ?>
         </div>

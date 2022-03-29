@@ -25,7 +25,7 @@ use yii\web\Session;
  */
 class ShoppingCart extends Component
 {
-    public $cartId = __CLASS__ . '::v1';
+    public $cartId = __CLASS__ . '::v2';
 
     const EVENT_POSITION_PUT = 'putPosition';
     const EVENT_POSITION_UPDATE = 'updatePosition';

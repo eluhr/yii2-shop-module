@@ -28,4 +28,7 @@ use yii\helpers\Html;
         <span class="order-item-label"><?php echo Yii::t('shop', 'Gesamtkosten') ?></span>
         <span class="order-item-value"><?php echo Yii::$app->getFormatter()->asCurrency($model->totalAmount) ?></span>
     </div>
+    <div class="form-group">
+        <?php echo Html::a(Yii::t('shop','Order again'),['/' . $this->context->module->id . '/orders/again','orderId' => $model->id], ['class' => 'btn btn-primary'])?>
+    </div>
 </div>
