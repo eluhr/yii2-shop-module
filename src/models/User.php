@@ -39,6 +39,6 @@ class User extends \Da\User\Model\User
             'delivery_postal',
             'delivery_city'
         ];
-        return (new Query())->select($fields)->from(Order::tableName())->groupBy($fields)->all();
+        return (new Query())->select($fields)->from(Order::tableName())->where(['user_id' => $this->id])->groupBy($fields)->all();
     }
 }
