@@ -13,7 +13,7 @@ class OrderQuery extends \yii\db\ActiveQuery
 {
     public function isOwn()
     {
-        return $this->andWhere(['user_id' => Yii::$app->getUser()->getId()]);
+        return $this->andWhere(['NOT', ['user_id' => null]])->andWhere(['user_id' => Yii::$app->getUser()->getId()]);
     }
 
     /**
