@@ -148,7 +148,7 @@ $totalPrice = 0;
                     <td><?= $order->discountCode->label ?></td>
                     <td></td>
                     <td></td>
-                    <td class="currency"><?= '-' . $order->discountCode->prettyPercent() ?></td>
+                    <td class="currency"><?= '-' . $order->discountCode->prettyValue() ?></td>
                 </tr>
                 <?php endif; ?>
                 <tr>

@@ -33,10 +33,8 @@ use zhuravljov\yii\widgets\DatePicker;
         $form = ActiveForm::begin();
 
         echo $form->field($model, 'code');
-        echo $form->field($model, 'percent', [
-            'template' => '{label}<div class="input-group">{input}
-            <span class="input-group-addon">%</span></div>{error}{hint}'
-        ])->input('number', ['max' => 100, 'min' => 0.01, 'step' => 0.01]);
+        echo $form->field($model, 'type')->radioList(DiscountCode::optsTypes());
+        echo $form->field($model, 'value')->input('number', ['max' => 100, 'min' => 0.01, 'step' => 0.01]);
         if (!$model->isNewRecord) {
             $model->expiration_date = date('d.m.Y', strtotime($model->expiration_date));
         }

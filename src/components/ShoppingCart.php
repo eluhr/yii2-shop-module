@@ -281,7 +281,8 @@ class ShoppingCart extends Component
                     'sku' => $sku,
                     'price' => $item->getActualPrice(),
                     'isDiscount' => $position->isDiscount,
-                    'percent' => $item instanceof DiscountCode ? $item->percent : 0
+                    'discountValue' => $item instanceof DiscountCode ? $item->value : 0,
+                    'discountType' => $item instanceof DiscountCode ? $item->type : null
                 ];
             }
         }
@@ -296,14 +297,22 @@ class ShoppingCart extends Component
                 $total += $item['price'] * $item['quantity'];
             }
         }
-        $discountPercent = 0;
+        $discount = [
+            DiscountCode::TYPE_PERCENT => 0,
+            DiscountCode::TYPE_AMOUNT => 0
+        ];
+
         foreach ($this->items() as $item) {
             if ($item['isDiscount'] === true) {
-                $discountPercent += $item['percent'];
+                    $discount[$item['discountType']] += $item['discountValue'];
             }
         }
-        if ($discountPercent > 0) {
-            $total *= 1 - ($discountPercent / 100);
+
+        if ($discount[DiscountCode::TYPE_PERCENT] > 0) {
+            $total *= 1 - ($discount[DiscountCode::TYPE_PERCENT] / 100);
+        }
+        if ($discount[DiscountCode::TYPE_AMOUNT] > 0) {
+            $total -= $discount[DiscountCode::TYPE_AMOUNT];
         }
 
         $total += $this->shippingCost();
