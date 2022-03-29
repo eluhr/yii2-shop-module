@@ -488,6 +488,6 @@ class Order extends BaseOrder
 
     public function isOwn(): bool
     {
-        return $this->user_id === Yii::$app->getUser()->getId();
+        return $this->user_id !== null && $this->user_id === Yii::$app->getUser()->getId();
     }
 }

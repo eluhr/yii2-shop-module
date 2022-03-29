@@ -24,7 +24,13 @@ class OrdersController extends \yii\web\Controller
             'rules' => [
               [
                   'allow' => true,
-                  'roles' => ['@']
+                  'roles' => ['@'],
+                  'actions' => ['all']
+              ],
+              [
+                  'allow' => true,
+                  'roles' => ['@', '?'],
+                  'actions' => ['detail']
               ]
             ]
         ];
