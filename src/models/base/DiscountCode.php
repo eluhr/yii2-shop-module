@@ -10,8 +10,9 @@ use Yii;
  * This is the base-model class for table "sp_discount_code".
  *
  * @property integer $id
+ * @property integer $type
  * @property string $code
- * @property string $percent
+ * @property string $value
  * @property string $expiration_date
  * @property integer $used
  * @property string $created_at
@@ -39,10 +40,10 @@ abstract class DiscountCode extends \eluhr\shop\models\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'percent', 'expiration_date'], 'required'],
-            [['percent'], 'number'],
+            [['code', 'value', 'expiration_date','type'], 'required'],
+            [['value'], 'number'],
             [['expiration_date', 'created_at', 'updated_at'], 'safe'],
-            [['used'], 'integer'],
+            [['used','type'], 'integer'],
             [['code'], 'string', 'max' => 128],
             [['code'], 'unique']
         ];
@@ -55,8 +56,9 @@ abstract class DiscountCode extends \eluhr\shop\models\ActiveRecord
     {
         return [
             'id' => Yii::t('shop', 'ID'),
+            'type' => Yii::t('shop', 'Value type'),
             'code' => Yii::t('shop', 'Code'),
-            'percent' => Yii::t('shop', 'Percent'),
+            'value' => Yii::t('shop', 'Value'),
             'expiration_date' => Yii::t('shop', 'Expiration Date'),
             'used' => Yii::t('shop', 'Used'),
             'created_at' => Yii::t('shop', 'Created At'),

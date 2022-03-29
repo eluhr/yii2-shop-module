@@ -21,13 +21,25 @@ class DiscountCode extends BaseDiscountCode
 
     public const SCENARIO_CUSTOM = 'SCENARIO_CUSTOM';
 
+    const TYPE_PERCENT = 1;
+    const TYPE_AMOUNT = 2;
+
+    public static function optsTypes()
+    {
+        return [
+            self::TYPE_PERCENT => Yii::t('shop','Percent'),
+            self::TYPE_AMOUNT => Yii::t('shop','Fixed value')
+        ];
+    }
+
 
     public function scenarios()
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_CUSTOM] = [
             'code',
-            'percent',
+            'type',
+            'value',
             'expiration_date'
         ];
         return $scenarios;
@@ -40,7 +52,7 @@ class DiscountCode extends BaseDiscountCode
             'code',
             'match',
             'pattern' => '/^[a-z0-9-_!?]+$/i',
-            'message' => Yii::t('shop', 'Als codes sind nur alphanummerische Zeichen und oder folgende Zeichen erlaubt: -, _, !, ?'),
+            'message' => Yii::t('shop', 'Als codes sind nur alphanumerische Zeichen und oder folgende Zeichen erlaubt: -, _, !, ?'),
             'on' => self::SCENARIO_CUSTOM
         ];
         $rules[] = [
@@ -51,11 +63,16 @@ class DiscountCode extends BaseDiscountCode
             'on' => self::SCENARIO_CUSTOM
         ];
         $rules[] = [
-            'percent',
+            'value',
             'number',
             'min' => 0.01,
             'max' => 100,
             'on' => self::SCENARIO_CUSTOM
+        ];
+        $rules[] = [
+          'type',
+          'in',
+          'range'=> array_keys(self::optsTypes())
         ];
         return $rules;
     }
@@ -88,26 +105,31 @@ class DiscountCode extends BaseDiscountCode
         Yii::$app->session->set(self::SESSION_KEY, false);
     }
 
-    public function prettyPercent()
+    public function prettyValue()
     {
-        return Yii::$app->formatter->asPercent($this->percent / 100);
+        if ($this->type === self::TYPE_PERCENT) {
+            return Yii::$app->formatter->asPercent($this->value / 100);
+        }
+        return Yii::$app->formatter->asCurrency($this->value);
     }
 
     public function percentLabelHtml()
     {
-        return Html::tag('span', '-' . $this->prettyPercent(), ['class' => 'percent-discount-label']);
+        return Html::tag('span', '-' . $this->prettyValue(), ['class' => 'percent-discount-label']);
     }
 
     public function getLabel()
     {
-        return Yii::t('shop', 'Discount Code "{code}" ({percent})', ['code' => $this->code,'percent' => '-' . $this->prettyPercent()]);
+        return Yii::t('shop', 'Discount Code "{code}" ({value})', ['code' => $this->code,'value' => '-' . $this->prettyValue()]);
     }
 
     public function getPrice()
     {
-        $total = Yii::$app->shoppingCart->totalOfProducts();
-        $percent = 1 * ($this->percent / 100);
-        return $total * $percent * -1;
+        if ($this->type === self::TYPE_PERCENT) {
+            $total = Yii::$app->shoppingCart->totalOfProducts();
+            return $total * ($this->value / 100) * -1;
+        }
+        return $this->value * -1;
     }
 
     public function getActualPrice()

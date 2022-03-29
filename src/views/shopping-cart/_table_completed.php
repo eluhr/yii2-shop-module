@@ -4,6 +4,7 @@
  * @var Order $order
  */
 
+use eluhr\shop\models\DiscountCode;
 use eluhr\shop\models\Order;
 use eluhr\shop\models\ShopSettings;
 use rmrevin\yii\fontawesome\FA;
@@ -51,11 +52,16 @@ use yii\web\View;
             <td><?= $order->discountCode->label ?></td>
             <td></td>
             <td></td>
-            <td><?= '-' . $order->discountCode->prettyPercent() ?></td>
+            <td><?= '-' . $order->discountCode->prettyValue() ?></td>
         </tr>
         <?php
-        $percent = 1 * ($order->discountCode->percent / 100);
-        $total += $total * $percent * -1;
+        if ($order->discountCode->type === DiscountCode::TYPE_PERCENT) {
+            $percent = 1 * ($order->discountCode->value / 100);
+            $total += $total * $percent * -1;
+        } else if ($order->discountCode->type === DiscountCode::TYPE_AMOUNT) {
+            $total -= $order->discountCode->value;
+        }
+
         ?>
     <?php endif ?>
     <?php if (ShopSettings::shopProductShowShippingCosts() || $order->shipping_price > 0): ?>

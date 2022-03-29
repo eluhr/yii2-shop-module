@@ -11,7 +11,6 @@ use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\ActiveForm;
 
-$discountPercent = 0;
 ?>
 <table class="table">
     <thead>
@@ -30,7 +29,6 @@ $discountPercent = 0;
 } ?>
     <?php foreach (Yii::$app->shoppingCart->positions as $position) {
     if ($position->isDiscount === true) {
-        $discountPercent += $position->item()->percent;
         echo $this->render('_table_row', ['position' => $position]);
     }
 }

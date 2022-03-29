@@ -10,6 +10,7 @@
  */
 
 use eluhr\shop\controllers\ShoppingCartController;
+use eluhr\shop\models\DiscountCode;
 use eluhr\shop\models\ShoppingCartModify;
 use eluhr\shop\models\ShoppingCartProduct;
 use eluhr\shop\widgets\PriceDisplay;
@@ -17,7 +18,11 @@ use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-$notIsInventoryIndependent = !$position->item()->product->is_inventory_independent
+if ($position->item() instanceof DiscountCode) {
+    $notIsInventoryIndependent = false;
+} else {
+    $notIsInventoryIndependent = !$position->item()->product->is_inventory_independent;
+}
 ?>
 <tr>
     <td>
@@ -94,7 +99,7 @@ $notIsInventoryIndependent = !$position->item()->product->is_inventory_independe
     <td>
         <?php
         if ($position->isDiscount) {
-            echo '-' . $position->item()->prettyPercent();
+            echo '-' . $position->item()->prettyValue();
         } else {
             echo Yii::$app->formatter->asCurrency($position->cost, Yii::$app->payment->currency);
         }

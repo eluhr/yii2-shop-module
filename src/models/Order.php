@@ -305,8 +305,13 @@ class Order extends BaseOrder
             $total += $position->single_price * $position->quantity;
         }
         if ($this->discount_code_id !== null) {
-            $percent = 1 * ($this->discountCode->percent / 100);
-            $total += $total * $percent * -1;
+            if ($this->discountCode->type === DiscountCode::TYPE_PERCENT) {
+                $percent = 1 * ($this->discountCode->value / 100);
+                $total += $total * $percent * -1;
+            } else if ($this->discountCode->type === DiscountCode::TYPE_AMOUNT) {
+                $total -= $this->discountCode->value;
+            }
+
         }
         $total += (float)$this->shipping_price;
 
