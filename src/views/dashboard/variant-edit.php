@@ -89,6 +89,8 @@ use yii\widgets\ActiveForm;
         echo $form->field($model, 'is_online')->checkbox([], false);
         echo $form->field($model, 'rank');
         echo $form->field($model, 'hex_color')->widget(ColorInput::class);
+        echo $form->field($model, 'show_affiliate_link')->checkbox([], false);
+        echo $form->field($model, 'affiliate_link_url');
         if (!$model->product->is_inventory_independent) {
             $stockField = $form->field($model, 'stock')->input('number');
             if (!$model->isNewRecord && $model->fewAvailable()) {

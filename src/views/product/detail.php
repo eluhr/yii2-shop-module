@@ -28,7 +28,7 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
 ?>
 <?= Cell::widget(['id' => 'product-top-global']) ?>
 <?= Cell::widget(['id' => 'product-top-' . $product->id]) ?>
-    <div class="item-detail-view <?=$variant->getHasDiscount() ? 'has-discount' : ''?>">
+    <div class="item-detail-view <?=$variant->getHasDiscount() ? 'has-discount' : ''?> <?php echo $variant->getIsAffiliate() ? 'is-affiliate' : '' ?>">
         <div class="item-top">
             <h1 class="product-title"><?= $product->title ?></h1>
             <h2 class="variant-title"><?= $variant->title ?></h2>
@@ -36,7 +36,9 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
                 <p class="variant-stock"><?= Yii::t('shop', 'Stock: {stock}', ['stock' => $variant->stock]) ?></p>
             <?php endif; ?>
             <?php
-
+            if (!$variant->getIsAffiliate()):
+            ?>
+            <?php
             if ($variant->stock > 0 || $product->is_inventory_independent) {
                 $form = ActiveForm::begin([
                     'id' => 'add-to-shopping-cart',
@@ -64,6 +66,12 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
                 }
             }
             ?>
+            <?php else: ?>
+                <div class="affiliate-link-wrapper">
+                    <?php echo Html::a(Yii::t('shop', 'Affiliate Link öffnen'), $variant->affiliate_link_url,
+                        ['class' => 'btn btn-primary', 'target' => '_blank']); ?>
+                </div>
+            <?php endif ?>
         </div>
         <div class="item-content">
             <div class="variant-content-left">
