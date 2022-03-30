@@ -7,6 +7,11 @@ document.querySelectorAll('[data-toggle="variant"]').forEach(function (variantTo
             } else {
                 wrapperEl.classList.remove('has-discount');
             }
+            if (event.target.dataset.isAffiliate === "1") {
+                wrapperEl.classList.add('is-affiliate')
+            } else {
+                wrapperEl.classList.remove('is-affiliate')
+            }
         }
         var thumbnailEl = document.querySelector(event.target.dataset.target + ' .thumbnail-image');
         if (thumbnailEl) {

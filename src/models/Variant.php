@@ -41,6 +41,10 @@ class Variant extends BaseVariant
                 }
             }
         ];
+        $rules[] = [
+            'affiliate_link_url',
+            'url'
+        ];
         return $rules;
     }
 
@@ -173,5 +177,10 @@ class Variant extends BaseVariant
 
         \Yii::error($copy->getErrors());
         return null;
+    }
+
+    public function getIsAffiliate(): bool
+    {
+        return $this->show_affiliate_link === 1 && !empty($this->affiliate_link_url);
     }
 }

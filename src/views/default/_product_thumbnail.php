@@ -16,7 +16,7 @@ $id = 'a-' . Inflector::slug($product->title) . '-' . $product->id;
 
 $this->registerCss("#{$id} .thumbnail-image { background-image: url('{$product->firstVariant->thumbnailImage()}');}");
 ?>
-<div class="thumbnail <?= $product->firstVariant->getHasDiscount() ? 'has-discount' : '' ?>" id="<?= $id ?>">
+<div class="thumbnail <?= $product->firstVariant->getHasDiscount() ? 'has-discount' : '' ?> <?php echo $product->firstVariant->getIsAffiliate() ? 'is-affiliate' : '' ?>" id="<?= $id ?>">
     <div class="thumbnail-image">
         <div class="product-description"><?=$product->description?></div>
         <a href="<?= $product->firstVariant->detailUrl() ?>"><span class="sr-only"><?= Yii::t('shop', 'More') ?></span></a>
@@ -34,7 +34,8 @@ $this->registerCss("#{$id} .thumbnail-image { background-image: url('{$product->
                         'price' => PriceDisplay::widget(['variant' => $variant]),
                         'toggle' => 'variant',
                         'target' => '#' . $id,
-                        'has-discount' => $variant->getHasDiscount() ? '1' : '0'
+                        'has-discount' => $variant->getHasDiscount() ? '1' : '0',
+                        'is-affiliate' => $variant->getIsAffiliate() ? '1' : '0'
                     ]
                 ]);
             },
