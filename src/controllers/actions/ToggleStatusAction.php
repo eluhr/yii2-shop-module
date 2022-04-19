@@ -31,6 +31,6 @@ class ToggleStatusAction extends Action
             throw new HttpException(500);
         }
 
-        return $this->controller->redirect(['/shop/dashboard/configurator']);
+        return $this->controller->redirect(['/shop/dashboard/products-configurator']);
     }
 }
