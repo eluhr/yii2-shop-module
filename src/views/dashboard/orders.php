@@ -196,7 +196,8 @@ echo GridView::widget([
             'filter' => Order::optsType(),
             'value' => function ($model) {
                 return Order::optsType()[$model->type];
-            }
+            },
+            'visible' => $activeStatus !== Order::ALL
         ],
         [
             'attribute' => 'name',
