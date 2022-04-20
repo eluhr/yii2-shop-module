@@ -9,7 +9,7 @@
 
 namespace eluhr\shop\components\validators;
 
-use yii\helpers\StringHelper;
+use eluhr\shop\models\ShoppingCartModify;
 use yii\validators\NumberValidator;
 
 class StockValidator extends NumberValidator
@@ -25,7 +25,9 @@ class StockValidator extends NumberValidator
      */
     public function validateAttribute($model, $attribute)
     {
-        $this->max = $model->item->stock;
+        /** @var \eluhr\shop\models\Variant $variant */
+        $variant = $model->item;
+        $this->max = $variant->product->is_inventory_independent ? ShoppingCartModify::MAX_QUANTITY : $variant->stock;
         parent::validateAttribute($model, $attribute);
     }
 }

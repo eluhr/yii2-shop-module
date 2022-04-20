@@ -18,8 +18,11 @@ class OrderItem extends BaseOrderItem
         if ($this->save()) {
             $variant = Variant::findOne($this->variant_id);
             if ($variant) {
-                $variant->stock -= $this->quantity;
-                return $variant->save();
+                if (!$variant->product->is_inventory_independent) {
+                    $variant->stock -= $this->quantity;
+                    return $variant->save();
+                }
+                return true;
             }
         }
         Yii::error($this->getErrors());

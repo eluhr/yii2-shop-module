@@ -43,7 +43,7 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
                 ]);
 
                 echo $form->field($shoppingCartModel, 'variantId')->hiddenInput(['value' => $variant->id])->label(false)->hint(false);
-                echo $form->field($shoppingCartModel, 'quantity')->input('number', ['max' => $variant->stock, 'min' => 0]);
+                echo $form->field($shoppingCartModel, 'quantity')->input('number', ['max' => $product->is_inventory_independent ? ShoppingCartModify::MAX_QUANTITY : $variant->stock, 'min' => 0]);
 
                 $extraInfos = $variant->getExtraInfoList();
                 if (!empty($extraInfos)) {
