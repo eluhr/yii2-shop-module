@@ -1,27 +1,27 @@
-document.querySelectorAll('[data-toggle="variant"]').forEach(function (variantToggle) {
-    variantToggle.addEventListener("mouseover", function (event) {
-        var wrapperEl = document.querySelector(event.target.dataset.target);
-        if (wrapperEl) {
-            if (event.target.dataset.hasDiscount === '1') {
-                wrapperEl.classList.add('has-discount');
-            } else {
-                wrapperEl.classList.remove('has-discount');
-            }
-            if (event.target.dataset.isAffiliate === "1") {
-                wrapperEl.classList.add('is-affiliate')
-            } else {
-                wrapperEl.classList.remove('is-affiliate')
-            }
+$('[data-toggle="variant"]').on("mouseover", function () {
+    var targetEl = $(this);
+    var targetSelector = targetEl.data('target');
+    var wrapperEl = $(targetSelector);
+    if (wrapperEl) {
+        if (targetEl.data('has-discount') === 1) {
+            wrapperEl.addClass('has-discount');
+        } else {
+            wrapperEl.removeClass('has-discount');
         }
-        var thumbnailEl = document.querySelector(event.target.dataset.target + ' .thumbnail-image');
-        if (thumbnailEl) {
-            thumbnailEl.style.backgroundImage = "url('" + event.target.dataset.image + "')";
+        if (targetEl.data('is-affiliate') === 1) {
+            wrapperEl.addClass('is-affiliate')
+        } else {
+            wrapperEl.removeClass('is-affiliate')
         }
-        var priceEl = document.querySelector(event.target.dataset.target + ' .variant-price');
-        if (priceEl) {
-            priceEl.outerHTML = event.target.dataset.price;
-        }
-    });
+    }
+    var thumbnailEl = $(targetSelector + ' .thumbnail-image');
+    if (thumbnailEl) {
+        thumbnailEl.css('background-image', "url('" + targetEl.data('image') + "')");
+    }
+    var priceEl = $(targetSelector + ' .variant-price');
+    if (priceEl) {
+        priceEl[0].outerHTML = targetEl.data('price');
+    }
 });
 
 $('input[type="text"][name="q"]').on('blur', function() {
@@ -35,7 +35,7 @@ $('.filter > label').on('click', function() {
     $(this).parent('.filter').toggleClass('show');
 });
 
-$('#checkout-form').on("beforeSubmit", function (event) {
+$('#checkout-form').on("beforeSubmit", function () {
     $('#submit-checkout').button('loading')
 });
 
