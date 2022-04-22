@@ -25,6 +25,7 @@ class ShopSettings extends Model
     public const SHOP_PRODUCT_SHOW_SHIPPING_COSTS = 'shopProductShowShippingCosts';
     public const SHOP_PRODUCT_MIN_DAYS_SHIPPING_DURATION = 'shopProductMinDaysShippingDuration';
     public const SHOP_PRODUCT_MAX_DAYS_SHIPPING_DURATION = 'shopProductMaxDaysShippingDuration';
+    public const SHOP_PRODUCT_ENABLE_SHIPPING_DURATION = 'shopProductEnableShippingDuration';
     public const SHOP_MAIL_INFO_SUBJECT = 'shopMailInfoSubject';
     public const SHOP_MAIL_CONFIRM_SUBJECT = 'shopMailConfirmSubject';
     public const SHOP_MAIL_CONFIRM_BCC = 'shopMailConfirmBcc';
@@ -66,6 +67,7 @@ class ShopSettings extends Model
     public $shopGeneralAllowCustomerDetails;
     public $shopProductShowVat;
     public $shopCheckoutPaymentProviders;
+    public $shopProductEnableShippingDuration;
 
 
     protected static $settings = [
@@ -94,6 +96,10 @@ class ShopSettings extends Model
             'default' => true
         ],
         self::SHOP_GENERAL_ENABLE_DISCOUNT_CODES => [
+            'type' => 'bool',
+            'default' => true
+        ],
+        self::SHOP_PRODUCT_ENABLE_SHIPPING_DURATION => [
             'type' => 'bool',
             'default' => true
         ],
@@ -182,6 +188,7 @@ class ShopSettings extends Model
             [
                 self::SHOP_GENERAL_SHOW_FILTERS,
                 self::SHOP_GENERAL_SHOW_SEARCH,
+                self::SHOP_PRODUCT_ENABLE_SHIPPING_DURATION,
                 self::SHOP_GENERAL_INVOICE_DOWNLOAD,
                 self::SHOP_GENERAL_SHIPPING_LINK,
                 self::SHOP_GENERAL_SHORT_ORDER_ID,
@@ -415,6 +422,11 @@ class ShopSettings extends Model
         return static::getValueByConst(self::SHOP_CHECKOUT_PAYMENT_PROVIDERS);
     }
 
+    public static function shopProductEnableShippingDuration(): bool
+    {
+        return static::getValueByConst(self::SHOP_PRODUCT_ENABLE_SHIPPING_DURATION);
+    }
+
     public function attributeLabels()
     {
         $attributeLabels = parent::attributeLabels();
@@ -444,6 +456,7 @@ class ShopSettings extends Model
         $attributeLabels[self::SHOP_PRODUCT_SHOW_VAT] = \Yii::t('shop', 'Show VAT in product variants');
         $attributeLabels[self::SHOP_PRODUCT_DEFAULT_VAT] = \Yii::t('shop', 'Default Variant VAT for new products');
         $attributeLabels[self::SHOP_CHECKOUT_PAYMENT_PROVIDERS] = \Yii::t('shop', 'Active Payment providers');
+        $attributeLabels[self::SHOP_PRODUCT_ENABLE_SHIPPING_DURATION] = \Yii::t('shop', 'Show shipping duration');
         return $attributeLabels;
     }
 

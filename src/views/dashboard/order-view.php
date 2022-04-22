@@ -57,11 +57,6 @@ use yii\widgets\ActiveForm;
     <div class="col-xs-12 col-md-8">
         <?= $this->render('../shopping-cart/_table_completed', ['order' => $order]) ?>
         <p><?= Yii::t('shop', 'Bezahlung via {type}', ['type' => $order::optsType()[$order->type] ?? '-']) ?></p>
-        <?php
-        if ($order->type === Order::TYPE_PAYPAL && $order->is_executed !== 1) {
-            echo Html::a(Yii::t('shop', 'Confirm payment'), ['confirm-order', 'orderId' => $order->id], ['class' => 'btn btn-info']);
-        }
-        ?>
     </div>
     <div class="col-xs-12 col-md-4">
         <?php

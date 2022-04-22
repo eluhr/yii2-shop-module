@@ -166,6 +166,14 @@ $allowedProviders = ShopSettings::allowedPaymentProviders();
                 ], false);
                 ?>
                 <div class="row">
+                    <div class="col-xs-12"><?php echo $form->field($setting, ShopSettings::SHOP_PRODUCT_ENABLE_SHIPPING_DURATION,
+                            ['template' => '{input} {label} {error}'])->checkbox([
+                            'data-input' => 'checkbox',
+                            'data-group' => 'product',
+                            'data-confirm-text' => Yii::t('shop',
+                                'Are you sure you want to change this setting?'),
+                            'class' => 'switch-input'
+                        ], false); ?></div>
                     <div class="col-xs-12 col-md-2"><?php echo $form->field($setting,
                             ShopSettings::SHOP_PRODUCT_MIN_DAYS_SHIPPING_DURATION)->input('number', [
                             'data-input' => 'textfield',

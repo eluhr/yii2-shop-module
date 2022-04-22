@@ -53,11 +53,13 @@ use yii\widgets\ActiveForm;
             <div class="discount" data-content="discount"></div>
         </th>
     </tr>
+    <?php if (ShopSettings::shopProductEnableShippingDuration()): ?>
     <tr>
         <th colspan="4">
             <?= Yii::t('shop', 'Delivery Time', [], 'de') ?>
             <p><?= Yii::$app->shoppingCart->deliveryTimeText() ?></p>
         </th>
     </tr>
+    <?php endif ?>
     </tfoot>
 </table>
