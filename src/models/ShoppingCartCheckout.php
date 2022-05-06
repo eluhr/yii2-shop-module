@@ -76,6 +76,7 @@ class ShoppingCartCheckout extends Model
                 'house_number',
                 'postal',
                 'city',
+                'type',
             ],
             'required'
         ];
@@ -115,8 +116,7 @@ class ShoppingCartCheckout extends Model
             'email',
             'email'
         ];
-        $rules[] = ['type', 'in', 'range' => array_keys(Order::optsType())
-        ];
+        $rules[] = ['type', 'in', 'range' => array_keys(Order::optsType())];
         $rules[] = [
             'customer_details',
             'string',
