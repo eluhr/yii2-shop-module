@@ -24,6 +24,7 @@ class ShopSettings extends Model
     public const SHOP_PRODUCT_SHOW_SHIPPING_COSTS = 'shopProductShowShippingCosts';
     public const SHOP_PRODUCT_MIN_DAYS_SHIPPING_DURATION = 'shopProductMinDaysShippingDuration';
     public const SHOP_PRODUCT_MAX_DAYS_SHIPPING_DURATION = 'shopProductMaxDaysShippingDuration';
+    public const SHOP_PRODUCT_ALLOW_CONFIGURABLE_VARIANT = 'shopProductAllowConfigurableVariant';
     public const SHOP_MAIL_INFO_SUBJECT = 'shopMailInfoSubject';
     public const SHOP_MAIL_CONFIRM_SUBJECT = 'shopMailConfirmSubject';
     public const SHOP_MAIL_CONFIRM_BCC = 'shopMailConfirmBcc';
@@ -49,6 +50,7 @@ class ShopSettings extends Model
     public $shopMailInfoReplyTo;
     public $shopProductFewAvailableWarning;
     public $shopProductShowShippingCosts;
+    public $shopProductAllowConfigurableVariant;
     public $shopMailInfoSubject;
     public $shopMailConfirmSubject;
     public $shopMailConfirmBcc;
@@ -95,6 +97,10 @@ class ShopSettings extends Model
             'default' => true
         ],
         self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS => [
+            'type' => 'bool',
+            'default' => false
+        ],
+        self::SHOP_PRODUCT_ALLOW_CONFIGURABLE_VARIANT => [
             'type' => 'bool',
             'default' => false
         ],
@@ -186,7 +192,8 @@ class ShopSettings extends Model
                 self::SHOP_PRODUCT_SHOW_VAT,
                 self::SHOP_MAIL_SHOW_BANK_DETAILS,
                 self::SHOP_MAIL_LOGO,
-                self::SHOP_INVOICE_LOGO
+                self::SHOP_INVOICE_LOGO,
+                self::SHOP_PRODUCT_ALLOW_CONFIGURABLE_VARIANT,
             ],
             'safe'
         ];
@@ -397,6 +404,11 @@ class ShopSettings extends Model
         return static::getValueByConst(self::SHOP_MAIL_SHOW_BANK_DETAILS);
     }
 
+    public static function shopProductAllowConfigurableVariant(): bool
+    {
+        return static::getValueByConst(self::SHOP_PRODUCT_ALLOW_CONFIGURABLE_VARIANT);
+    }
+
     public function attributeLabels()
     {
         $attributeLabels = parent::attributeLabels();
@@ -425,6 +437,7 @@ class ShopSettings extends Model
         $attributeLabels[self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS] = \Yii::t('shop', 'Show customer details text box in checkout');
         $attributeLabels[self::SHOP_PRODUCT_SHOW_VAT] = \Yii::t('shop', 'Show VAT in product variants');
         $attributeLabels[self::SHOP_PRODUCT_DEFAULT_VAT] = \Yii::t('shop', 'Default Variant VAT for new products');
+        $attributeLabels[self::SHOP_PRODUCT_ALLOW_CONFIGURABLE_VARIANT] = \Yii::t('shop', 'Allow variant configuration');
         return $attributeLabels;
     }
 

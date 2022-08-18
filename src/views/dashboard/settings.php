@@ -105,6 +105,7 @@ JS
                         ]); ?></div>
                 </div>
                 <?php
+                echo $form->field($setting, ShopSettings::SHOP_PRODUCT_ALLOW_CONFIGURABLE_VARIANT, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?'), 'class' => 'switch-input'], false);
                 ActiveForm::end();
                 ?>
             </div>

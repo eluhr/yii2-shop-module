@@ -26,6 +26,7 @@ use Yii;
  * @property integer $min_days_shipping_duration
  * @property integer $max_days_shipping_duration
  * @property integer $include_vat
+ * @property integer $configurator_url
  * @property string $created_at
  * @property string $updated_at
  *
@@ -58,7 +59,7 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
             [['price','discount_price','vat'], 'number'],
             [['description', 'extra_info'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
-            [['title'], 'string', 'max' => 80],
+            [['title','configurator_url'], 'string', 'max' => 80],
             [['thumbnail_image', 'sku'], 'string', 'max' => 128],
             [['hex_color'], 'string', 'max' => 9],
             [['include_vat'], 'boolean'],
@@ -89,6 +90,7 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
             'min_days_shipping_duration' => Yii::t('shop', 'Min Days Shipping Duration'),
             'max_days_shipping_duration' => Yii::t('shop', 'Max Days Shipping Duration'),
             'include_vat' => Yii::t('shop', 'VAT Included'),
+            'configurator_url' => Yii::t('shop', 'Configurator URL'),
             'created_at' => Yii::t('shop', 'Created At'),
             'updated_at' => Yii::t('shop', 'Updated At'),
         ];

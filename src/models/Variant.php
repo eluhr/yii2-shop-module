@@ -174,4 +174,9 @@ class Variant extends BaseVariant
         \Yii::error($copy->getErrors());
         return null;
     }
+
+    public function getIsConfigurable(): bool
+    {
+        return !empty($this->configurator_url) && ShopSettings::shopProductAllowConfigurableVariant();
+    }
 }
