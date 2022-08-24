@@ -10,7 +10,7 @@ use yii\grid\GridView;
     * @var eluhr\shop\models\search\TagXFilter $searchModel
 */
 
-$this->title = Yii::t('shop', 'Tag X Filters');
+$this->title = Yii::t('shop', 'Tag X Filter');
 $this->params['breadcrumbs'][] = $this->title;
 
 if (isset($actionColumnTemplates)) {
@@ -32,9 +32,9 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('shop', 'Tag X Filters') ?>
+        <?= Yii::t('shop.plural', 'Tag X Filter') ?>
         <small>
-            List
+            <?= Yii::t('shop', 'List') ?>
         </small>
     </h1>
     <div class="clearfix crud-navigation">
@@ -101,7 +101,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         'aria-label' => Yii::t('shop', 'View'),
                         'data-pjax' => '0',
                     ];
-                    return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
+                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, $options);
                 }
             ],
             'urlCreator' => function($action, $model, $key, $index) {
@@ -142,7 +142,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 			'rank',
 			'created_at',
 			'updated_at',
-        ],
+                ]
         ]); ?>
     </div>
 

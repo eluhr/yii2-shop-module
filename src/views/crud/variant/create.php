@@ -14,9 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="giiant-crud variant-create">
 
     <h1>
-        <?= Yii::t('shop', 'Variant') ?>
+                <?= Html::encode($model->label) ?>
         <small>
-                        <?= Html::encode($model->label) ?>
+            <?= Yii::t('shop', 'Variant') ?>
         </small>
     </h1>
 

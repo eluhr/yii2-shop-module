@@ -14,9 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="giiant-crud setting-create">
 
     <h1>
-        <?= Yii::t('shop', 'Setting') ?>
+                <?= Html::encode($model->key) ?>
         <small>
-                        <?= Html::encode($model->key) ?>
+            <?= Yii::t('shop', 'Setting') ?>
         </small>
     </h1>
 

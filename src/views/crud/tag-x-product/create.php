@@ -14,9 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="giiant-crud tag-x-product-create">
 
     <h1>
-        <?= Yii::t('shop', 'Tag X Product') ?>
+                <?= Html::encode($model->tag_id) ?>
         <small>
-                        <?= Html::encode($model->tag_id) ?>
+            <?= Yii::t('shop', 'Tag X Product') ?>
         </small>
     </h1>
 

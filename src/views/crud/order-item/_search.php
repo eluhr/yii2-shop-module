@@ -21,11 +21,19 @@ use yii\widgets\ActiveForm;
 
 		<?= $form->field($model, 'variant_id') ?>
 
+		<?= $form->field($model, 'configuration_id') ?>
+
 		<?= $form->field($model, 'name') ?>
 
 		<?= $form->field($model, 'quantity') ?>
 
-		<?= $form->field($model, 'single_price') ?>
+		<?php // echo $form->field($model, 'extra_info') ?>
+
+		<?php // echo $form->field($model, 'single_price') ?>
+
+		<?php // echo $form->field($model, 'single_net_price') ?>
+
+		<?php // echo $form->field($model, 'vat') ?>
 
 		<?php // echo $form->field($model, 'created_at') ?>
 

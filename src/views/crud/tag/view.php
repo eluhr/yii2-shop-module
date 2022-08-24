@@ -14,7 +14,7 @@ use dmstr\bootstrap\Tabs;
 $copyParams = $model->attributes;
 
 $this->title = Yii::t('shop', 'Tag');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('shop', 'Tags'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('shop.plural', 'Tag'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 ?>
@@ -30,9 +30,9 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('shop', 'Tag') ?>
+        <?= Html::encode($model->name) ?>
         <small>
-            <?= Html::encode($model->name) ?>
+            <?= Yii::t('shop', 'Tag') ?>
         </small>
     </h1>
 
@@ -41,20 +41,26 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 
         <!-- menu buttons -->
         <div class='pull-left'>
-            <?= Html::a(
+            <?php 
+ echo Html::a(
             '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('shop', 'Edit'),
             [ 'update', 'id' => $model->id],
-            ['class' => 'btn btn-info']) ?>
+            ['class' => 'btn btn-info'])
+          ?>
 
-            <?= Html::a(
+            <?php 
+ echo Html::a(
             '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('shop', 'Copy'),
             ['create', 'id' => $model->id, 'Tag'=>$copyParams],
-            ['class' => 'btn btn-success']) ?>
+            ['class' => 'btn btn-success'])
+          ?>
 
-            <?= Html::a(
+            <?php 
+ echo Html::a(
             '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New'),
             ['create'],
-            ['class' => 'btn btn-success']) ?>
+            ['class' => 'btn btn-success'])
+          ?>
         </div>
 
         <div class="pull-right">
@@ -69,24 +75,28 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
     <?php $this->beginBlock('eluhr\shop\models\Tag'); ?>
 
     
-    <?= DetailView::widget([
+    <?php 
+ echo DetailView::widget([
     'model' => $model,
     'attributes' => [
             'name',
         'created_at',
         'updated_at',
     ],
-    ]); ?>
+    ]);
+  ?>
 
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('shop', 'Delete'), ['delete', 'id' => $model->id],
+    <?php 
+ echo Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('shop', 'Delete'), ['delete', 'id' => $model->id],
     [
     'class' => 'btn btn-danger',
     'data-confirm' => '' . Yii::t('shop', 'Are you sure to delete this item?') . '',
     'data-method' => 'post',
-    ]); ?>
+    ]);
+  ?>
     <?php $this->endBlock(); ?>
 
 
@@ -94,14 +104,15 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 <?php $this->beginBlock('Facets'); ?>
 <div style='position: relative'>
 <div style='position:absolute; right: 0px; top: 0px;'>
-  <?= Html::a(
+  <?php
+        echo Html::a(
             '<span class="glyphicon glyphicon-list"></span> ' . Yii::t('shop', 'List All') . ' Facets',
             ['/shop/crud/filter/index'],
             ['class'=>'btn text-muted btn-xs']
         ) ?>
   <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New') . ' Facet',
-            ['/shop/crud/filter/create', 'Filter' => ['id' => $model->id]],
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New') . ' Facets',
+             ['/shop/crud/filter/create'],
             ['class'=>'btn btn-success btn-xs']
         ); ?>
   <?= Html::a(
@@ -114,7 +125,7 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 <?=
  '<div class="table-responsive">'
  . \yii\grid\GridView::widget([
-    'layout' => '{summary}{pager}<br/>{items}{pager}',
+    'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
     'dataProvider' => new \yii\data\ActiveDataProvider([
         'query' => $model->getTagXFilters(),
         'pagination' => [
@@ -192,14 +203,15 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 <?php $this->beginBlock('Products'); ?>
 <div style='position: relative'>
 <div style='position:absolute; right: 0px; top: 0px;'>
-  <?= Html::a(
+  <?php
+        echo Html::a(
             '<span class="glyphicon glyphicon-list"></span> ' . Yii::t('shop', 'List All') . ' Products',
             ['/shop/crud/product/index'],
             ['class'=>'btn text-muted btn-xs']
         ) ?>
   <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New') . ' Product',
-            ['/shop/crud/product/create', 'Product' => ['id' => $model->id]],
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New') . ' Products',
+             ['/shop/crud/product/create'],
             ['class'=>'btn btn-success btn-xs']
         ); ?>
   <?= Html::a(
@@ -212,7 +224,7 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 <?=
  '<div class="table-responsive">'
  . \yii\grid\GridView::widget([
-    'layout' => '{summary}{pager}<br/>{items}{pager}',
+    'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
     'dataProvider' => new \yii\data\ActiveDataProvider([
         'query' => $model->getTagXProducts(),
         'pagination' => [
@@ -285,7 +297,8 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 <?php $this->endBlock() ?>
 
 
-    <?= Tabs::widget(
+    <?php 
+        echo Tabs::widget(
                  [
                      'id' => 'relation-tabs',
                      'encodeLabels' => false,

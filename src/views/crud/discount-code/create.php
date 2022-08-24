@@ -14,9 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="giiant-crud discount-code-create">
 
     <h1>
-        <?= Yii::t('shop', 'Discount Code') ?>
+                <?= Html::encode($model->label) ?>
         <small>
-                        <?= Html::encode($model->label) ?>
+            <?= Yii::t('shop', 'Discount Code') ?>
         </small>
     </h1>
 

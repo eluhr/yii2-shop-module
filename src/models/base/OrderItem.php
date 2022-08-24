@@ -11,13 +11,17 @@ use Yii;
  *
  * @property string $order_id
  * @property integer $variant_id
+ * @property string $configuration_id
  * @property string $name
  * @property integer $quantity
- * @property string $single_price
  * @property string $extra_info
+ * @property string $single_price
+ * @property string $single_net_price
+ * @property string $vat
  * @property string $created_at
  * @property string $updated_at
  *
+ * @property \eluhr\shop\models\Configuration $configuration
  * @property \eluhr\shop\models\Order $order
  * @property \eluhr\shop\models\Variant $variant
  * @property string $aliasModel
@@ -41,13 +45,14 @@ abstract class OrderItem extends \eluhr\shop\models\ActiveRecord
     public function rules()
     {
         return [
-            [['order_id', 'variant_id', 'name', 'quantity', 'single_price'], 'required'],
+            [['order_id', 'variant_id', 'name', 'quantity', 'extra_info', 'single_price'], 'required'],
             [['variant_id', 'quantity'], 'integer'],
-            [['single_price','single_net_price','vat'], 'number'],
-            [['extra_info', 'created_at', 'updated_at'], 'safe'],
-            [['order_id'], 'string', 'max' => 36],
-            [['name'], 'string', 'max' => 128],
+            [['single_price', 'single_net_price', 'vat'], 'number'],
+            [['created_at', 'updated_at'], 'safe'],
+            [['order_id', 'configuration_id'], 'string', 'max' => 36],
+            [['name', 'extra_info'], 'string', 'max' => 128],
             [['order_id', 'variant_id', 'extra_info'], 'unique', 'targetAttribute' => ['order_id', 'variant_id', 'extra_info']],
+            [['configuration_id'], 'exist', 'skipOnError' => true, 'targetClass' => \eluhr\shop\models\Configuration::className(), 'targetAttribute' => ['configuration_id' => 'id']],
             [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => \eluhr\shop\models\Order::className(), 'targetAttribute' => ['order_id' => 'id']],
             [['variant_id'], 'exist', 'skipOnError' => true, 'targetClass' => \eluhr\shop\models\Variant::className(), 'targetAttribute' => ['variant_id' => 'id']]
         ];
@@ -61,15 +66,24 @@ abstract class OrderItem extends \eluhr\shop\models\ActiveRecord
         return [
             'order_id' => Yii::t('shop', 'Order ID'),
             'variant_id' => Yii::t('shop', 'Variant ID'),
+            'configuration_id' => Yii::t('shop', 'Configuration ID'),
             'name' => Yii::t('shop', 'Name'),
             'quantity' => Yii::t('shop', 'Quantity'),
+            'extra_info' => Yii::t('shop', 'Extra Info'),
             'single_price' => Yii::t('shop', 'Single Price'),
             'single_net_price' => Yii::t('shop', 'Single Net Price'),
-            'vat' => Yii::t('shop', 'Order Item VaT'),
-            'extra_info' => Yii::t('shop', 'Zusätzliche Informationen'),
+            'vat' => Yii::t('shop', 'Vat'),
             'created_at' => Yii::t('shop', 'Created At'),
             'updated_at' => Yii::t('shop', 'Updated At'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getConfiguration()
+    {
+        return $this->hasOne(\eluhr\shop\models\Configuration::className(), ['id' => 'configuration_id']);
     }
 
     /**

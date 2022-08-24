@@ -50,17 +50,18 @@ return $this->render('index', [
 * Displays a single OrderItem model.
 * @param string $order_id
 	 * @param integer $variant_id
+	 * @param string $extra_info
 *
 * @return mixed
 */
-public function actionView($order_id, $variant_id)
+public function actionView($order_id, $variant_id, $extra_info)
 {
 \Yii::$app->session['__crudReturnUrl'] = Url::previous();
 Url::remember();
 Tabs::rememberActiveState();
 
 return $this->render('view', [
-'model' => $this->findModel($order_id, $variant_id),
+'model' => $this->findModel($order_id, $variant_id, $extra_info),
 ]);
 }
 
@@ -75,7 +76,7 @@ $model = new OrderItem;
 
 try {
 if ($model->load($_POST) && $model->save()) {
-return $this->redirect(['view', 'order_id' => $model->order_id, 'variant_id' => $model->variant_id]);
+return $this->redirect(['view', 'order_id' => $model->order_id, 'variant_id' => $model->variant_id, 'extra_info' => $model->extra_info]);
 } elseif (!\Yii::$app->request->isPost) {
 $model->load($_GET);
 }
@@ -91,11 +92,12 @@ return $this->render('create', ['model' => $model]);
 * If update is successful, the browser will be redirected to the 'view' page.
 * @param string $order_id
 	 * @param integer $variant_id
+	 * @param string $extra_info
 * @return mixed
 */
-public function actionUpdate($order_id, $variant_id)
+public function actionUpdate($order_id, $variant_id, $extra_info)
 {
-$model = $this->findModel($order_id, $variant_id);
+$model = $this->findModel($order_id, $variant_id, $extra_info);
 
 if ($model->load($_POST) && $model->save()) {
 return $this->redirect(Url::previous());
@@ -111,12 +113,13 @@ return $this->render('update', [
 * If deletion is successful, the browser will be redirected to the 'index' page.
 * @param string $order_id
 	 * @param integer $variant_id
+	 * @param string $extra_info
 * @return mixed
 */
-public function actionDelete($order_id, $variant_id)
+public function actionDelete($order_id, $variant_id, $extra_info)
 {
 try {
-$this->findModel($order_id, $variant_id)->delete();
+$this->findModel($order_id, $variant_id, $extra_info)->delete();
 } catch (\Exception $e) {
 $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
 \Yii::$app->getSession()->addFlash('error', $msg);
@@ -124,7 +127,7 @@ return $this->redirect(Url::previous());
 }
 
 // TODO: improve detection
-$isPivot = strstr('$order_id, $variant_id',',');
+$isPivot = strstr('$order_id, $variant_id, $extra_info',',');
 if ($isPivot == true) {
 return $this->redirect(Url::previous());
 } elseif (isset(\Yii::$app->session['__crudReturnUrl']) && \Yii::$app->session['__crudReturnUrl'] != '/') {
@@ -143,12 +146,13 @@ return $this->redirect(['index']);
 * If the model is not found, a 404 HTTP exception will be thrown.
 * @param string $order_id
 	 * @param integer $variant_id
+	 * @param string $extra_info
 * @return OrderItem the loaded model
 * @throws HttpException if the model cannot be found
 */
-protected function findModel($order_id, $variant_id)
+protected function findModel($order_id, $variant_id, $extra_info)
 {
-if (($model = OrderItem::findOne(['order_id' => $order_id, 'variant_id' => $variant_id])) !== null) {
+if (($model = OrderItem::findOne(['order_id' => $order_id, 'variant_id' => $variant_id, 'extra_info' => $extra_info])) !== null) {
 return $model;
 } else {
 throw new HttpException(404, 'The requested page does not exist.');

@@ -17,8 +17,8 @@ use Yii;
  * @property integer $staggering_shipping_cost
  * @property string $description
  * @property integer $popularity
- * @property bool $is_inventory_independent
- * @property bool $hide_in_overview
+ * @property integer $is_inventory_independent
+ * @property integer $hide_in_overview
  * @property string $created_at
  * @property string $updated_at
  *
@@ -46,8 +46,8 @@ abstract class Product extends \eluhr\shop\models\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'rank','is_inventory_independent','hide_in_overview'], 'required'],
-            [['is_online', 'rank', 'staggering_shipping_cost', 'popularity'], 'integer'],
+            [['title', 'rank'], 'required'],
+            [['is_online', 'rank', 'staggering_shipping_cost', 'popularity', 'is_inventory_independent', 'hide_in_overview'], 'integer'],
             [['shipping_price'], 'number'],
             [['description'], 'string'],
             [['created_at', 'updated_at'], 'safe'],

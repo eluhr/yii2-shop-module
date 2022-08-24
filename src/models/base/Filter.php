@@ -31,7 +31,6 @@ abstract class Filter extends \eluhr\shop\models\ActiveRecord
     */
     const PRESENTATION_DROPDOWN = 'dropdown';
     const PRESENTATION_RADIOS = 'radios';
-    var $enum_labels = false;
     /**
      * @inheritdoc
      */
@@ -124,8 +123,8 @@ abstract class Filter extends \eluhr\shop\models\ActiveRecord
     public static function optsPresentation()
     {
         return [
-            self::PRESENTATION_DROPDOWN => Yii::t('shop', self::PRESENTATION_DROPDOWN),
-            self::PRESENTATION_RADIOS => Yii::t('shop', self::PRESENTATION_RADIOS),
+            self::PRESENTATION_DROPDOWN => Yii::t('shop', 'Dropdown'),
+            self::PRESENTATION_RADIOS => Yii::t('shop', 'Radios'),
         ];
     }
 

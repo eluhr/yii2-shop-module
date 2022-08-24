@@ -10,7 +10,7 @@ use yii\grid\GridView;
     * @var eluhr\shop\models\search\Tag $searchModel
 */
 
-$this->title = Yii::t('shop', 'Tags');
+$this->title = Yii::t('shop', 'Tag');
 $this->params['breadcrumbs'][] = $this->title;
 
 if (isset($actionColumnTemplates)) {
@@ -32,9 +32,9 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('shop', 'Tags') ?>
+        <?= Yii::t('shop.plural', 'Tag') ?>
         <small>
-            List
+            <?= Yii::t('shop', 'List') ?>
         </small>
     </h1>
     <div class="clearfix crud-navigation">
@@ -58,20 +58,20 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             'encodeLabels' => false,
             'items' => [
             [
-                'url' => ['/shop/crud/tag-x-filter/index'],
-                'label' => '<i class="glyphicon glyphicon-random text-muted"></i> ' . Yii::t('shop', 'Tag X Filter'),
-            ],
-                                [
                 'url' => ['/shop/crud/filter/index'],
                 'label' => '<i class="glyphicon glyphicon-arrow-right"></i> ' . Yii::t('shop', 'Filter'),
             ],
                                 [
-                'url' => ['/shop/crud/tag-x-product/index'],
-                'label' => '<i class="glyphicon glyphicon-random text-muted"></i> ' . Yii::t('shop', 'Tag X Product'),
-            ],
-                                [
                 'url' => ['/shop/crud/product/index'],
                 'label' => '<i class="glyphicon glyphicon-arrow-right"></i> ' . Yii::t('shop', 'Product'),
+            ],
+                                [
+                'url' => ['/shop/crud/tag-x-filter/index'],
+                'label' => '<i class="glyphicon glyphicon-random text-muted"></i> ' . Yii::t('shop', 'Tag X Filter'),
+            ],
+                                [
+                'url' => ['/shop/crud/tag-x-product/index'],
+                'label' => '<i class="glyphicon glyphicon-random text-muted"></i> ' . Yii::t('shop', 'Tag X Product'),
             ],
                     
 ]
@@ -109,7 +109,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         'aria-label' => Yii::t('shop', 'View'),
                         'data-pjax' => '0',
                     ];
-                    return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
+                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, $options);
                 }
             ],
             'urlCreator' => function($action, $model, $key, $index) {
@@ -123,7 +123,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 			'name',
 			'created_at',
 			'updated_at',
-        ],
+                ]
         ]); ?>
     </div>
 

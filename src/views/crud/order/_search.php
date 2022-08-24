@@ -31,6 +31,8 @@ use yii\widgets\ActiveForm;
 
 		<?php // echo $form->field($model, 'internal_notes') ?>
 
+		<?php // echo $form->field($model, 'customer_details') ?>
+
 		<?php // echo $form->field($model, 'discount_code_id') ?>
 
 		<?php // echo $form->field($model, 'info_mail_has_been_sent') ?>

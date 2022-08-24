@@ -14,7 +14,7 @@ use dmstr\bootstrap\Tabs;
 $copyParams = $model->attributes;
 
 $this->title = Yii::t('shop', 'Setting');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('shop', 'Settings'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('shop.plural', 'Setting'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->key, 'url' => ['view', 'key' => $model->key]];
 $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 ?>
@@ -30,9 +30,9 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('shop', 'Setting') ?>
+        <?= Html::encode($model->key) ?>
         <small>
-            <?= Html::encode($model->key) ?>
+            <?= Yii::t('shop', 'Setting') ?>
         </small>
     </h1>
 
@@ -41,20 +41,26 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 
         <!-- menu buttons -->
         <div class='pull-left'>
-            <?= Html::a(
+            <?php 
+ echo Html::a(
             '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('shop', 'Edit'),
             [ 'update', 'key' => $model->key],
-            ['class' => 'btn btn-info']) ?>
+            ['class' => 'btn btn-info'])
+          ?>
 
-            <?= Html::a(
+            <?php 
+ echo Html::a(
             '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('shop', 'Copy'),
             ['create', 'key' => $model->key, 'Setting'=>$copyParams],
-            ['class' => 'btn btn-success']) ?>
+            ['class' => 'btn btn-success'])
+          ?>
 
-            <?= Html::a(
+            <?php 
+ echo Html::a(
             '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New'),
             ['create'],
-            ['class' => 'btn btn-success']) ?>
+            ['class' => 'btn btn-success'])
+          ?>
         </div>
 
         <div class="pull-right">
@@ -69,7 +75,8 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
     <?php $this->beginBlock('eluhr\shop\models\Setting'); ?>
 
     
-    <?= DetailView::widget([
+    <?php 
+ echo DetailView::widget([
     'model' => $model,
     'attributes' => [
             'key',
@@ -77,22 +84,26 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
         'created_at',
         'updated_at',
     ],
-    ]); ?>
+    ]);
+  ?>
 
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('shop', 'Delete'), ['delete', 'key' => $model->key],
+    <?php 
+ echo Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('shop', 'Delete'), ['delete', 'key' => $model->key],
     [
     'class' => 'btn btn-danger',
     'data-confirm' => '' . Yii::t('shop', 'Are you sure to delete this item?') . '',
     'data-method' => 'post',
-    ]); ?>
+    ]);
+  ?>
     <?php $this->endBlock(); ?>
 
 
     
-    <?= Tabs::widget(
+    <?php 
+        echo Tabs::widget(
                  [
                      'id' => 'relation-tabs',
                      'encodeLabels' => false,

@@ -64,6 +64,11 @@ use yii\helpers\StringHelper;
 <!-- attribute city -->
 			<?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
 
+<!-- attribute type -->
+			<?=                         $form->field($model, 'type')->dropDownList(
+                            eluhr\shop\models\Order::optstype()
+                        ); ?>
+
 <!-- attribute is_executed -->
 			<?= $form->field($model, 'is_executed')->textInput() ?>
 
@@ -96,14 +101,12 @@ $form->field($model, 'discount_code_id')->dropDownList(
 <!-- attribute internal_notes -->
 			<?= $form->field($model, 'internal_notes')->textarea(['rows' => 6]) ?>
 
+<!-- attribute customer_details -->
+			<?= $form->field($model, 'customer_details')->textarea(['rows' => 6]) ?>
+
 <!-- attribute status -->
 			<?=                         $form->field($model, 'status')->dropDownList(
                             eluhr\shop\models\Order::optsstatus()
-                        ); ?>
-
-<!-- attribute type -->
-			<?=                         $form->field($model, 'type')->dropDownList(
-                            eluhr\shop\models\Order::optstype()
                         ); ?>
 
 <!-- attribute shipping_price -->

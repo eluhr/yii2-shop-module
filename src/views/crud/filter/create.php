@@ -14,9 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="giiant-crud filter-create">
 
     <h1>
-        <?= Yii::t('shop', 'Filter') ?>
+                <?= Html::encode($model->name) ?>
         <small>
-                        <?= Html::encode($model->name) ?>
+            <?= Yii::t('shop', 'Filter') ?>
         </small>
     </h1>
 

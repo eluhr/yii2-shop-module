@@ -15,10 +15,10 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'Edit');
 <div class="giiant-crud order-update">
 
     <h1>
-        <?= Yii::t('shop', 'Order') ?>
+                <?= Html::encode($model->id) ?>
+
         <small>
-                        <?= Html::encode($model->id) ?>
-        </small>
+            <?= Yii::t('shop', 'Order') ?>        </small>
     </h1>
 
     <div class="crud-navigation">

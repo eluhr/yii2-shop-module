@@ -44,7 +44,6 @@ use Yii;
  *
  * @property \eluhr\shop\models\DiscountCode $discountCode
  * @property \eluhr\shop\models\OrderItem[] $orderItems
- * @property \eluhr\shop\models\Variant[] $variants
  * @property string $aliasModel
  */
 abstract class Order extends \eluhr\shop\models\ActiveRecord
@@ -79,14 +78,15 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'first_name', 'surname', 'email', 'street_name', 'house_number', 'postal', 'city'], 'required'],
+            [['id', 'first_name', 'surname', 'email', 'street_name', 'house_number', 'postal', 'city', 'type'], 'required'],
             [['is_executed', 'discount_code_id', 'info_mail_has_been_sent', 'has_different_delivery_address', 'paid'], 'integer'],
             [['date_of_birth', 'created_at', 'updated_at'], 'safe'],
-            [['internal_notes','customer_details', 'status', 'type'], 'string'],
+            [['internal_notes', 'customer_details', 'status'], 'string'],
             [['shipping_price'], 'number'],
             [['id'], 'string', 'max' => 36],
             [['paypal_id', 'paypal_token', 'paypal_payer_id', 'first_name', 'surname', 'email', 'street_name', 'house_number', 'postal', 'city', 'delivery_first_name', 'delivery_surname', 'delivery_street_name', 'delivery_house_number', 'delivery_postal', 'delivery_city'], 'string', 'max' => 45],
             [['shipment_link', 'invoice_number'], 'string', 'max' => 128],
+            [['type'], 'string', 'max' => 80],
             [['invoice_number'], 'unique'],
             [['id'], 'unique'],
             [['discount_code_id'], 'exist', 'skipOnError' => true, 'targetClass' => \eluhr\shop\models\DiscountCode::className(), 'targetAttribute' => ['discount_code_id' => 'id']],
@@ -97,13 +97,6 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
                     self::STATUS_IN_PROGRESS,
                     self::STATUS_SHIPPED,
                     self::STATUS_FINISHED,
-                ]
-            ],
-            ['type', 'in', 'range' => [
-                    self::TYPE_PAYPAL,
-                    self::TYPE_SAFERPAY,
-                    self::TYPE_PAYREXX,
-                    self::TYPE_PREPAYMENT,
                 ]
             ]
         ];
@@ -166,14 +159,6 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
         return $this->hasMany(\eluhr\shop\models\OrderItem::className(), ['order_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getVariants()
-    {
-        return $this->hasMany(\eluhr\shop\models\Variant::className(), ['id' => 'variant_id'])->viaTable('sp_order_item', ['order_id' => 'id']);
-    }
-
 
     
     /**
@@ -212,33 +197,6 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
             self::STATUS_IN_PROGRESS => Yii::t('shop', 'In Progress'),
             self::STATUS_SHIPPED => Yii::t('shop', 'Shipped'),
             self::STATUS_FINISHED => Yii::t('shop', 'Finished'),
-        ];
-    }
-
-    /**
-     * get column type enum value label
-     * @param string $value
-     * @return string
-     */
-    public static function getTypeValueLabel($value){
-        $labels = self::optsType();
-        if(isset($labels[$value])){
-            return $labels[$value];
-        }
-        return $value;
-    }
-
-    /**
-     * column type ENUM value labels
-     * @return array
-     */
-    public static function optsType()
-    {
-        return [
-            self::TYPE_PAYPAL => Yii::t('shop', 'PayPal'),
-            self::TYPE_SAFERPAY => Yii::t('shop','Saferpay'),
-            self::TYPE_PREPAYMENT => Yii::t('shop', 'Prepayment'),
-            self::TYPE_PAYREXX => Yii::t('shop', 'Payrexx'),
         ];
     }
 

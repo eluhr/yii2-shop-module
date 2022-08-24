@@ -14,10 +14,10 @@ use Yii;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property \eluhr\shop\models\TagXFilter[] $tagXFilters
  * @property \eluhr\shop\models\Filter[] $facets
- * @property \eluhr\shop\models\TagXProduct[] $tagXProducts
  * @property \eluhr\shop\models\Product[] $products
+ * @property \eluhr\shop\models\TagXFilter[] $tagXFilters
+ * @property \eluhr\shop\models\TagXProduct[] $tagXProducts
  * @property string $aliasModel
  */
 abstract class Tag extends \eluhr\shop\models\ActiveRecord
@@ -62,14 +62,6 @@ abstract class Tag extends \eluhr\shop\models\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTagXFilters()
-    {
-        return $this->hasMany(\eluhr\shop\models\TagXFilter::className(), ['tag_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getFacets()
     {
         return $this->hasMany(\eluhr\shop\models\Filter::className(), ['id' => 'facet_id'])->viaTable('sp_tag_x_filter', ['tag_id' => 'id']);
@@ -78,17 +70,25 @@ abstract class Tag extends \eluhr\shop\models\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTagXProducts()
+    public function getProducts()
     {
-        return $this->hasMany(\eluhr\shop\models\TagXProduct::className(), ['tag_id' => 'id']);
+        return $this->hasMany(\eluhr\shop\models\Product::className(), ['id' => 'product_id'])->viaTable('sp_tag_x_product', ['tag_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProducts()
+    public function getTagXFilters()
     {
-        return $this->hasMany(\eluhr\shop\models\Product::className(), ['id' => 'product_id'])->viaTable('sp_tag_x_product', ['tag_id' => 'id']);
+        return $this->hasMany(\eluhr\shop\models\TagXFilter::className(), ['tag_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTagXProducts()
+    {
+        return $this->hasMany(\eluhr\shop\models\TagXProduct::className(), ['tag_id' => 'id']);
     }
 
 

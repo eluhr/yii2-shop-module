@@ -18,6 +18,7 @@ use Yii;
  * @property string $price
  * @property string $discount_price
  * @property string $vat
+ * @property integer $include_vat
  * @property string $hex_color
  * @property integer $stock
  * @property string $sku
@@ -25,13 +26,13 @@ use Yii;
  * @property string $extra_info
  * @property integer $min_days_shipping_duration
  * @property integer $max_days_shipping_duration
- * @property integer $include_vat
- * @property integer $configurator_url
+ * @property string $configurator_url
  * @property string $created_at
  * @property string $updated_at
+ * @property string $configurator_bg_image
  *
+ * @property \eluhr\shop\models\Configuration[] $configurations
  * @property \eluhr\shop\models\OrderItem[] $orderItems
- * @property \eluhr\shop\models\Order[] $orders
  * @property \eluhr\shop\models\Product $product
  * @property string $aliasModel
  */
@@ -55,14 +56,14 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
     {
         return [
             [['product_id', 'title', 'thumbnail_image', 'rank', 'price', 'hex_color'], 'required'],
-            [['product_id', 'is_online', 'rank', 'stock','min_days_shipping_duration','max_days_shipping_duration'], 'integer'],
-            [['price','discount_price','vat'], 'number'],
-            [['description', 'extra_info'], 'string'],
+            [['product_id', 'is_online', 'rank', 'include_vat', 'stock', 'min_days_shipping_duration', 'max_days_shipping_duration'], 'integer'],
+            [['price', 'discount_price', 'vat'], 'number'],
+            [['description'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
-            [['title','configurator_url'], 'string', 'max' => 80],
-            [['thumbnail_image', 'sku'], 'string', 'max' => 128],
+            [['title', 'configurator_url'], 'string', 'max' => 80],
+            [['thumbnail_image', 'sku', 'extra_info'], 'string', 'max' => 128],
             [['hex_color'], 'string', 'max' => 9],
-            [['include_vat'], 'boolean'],
+            [['configurator_bg_image'], 'string', 'max' => 255],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => \eluhr\shop\models\Product::className(), 'targetAttribute' => ['product_id' => 'id']]
         ];
     }
@@ -81,7 +82,8 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
             'rank' => Yii::t('shop', 'Rank'),
             'price' => Yii::t('shop', 'Price'),
             'discount_price' => Yii::t('shop', 'Discount Price'),
-            'vat' => Yii::t('shop', 'VAT'),
+            'vat' => Yii::t('shop', 'Vat'),
+            'include_vat' => Yii::t('shop', 'Include Vat'),
             'hex_color' => Yii::t('shop', 'Hex Color'),
             'stock' => Yii::t('shop', 'Stock'),
             'sku' => Yii::t('shop', 'Sku'),
@@ -89,11 +91,19 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
             'extra_info' => Yii::t('shop', 'Extra Info'),
             'min_days_shipping_duration' => Yii::t('shop', 'Min Days Shipping Duration'),
             'max_days_shipping_duration' => Yii::t('shop', 'Max Days Shipping Duration'),
-            'include_vat' => Yii::t('shop', 'VAT Included'),
-            'configurator_url' => Yii::t('shop', 'Configurator URL'),
+            'configurator_url' => Yii::t('shop', 'Configurator Url'),
             'created_at' => Yii::t('shop', 'Created At'),
             'updated_at' => Yii::t('shop', 'Updated At'),
+            'configurator_bg_image' => Yii::t('shop', 'Configurator Bg Image'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getConfigurations()
+    {
+        return $this->hasMany(\eluhr\shop\models\Configuration::className(), ['variant_id' => 'id']);
     }
 
     /**
@@ -102,14 +112,6 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
     public function getOrderItems()
     {
         return $this->hasMany(\eluhr\shop\models\OrderItem::className(), ['variant_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getOrders()
-    {
-        return $this->hasMany(\eluhr\shop\models\Order::className(), ['id' => 'order_id'])->viaTable('sp_order_item', ['variant_id' => 'id']);
     }
 
     /**

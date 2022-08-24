@@ -68,8 +68,23 @@ $form->field($model, 'product_id')->dropDownList(
 <!-- attribute is_online -->
 			<?= $form->field($model,'is_online')->checkbox([], false); ?>
 
+<!-- attribute include_vat -->
+			<?= $form->field($model, 'include_vat')->textInput() ?>
+
 <!-- attribute stock -->
 			<?= $form->field($model, 'stock')->textInput() ?>
+
+<!-- attribute min_days_shipping_duration -->
+			<?= $form->field($model, 'min_days_shipping_duration')->textInput() ?>
+
+<!-- attribute max_days_shipping_duration -->
+			<?= $form->field($model, 'max_days_shipping_duration')->textInput() ?>
+
+<!-- attribute discount_price -->
+			<?= $form->field($model, 'discount_price')->textInput(['maxlength' => true]) ?>
+
+<!-- attribute vat -->
+			<?= $form->field($model, 'vat')->textInput(['maxlength' => true]) ?>
 
 <!-- attribute description -->
 			<?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
@@ -78,8 +93,17 @@ $form->field($model, 'product_id')->dropDownList(
 
 <!-- attribute updated_at -->
 
+<!-- attribute configurator_url -->
+			<?= $form->field($model, 'configurator_url')->textInput(['maxlength' => true]) ?>
+
 <!-- attribute sku -->
 			<?= $form->field($model, 'sku')->textInput(['maxlength' => true]) ?>
+
+<!-- attribute extra_info -->
+			<?= $form->field($model, 'extra_info')->textInput(['maxlength' => true]) ?>
+
+<!-- attribute configurator_bg_image -->
+			<?= $form->field($model, 'configurator_bg_image')->textInput(['maxlength' => true]) ?>
         </p>
         <?php $this->endBlock(); ?>
         

@@ -31,6 +31,12 @@ use yii\widgets\ActiveForm;
 
 		<?php // echo $form->field($model, 'price') ?>
 
+		<?php // echo $form->field($model, 'discount_price') ?>
+
+		<?php // echo $form->field($model, 'vat') ?>
+
+		<?php // echo $form->field($model, 'include_vat') ?>
+
 		<?php // echo $form->field($model, 'hex_color') ?>
 
 		<?php // echo $form->field($model, 'stock') ?>
@@ -39,9 +45,19 @@ use yii\widgets\ActiveForm;
 
 		<?php // echo $form->field($model, 'description') ?>
 
+		<?php // echo $form->field($model, 'extra_info') ?>
+
+		<?php // echo $form->field($model, 'min_days_shipping_duration') ?>
+
+		<?php // echo $form->field($model, 'max_days_shipping_duration') ?>
+
+		<?php // echo $form->field($model, 'configurator_url') ?>
+
 		<?php // echo $form->field($model, 'created_at') ?>
 
 		<?php // echo $form->field($model, 'updated_at') ?>
+
+		<?php // echo $form->field($model, 'configurator_bg_image') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('shop', 'Search'), ['class' => 'btn btn-primary']) ?>

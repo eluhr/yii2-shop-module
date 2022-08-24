@@ -33,6 +33,10 @@ use yii\widgets\ActiveForm;
 
 		<?php // echo $form->field($model, 'popularity') ?>
 
+		<?php // echo $form->field($model, 'is_inventory_independent') ?>
+
+		<?php // echo $form->field($model, 'hide_in_overview') ?>
+
 		<?php // echo $form->field($model, 'created_at') ?>
 
 		<?php // echo $form->field($model, 'updated_at') ?>

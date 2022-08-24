@@ -10,7 +10,7 @@ use yii\grid\GridView;
     * @var eluhr\shop\models\search\Variant $searchModel
 */
 
-$this->title = Yii::t('shop', 'Variants');
+$this->title = Yii::t('shop', 'Variant');
 $this->params['breadcrumbs'][] = $this->title;
 
 if (isset($actionColumnTemplates)) {
@@ -32,9 +32,9 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
     <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
     <h1>
-        <?= Yii::t('shop', 'Variants') ?>
+        <?= Yii::t('shop.plural', 'Variant') ?>
         <small>
-            List
+            <?= Yii::t('shop', 'List') ?>
         </small>
     </h1>
     <div class="clearfix crud-navigation">
@@ -58,12 +58,12 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             'encodeLabels' => false,
             'items' => [
             [
-                'url' => ['/shop/crud/order-item/index'],
-                'label' => '<i class="glyphicon glyphicon-random text-muted"></i> ' . Yii::t('shop', 'Order Item'),
+                'url' => ['/shop/crud/configuration/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-right"></i> ' . Yii::t('shop', 'Configuration'),
             ],
                                 [
-                'url' => ['/shop/crud/order/index'],
-                'label' => '<i class="glyphicon glyphicon-arrow-right"></i> ' . Yii::t('shop', 'Order'),
+                'url' => ['/shop/crud/order-item/index'],
+                'label' => '<i class="glyphicon glyphicon-arrow-right"></i> ' . Yii::t('shop', 'Order Item'),
             ],
                                 [
                 'url' => ['/shop/crud/product/index'],
@@ -105,7 +105,7 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
                         'aria-label' => Yii::t('shop', 'View'),
                         'data-pjax' => '0',
                     ];
-                    return Html::a('<span class="glyphicon glyphicon-file"></span>', $url, $options);
+                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, $options);
                 }
             ],
             'urlCreator' => function($action, $model, $key, $index) {
@@ -135,12 +135,20 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 			'price',
 			'hex_color',
 			'is_online',
+			/*'include_vat',*/
 			/*'stock',*/
+			/*'min_days_shipping_duration',*/
+			/*'max_days_shipping_duration',*/
+			/*'discount_price',*/
+			/*'vat',*/
 			/*'description:ntext',*/
 			/*'created_at',*/
 			/*'updated_at',*/
+			/*'configurator_url:url',*/
 			/*'sku',*/
-        ],
+			/*'extra_info',*/
+			/*'configurator_bg_image',*/
+                ]
         ]); ?>
     </div>
 

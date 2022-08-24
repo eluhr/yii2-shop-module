@@ -7,6 +7,7 @@ use eluhr\shop\models\ShoppingCartModify;
 use eluhr\shop\models\Variant;
 use kartik\select2\Select2;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\View;
 use yii\widgets\ActiveForm;
 
@@ -94,7 +95,15 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
                 <?= $variant->description ?>
                 <?php
                 if ($variant->getIsConfigurable()) {
-                    echo Html::a(Yii::t('shop','Configure this product'), $variant->configurator_url, ['class' => 'btn btn-configure-variant', 'target' => '_blank']);
+                    echo Html::a(Yii::t('shop','Configure this product'),
+                        Url::to("$variant->configurator_url"),
+                        [
+                            'class' => 'btn btn-configure-variant', 'target' => '_blank',
+                            'data' => [
+                                'method' => 'POST',
+                                'params' => ['configurator_bg_image'=>$variant->configurator_bg_image]
+                            ]
+                        ]);
                 }
                 ?>
             </div>

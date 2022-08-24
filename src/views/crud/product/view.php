@@ -14,7 +14,7 @@ use dmstr\bootstrap\Tabs;
 $copyParams = $model->attributes;
 
 $this->title = Yii::t('shop', 'Product');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('shop', 'Products'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('shop.plural', 'Product'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 ?>
@@ -30,9 +30,9 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
     <?php endif; ?>
 
     <h1>
-        <?= Yii::t('shop', 'Product') ?>
+        <?= Html::encode($model->title) ?>
         <small>
-            <?= Html::encode($model->title) ?>
+            <?= Yii::t('shop', 'Product') ?>
         </small>
     </h1>
 
@@ -41,20 +41,26 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 
         <!-- menu buttons -->
         <div class='pull-left'>
-            <?= Html::a(
+            <?php 
+ echo Html::a(
             '<span class="glyphicon glyphicon-pencil"></span> ' . Yii::t('shop', 'Edit'),
             [ 'update', 'id' => $model->id],
-            ['class' => 'btn btn-info']) ?>
+            ['class' => 'btn btn-info'])
+          ?>
 
-            <?= Html::a(
+            <?php 
+ echo Html::a(
             '<span class="glyphicon glyphicon-copy"></span> ' . Yii::t('shop', 'Copy'),
             ['create', 'id' => $model->id, 'Product'=>$copyParams],
-            ['class' => 'btn btn-success']) ?>
+            ['class' => 'btn btn-success'])
+          ?>
 
-            <?= Html::a(
+            <?php 
+ echo Html::a(
             '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New'),
             ['create'],
-            ['class' => 'btn btn-success']) ?>
+            ['class' => 'btn btn-success'])
+          ?>
         </div>
 
         <div class="pull-right">
@@ -69,21 +75,25 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
     <?php $this->beginBlock('eluhr\shop\models\Product'); ?>
 
     
-    <?= DetailView::widget([
+    <?php 
+ echo DetailView::widget([
     'model' => $model,
     'attributes' => [
         ],
-    ]); ?>
+    ]);
+  ?>
 
     
     <hr/>
 
-    <?= Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('shop', 'Delete'), ['delete', 'id' => $model->id],
+    <?php 
+ echo Html::a('<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('shop', 'Delete'), ['delete', 'id' => $model->id],
     [
     'class' => 'btn btn-danger',
     'data-confirm' => '' . Yii::t('shop', 'Are you sure to delete this item?') . '',
     'data-method' => 'post',
-    ]); ?>
+    ]);
+  ?>
     <?php $this->endBlock(); ?>
 
 
@@ -91,14 +101,15 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 <?php $this->beginBlock('FirstVariant'); ?>
 <div style='position: relative'>
 <div style='position:absolute; right: 0px; top: 0px;'>
-  <?= Html::a(
+  <?php
+        echo Html::a(
             '<span class="glyphicon glyphicon-list"></span> ' . Yii::t('shop', 'List All') . ' First Variant',
             ['/shop/crud/variant/index'],
             ['class'=>'btn text-muted btn-xs']
         ) ?>
   <?= Html::a(
             '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New') . ' First Variant',
-            ['/shop/crud/variant/create', 'Variant' => ['product_id' => $model->id]],
+             ['/shop/crud/variant/create', 'Variant' => ['product_id' => $model->id]],
             ['class'=>'btn btn-success btn-xs']
         ); ?>
 </div>
@@ -107,7 +118,7 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 <?=
  '<div class="table-responsive">'
  . \yii\grid\GridView::widget([
-    'layout' => '{summary}{pager}<br/>{items}{pager}',
+    'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
     'dataProvider' => new \yii\data\ActiveDataProvider([
         'query' => $model->getFirstVariant(),
         'pagination' => [
@@ -143,9 +154,9 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
         'is_online',
         'rank',
         'price',
-        'hex_color',
-        'stock',
-        'sku',
+        'discount_price',
+        'vat',
+        'include_vat',
 ]
 ])
  . '</div>' 
@@ -157,14 +168,15 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 <?php $this->beginBlock('ActiveVariants'); ?>
 <div style='position: relative'>
 <div style='position:absolute; right: 0px; top: 0px;'>
-  <?= Html::a(
+  <?php
+        echo Html::a(
             '<span class="glyphicon glyphicon-list"></span> ' . Yii::t('shop', 'List All') . ' Active Variants',
             ['/shop/crud/variant/index'],
             ['class'=>'btn text-muted btn-xs']
         ) ?>
   <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New') . ' Active Variant',
-            ['/shop/crud/variant/create', 'Variant' => ['product_id' => $model->id]],
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New') . ' Active Variants',
+             ['/shop/crud/variant/create', 'Variant' => ['product_id' => $model->id]],
             ['class'=>'btn btn-success btn-xs']
         ); ?>
 </div>
@@ -173,7 +185,7 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 <?=
  '<div class="table-responsive">'
  . \yii\grid\GridView::widget([
-    'layout' => '{summary}{pager}<br/>{items}{pager}',
+    'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
     'dataProvider' => new \yii\data\ActiveDataProvider([
         'query' => $model->getActiveVariants(),
         'pagination' => [
@@ -209,9 +221,9 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
         'is_online',
         'rank',
         'price',
-        'hex_color',
-        'stock',
-        'sku',
+        'discount_price',
+        'vat',
+        'include_vat',
 ]
 ])
  . '</div>' 
@@ -223,14 +235,15 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 <?php $this->beginBlock('Tags'); ?>
 <div style='position: relative'>
 <div style='position:absolute; right: 0px; top: 0px;'>
-  <?= Html::a(
+  <?php
+        echo Html::a(
             '<span class="glyphicon glyphicon-list"></span> ' . Yii::t('shop', 'List All') . ' Tags',
             ['/shop/crud/tag/index'],
             ['class'=>'btn text-muted btn-xs']
         ) ?>
   <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New') . ' Tag',
-            ['/shop/crud/tag/create', 'Tag' => ['id' => $model->id]],
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New') . ' Tags',
+             ['/shop/crud/tag/create'],
             ['class'=>'btn btn-success btn-xs']
         ); ?>
   <?= Html::a(
@@ -243,7 +256,7 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 <?=
  '<div class="table-responsive">'
  . \yii\grid\GridView::widget([
-    'layout' => '{summary}{pager}<br/>{items}{pager}',
+    'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
     'dataProvider' => new \yii\data\ActiveDataProvider([
         'query' => $model->getTagXProducts(),
         'pagination' => [
@@ -319,14 +332,15 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 <?php $this->beginBlock('Variants'); ?>
 <div style='position: relative'>
 <div style='position:absolute; right: 0px; top: 0px;'>
-  <?= Html::a(
+  <?php
+        echo Html::a(
             '<span class="glyphicon glyphicon-list"></span> ' . Yii::t('shop', 'List All') . ' Variants',
             ['/shop/crud/variant/index'],
             ['class'=>'btn text-muted btn-xs']
         ) ?>
   <?= Html::a(
-            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New') . ' Variant',
-            ['/shop/crud/variant/create', 'Variant' => ['product_id' => $model->id]],
+            '<span class="glyphicon glyphicon-plus"></span> ' . Yii::t('shop', 'New') . ' Variants',
+             ['/shop/crud/variant/create', 'Variant' => ['product_id' => $model->id]],
             ['class'=>'btn btn-success btn-xs']
         ); ?>
 </div>
@@ -335,7 +349,7 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 <?=
  '<div class="table-responsive">'
  . \yii\grid\GridView::widget([
-    'layout' => '{summary}{pager}<br/>{items}{pager}',
+    'layout' => '{summary}<div class="text-center">{pager}</div>{items}<div class="text-center">{pager}</div>',
     'dataProvider' => new \yii\data\ActiveDataProvider([
         'query' => $model->getVariants(),
         'pagination' => [
@@ -371,9 +385,9 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
         'is_online',
         'rank',
         'price',
-        'hex_color',
-        'stock',
-        'sku',
+        'discount_price',
+        'vat',
+        'include_vat',
 ]
 ])
  . '</div>' 
@@ -382,7 +396,8 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 <?php $this->endBlock() ?>
 
 
-    <?= Tabs::widget(
+    <?php 
+        echo Tabs::widget(
                  [
                      'id' => 'relation-tabs',
                      'encodeLabels' => false,
