@@ -101,7 +101,10 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
                             'class' => 'btn btn-configure-variant', 'target' => '_blank',
                             'data' => [
                                 'method' => 'POST',
-                                'params' => ['configurator_bg_image'=>$variant->configurator_bg_image]
+                                'params' => [
+                                        'configurator_bg_image'=>$variant->configurator_bg_image,
+                                        'variantId'=>$variant->id
+                                ]
                             ]
                         ]);
                 }

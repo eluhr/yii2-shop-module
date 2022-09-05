@@ -21,6 +21,7 @@ use yii\base\BaseObject;
  * @property int $price
  * @property bool $isDiscount
  * @property string $extraInfo
+ * @property string $configuration_json
  */
 class ShoppingCartProduct extends BaseObject
 {
@@ -29,6 +30,7 @@ class ShoppingCartProduct extends BaseObject
     public $price;
     public $extraInfo;
     public $_quantity;
+    public $configuration_json;
 
     protected static $_model;
 

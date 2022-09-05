@@ -39,6 +39,8 @@ use yii\widgets\ActiveForm;
 
 		<?php // echo $form->field($model, 'updated_at') ?>
 
+		<?php // echo $form->field($model, 'configuration_json') ?>
+
     <div class="form-group">
         <?= Html::submitButton(Yii::t('shop', 'Search'), ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton(Yii::t('shop', 'Reset'), ['class' => 'btn btn-default']) ?>

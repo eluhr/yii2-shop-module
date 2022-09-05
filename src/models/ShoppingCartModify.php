@@ -28,6 +28,7 @@ class ShoppingCartModify extends Model
     public $quantity;
     public $variantId;
     public $extraInfo;
+    public $configuration_json;
 
     public const MAX_QUANTITY = 99;
 
@@ -45,7 +46,10 @@ class ShoppingCartModify extends Model
             'required'
         ];
         $rules['safe'] = [
-            'extraInfo',
+            [
+                'extraInfo',
+                'configuration_json'
+            ],
             'safe'
         ];
         $rules['product'] = [
@@ -72,6 +76,7 @@ class ShoppingCartModify extends Model
         $attributeLabels['discountId'] = Yii::t('shop', 'Discount');
         $attributeLabels['variantId'] = Yii::t('shop', 'Variante');
         $attributeLabels['extraInfo'] = Yii::t('shop', 'Zusätzliche Optionen');
+        $attributeLabels['configuration_json'] = Yii::t('shop', 'Configuration');
         return $attributeLabels;
     }
 
@@ -105,7 +110,8 @@ class ShoppingCartModify extends Model
                 'itemId' => $this->variantId,
                 'price' => $this->item->getActualPrice(),
                 'quantity' => $this->quantity,
-                'extraInfo' => $this->extraInfo
+                'extraInfo' => $this->extraInfo,
+                'configuration_json' => $this->configuration_json
             ]);
 
             if ($shoppingCart->hasPosition($position->positionId)) {

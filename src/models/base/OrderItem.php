@@ -20,6 +20,7 @@ use Yii;
  * @property string $vat
  * @property string $created_at
  * @property string $updated_at
+ * @property string $configuration_json
  *
  * @property \eluhr\shop\models\Configuration $configuration
  * @property \eluhr\shop\models\Order $order
@@ -49,6 +50,7 @@ abstract class OrderItem extends \eluhr\shop\models\ActiveRecord
             [['variant_id', 'quantity'], 'integer'],
             [['single_price', 'single_net_price', 'vat'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
+            [['configuration_json'], 'string'],
             [['order_id', 'configuration_id'], 'string', 'max' => 36],
             [['name', 'extra_info'], 'string', 'max' => 128],
             [['order_id', 'variant_id', 'extra_info'], 'unique', 'targetAttribute' => ['order_id', 'variant_id', 'extra_info']],
@@ -75,6 +77,7 @@ abstract class OrderItem extends \eluhr\shop\models\ActiveRecord
             'vat' => Yii::t('shop', 'Vat'),
             'created_at' => Yii::t('shop', 'Created At'),
             'updated_at' => Yii::t('shop', 'Updated At'),
+            'configuration_json' => Yii::t('shop', 'Configuration Json'),
         ];
     }
 
