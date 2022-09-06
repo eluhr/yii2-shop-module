@@ -12,7 +12,7 @@ class m220620_084301_create_configuration_table extends Migration
      */
     public function safeUp()
     {
-        $options = $this->getDb()->getDriverName() === 'mysql' ? 'CHARACTER SET utf8 COLLATE utf8_general_ci' : null;
+        $options = $this->getDb()->getDriverName() === 'mysql' ? 'CHARACTER SET utf8 COLLATE utf8_unicode_ci' : null;
         $this->createTable('sp_configuration', [
             'id' => $this->string(36)->notNull(),
             'variant_id' => $this->integer()->notNull(),
