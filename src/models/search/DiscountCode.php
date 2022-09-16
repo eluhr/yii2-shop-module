@@ -18,9 +18,9 @@ class DiscountCode extends DiscountCodeModel
     public function rules()
     {
         return [
-            [['id', 'used'], 'integer'],
+            [['id', 'used','type'], 'integer'],
             [['code', 'expiration_date', 'created_at', 'updated_at'], 'safe'],
-            [['percent'], 'number'],
+            [['value'], 'number'],
         ];
     }
 
@@ -58,7 +58,8 @@ class DiscountCode extends DiscountCodeModel
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'percent' => $this->percent,
+            'type' => $this->type,
+            'value' => $this->value,
             'expiration_date' => $this->expiration_date,
             'used' => $this->used,
             'created_at' => $this->created_at,

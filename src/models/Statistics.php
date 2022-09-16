@@ -79,6 +79,22 @@ class Statistics extends Model
         return count($this->soldOrders());
     }
 
+    public function ordersDetail()
+    {
+        $count= [
+            'guest' => 0,
+            'user' => 0
+        ];
+        foreach ($this->soldOrders() as $order) {
+            if (empty($order->user_id)) {
+                $count['guest']++;
+            } else {
+                $count['user']++;
+            }
+        }
+        return $count;
+    }
+
     public function productsSold()
     {
         $total = 0;

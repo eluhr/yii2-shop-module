@@ -27,12 +27,16 @@ use Yii;
  * @property integer $min_days_shipping_duration
  * @property integer $max_days_shipping_duration
  * @property string $configurator_url
+ * @property integer $include_vat
+ * @property int $show_affiliate_link
+ * @property string $affiliate_link_url
  * @property string $created_at
  * @property string $updated_at
  * @property string $configurator_bg_image
  *
  * @property \eluhr\shop\models\Configuration[] $configurations
  * @property \eluhr\shop\models\OrderItem[] $orderItems
+ * @property \eluhr\shop\models\Order[] $orders
  * @property \eluhr\shop\models\Product $product
  * @property string $aliasModel
  */
@@ -56,13 +60,14 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
     {
         return [
             [['product_id', 'title', 'thumbnail_image', 'rank', 'price', 'hex_color'], 'required'],
-            [['product_id', 'is_online', 'rank', 'include_vat', 'stock', 'min_days_shipping_duration', 'max_days_shipping_duration'], 'integer'],
-            [['price', 'discount_price', 'vat'], 'number'],
-            [['description'], 'string'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['product_id', 'is_online', 'rank', 'stock','min_days_shipping_duration','max_days_shipping_duration','show_affiliate_link'], 'integer'],
+            [['price','discount_price','vat'], 'number'],
+            [['description', 'extra_info'], 'string'],
+            [['affiliate_link_url', 'created_at', 'updated_at'], 'safe'],
             [['title', 'configurator_url'], 'string', 'max' => 80],
             [['thumbnail_image', 'sku', 'extra_info'], 'string', 'max' => 128],
             [['hex_color'], 'string', 'max' => 9],
+            [['include_vat'], 'boolean'],
             [['configurator_bg_image'], 'string', 'max' => 255],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => \eluhr\shop\models\Product::className(), 'targetAttribute' => ['product_id' => 'id']]
         ];
@@ -91,7 +96,9 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
             'extra_info' => Yii::t('shop', 'Extra Info'),
             'min_days_shipping_duration' => Yii::t('shop', 'Min Days Shipping Duration'),
             'max_days_shipping_duration' => Yii::t('shop', 'Max Days Shipping Duration'),
-            'configurator_url' => Yii::t('shop', 'Configurator Url'),
+            'include_vat' => Yii::t('shop', 'VAT Included'),
+            'show_affiliate_link' => Yii::t('shop', 'Show Affiliate Link'),
+            'affiliate_link_url' => Yii::t('shop', 'Affiliate Link URL'),
             'created_at' => Yii::t('shop', 'Created At'),
             'updated_at' => Yii::t('shop', 'Updated At'),
             'configurator_bg_image' => Yii::t('shop', 'Configurator Bg Image'),
@@ -112,6 +119,14 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
     public function getOrderItems()
     {
         return $this->hasMany(\eluhr\shop\models\OrderItem::className(), ['variant_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrders()
+    {
+        return $this->hasMany(\eluhr\shop\models\Order::className(), ['id' => 'order_id'])->viaTable('sp_order_item', ['variant_id' => 'id']);
     }
 
     /**

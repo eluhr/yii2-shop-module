@@ -2,11 +2,9 @@
 
 namespace eluhr\shop\models;
 
+use eluhr\shop\interfaces\PaymentProvider;
 use eluhr\shop\models\base\Order as BaseOrder;
 use eluhr\shop\Module;
-use PayPal\Api\Payment as PayPalPayment;
-use PayPal\Api\PaymentExecution;
-use PayPal\Exception\PayPalConnectionException;
 use Ramsey\Uuid\Uuid;
 use Yii;
 use yii\base\InvalidConfigException;
@@ -52,18 +50,6 @@ class Order extends BaseOrder
             return substr($uuid, 0, 13);
         }
         return $uuid;
-    }
-
-    public static function getAllowedPaymentMethodsList()
-    {
-        $paymentMethods = (array)Yii::$app->getModule('shop')->allowedPaymentMethods;
-        $allowed = [];
-        foreach (self::optsType() as $type => $label) {
-            if (in_array($type, $paymentMethods, true)) {
-                $allowed[$type] = $label;
-            }
-        }
-        return $allowed;
     }
 
     public function getFullName()
@@ -168,7 +154,7 @@ class Order extends BaseOrder
 
     public function getDetailUrl()
     {
-        return Url::to(['/shop/shopping-cart/order', 'orderId' => $this->id], true); // true so link does work in email
+        return Url::to(['/shop/orders/detail', 'orderId' => $this->id], true); // true so link does work in email
     }
 
     public function getInvoiceUrl()
@@ -210,13 +196,13 @@ class Order extends BaseOrder
                     true)) || ($this->type === self::TYPE_PAYPAL && $this->is_executed);
     }
 
-    public function checkout($status = null)
+    public function checkout(PaymentProvider $provider)
     {
-        if ($status) {
-            $this->status = $status;
-        }
-        if ($this->save() && $this->execute()) {
-            return $this->sendConfirmMail();
+        $order = $provider->performCheckoutProcedure($this);
+        if ($order !== null) {
+            if ($order->save()) {
+                return $this->sendConfirmMail();
+            }
         }
         Yii::error($this->errors);
         return false;
@@ -319,8 +305,13 @@ class Order extends BaseOrder
             $total += $position->single_price * $position->quantity;
         }
         if ($this->discount_code_id !== null) {
-            $percent = 1 * ($this->discountCode->percent / 100);
-            $total += $total * $percent * -1;
+            if ($this->discountCode->type === DiscountCode::TYPE_PERCENT) {
+                $percent = 1 * ($this->discountCode->value / 100);
+                $total += $total * $percent * -1;
+            } else if ($this->discountCode->type === DiscountCode::TYPE_AMOUNT) {
+                $total -= $this->discountCode->value;
+            }
+
         }
         $total += (float)$this->shipping_price;
 
@@ -459,37 +450,6 @@ class Order extends BaseOrder
     public function execute()
     {
         if ($this->is_executed === 0) {
-            if ($this->type === self::TYPE_PAYPAL) {
-                try {
-                    $payment = PayPalPayment::get($this->paypal_id, \Yii::$app->payment->getContext());
-                } catch (PayPalConnectionException $e) {
-                    Yii::error($e->getMessage());
-                    return false;
-                }
-
-                if ($payment) {
-                    if (!empty($this->paypal_payer_id)) {
-                        $payerId = $this->paypal_payer_id;
-                    } else {
-                        $payerId = $payment->payer->payer_info->payer_id;
-                    }
-
-                    try {
-                        $payment->execute(new PaymentExecution([
-                            'payerId' => $payerId,
-                            'transactions' => $payment->transactions
-                        ]), \Yii::$app->payment->getContext());
-                    } catch (PayPalConnectionException $e) {
-                        Yii::error($e->getData());
-                        Yii::error($e->getMessage());
-                        return false;
-                    }
-                    $this->is_executed = 1;
-                    return $this->save();
-                }
-                return false;
-            }
-
             $this->is_executed = 1;
             return $this->save();
         }
@@ -529,5 +489,10 @@ class Order extends BaseOrder
             ->where(['order_id' => $this->id])
             ->groupBy(['vat'])
             ->all();
+    }
+
+    public function isOwn(): bool
+    {
+        return $this->user_id !== null && $this->user_id === Yii::$app->getUser()->getId();
     }
 }

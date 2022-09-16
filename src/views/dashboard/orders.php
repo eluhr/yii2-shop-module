@@ -107,7 +107,7 @@ JS
         <?= Html::a(Order::getStatusValueLabel(Order::STATUS_IN_PROGRESS), ['', 'status' => Order::STATUS_IN_PROGRESS], ['class' => 'btn btn-' . ($activeStatus === Order::STATUS_IN_PROGRESS ? 'primary' : 'default')]) ?>
         <?= Html::a(Order::getStatusValueLabel(Order::STATUS_SHIPPED), ['', 'status' => Order::STATUS_SHIPPED], ['class' => 'btn btn-' . ($activeStatus === Order::STATUS_SHIPPED ? 'primary' : 'default')]) ?>
         <?= Html::a(Order::getStatusValueLabel(Order::STATUS_FINISHED), ['', 'status' => Order::STATUS_FINISHED], ['class' => 'btn btn-' . ($activeStatus === Order::STATUS_FINISHED ? 'primary' : 'default')]) ?>
-        <?= Html::a(Yii::t('shop', 'Alle'), ['','status' => Order::ALL],
+        <?= Html::a(Yii::t('shop', 'All'), ['','status' => Order::ALL],
             ['class' => 'btn btn-' . ($activeStatus === Order::ALL ? 'primary' : 'default')]) ?>
     </div>
 <?php

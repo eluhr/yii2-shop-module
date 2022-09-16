@@ -34,8 +34,8 @@ abstract class Setting extends \eluhr\shop\models\ActiveRecord
     public function rules()
     {
         return [
-            [['key', 'value'], 'required'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['key'], 'required'],
+            [['value', 'created_at', 'updated_at'], 'safe'],
             [['key', 'value'], 'string', 'max' => 255],
             [['key'], 'unique']
         ];

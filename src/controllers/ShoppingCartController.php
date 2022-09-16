@@ -9,6 +9,7 @@
 
 namespace eluhr\shop\controllers;
 
+use eluhr\shop\interfaces\ExternalPaymentProvider;
 use http\Exception\InvalidArgumentException as HttpInvalidArgumentException;
 use eluhr\shop\components\ShoppingCart;
 use eluhr\shop\models\DiscountCode;
@@ -22,6 +23,7 @@ use yii\base\Action;
 use yii\base\InvalidArgumentException;
 use yii\filters\VerbFilter;
 use yii\helpers\FileHelper;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
@@ -176,7 +178,7 @@ class ShoppingCartController extends Controller
     }
 
     /**
-     * @return string
+     * @return string|Response
      */
     public function actionOverview()
     {
@@ -200,97 +202,18 @@ class ShoppingCartController extends Controller
      */
     public function actionCheckout()
     {
+
+        if (empty(ShopSettings::allowedPaymentProviders())) {
+            throw new HttpException(500, Yii::t('shop', 'Shop has no payment providers configured.'));
+        }
         $model = new ShoppingCartCheckout();
 
         if ($model->load(Yii::$app->request->post()) && $model->checkout()) {
-            if ($model->type !== Order::TYPE_PREPAYMENT) {
-                return $this->redirect($model->approvalLink());
-            }
-            $order = $model->getOrder();
-            if ($order === null) {
-                throw new HttpException(500, Yii::t('shop', 'Error while checkout', [], 'de'));
-            }
-            if (!$order->checkout(Order::STATUS_RECEIVED)) {
-                throw new HttpException(500, Yii::t('shop', 'Error while updating order. Please contact an admin'));
-            }
-            Yii::$app->session->addFlash('success', Yii::t('shop', 'Transaction completed. You will receive an email with further instructions'));
-            Yii::$app->shoppingCart->removeAll();
-            return $this->redirect(['prepayment', 'orderId' => $order->id]);
+            return $this->redirect(Yii::$app->payment->getApprovalLink());
         }
 
         $this->view->title = \Yii::t('shop', '__SHOP_SHOPPING_CART_CHECKOUT_TITLE__');
         return $this->render('checkout', ['shoppingCartCheckout' => $model]);
-    }
-
-    public function actionPrepayment($orderId)
-    {
-        $order = Order::find()->andWhere(['id' => $orderId])->andWhere(['type' => Order::TYPE_PREPAYMENT])->one();
-
-        if ($order === null) {
-            throw new NotFoundHttpException(Yii::t('shop', 'There is no such order'));
-        }
-
-        if ($order->status === Order::STATUS_RECEIVED) {
-            $this->view->title = \Yii::t('shop', '__SHOP_SHOPPING_CART_PREPAYMENT_TITLE__');
-            return $this->render('prepayment', ['order' => $order]);
-        }
-        return $this->redirect($order->detailUrl);
-    }
-
-    public function actionSuccess($paymentId, $token, $PayerID)
-    {
-        $order = Order::findOne(['paypal_id' => $paymentId]);
-
-        if ($order === null) {
-            throw new NotFoundHttpException(Yii::t('shop', 'There is no such order'));
-        }
-
-        $order->paypal_token = $token;
-        $order->paypal_payer_id = $PayerID;
-        $order->status = Order::STATUS_RECEIVED_PAID;
-
-        if (!$order->checkout()) {
-            throw new HttpException(500, Yii::t('shop', 'Error while updating order. Please contact an admin'));
-        }
-        Yii::$app->session->addFlash('success', Yii::t('shop', 'Transaction completed. You will receive an email with further instructions'));
-        Yii::$app->shoppingCart->removeAll();
-        return $this->redirect($order->detailUrl);
-    }
-
-    public function actionSuccessSaferpay($orderId)
-    {
-        $order = Order::findOne(['id' => $orderId,'type' => Order::TYPE_SAFERPAY]);
-
-        if ($order === null) {
-            throw new NotFoundHttpException(Yii::t('shop', 'There is no such order'));
-        }
-
-        $order->status = Order::STATUS_RECEIVED_PAID;
-
-        if (!$order->checkout()) {
-            throw new HttpException(500, Yii::t('shop', 'Error while updating order. Please contact an admin'));
-        }
-        Yii::$app->session->addFlash('success', Yii::t('shop', 'Transaction completed. You will receive an email with further instructions'));
-        Yii::$app->shoppingCart->removeAll();
-        return $this->redirect($order->detailUrl);
-    }
-
-    public function actionSuccessPayrexx($orderId)
-    {
-        $order = Order::findOne(['id' => $orderId,'type' => Order::TYPE_PAYREXX]);
-
-        if ($order === null) {
-            throw new NotFoundHttpException(Yii::t('shop', 'There is no such order'));
-        }
-
-        $order->status = Order::STATUS_RECEIVED_PAID;
-
-        if (!$order->checkout()) {
-            throw new HttpException(500, Yii::t('shop', 'Error while updating order. Please contact an admin'));
-        }
-        Yii::$app->session->addFlash('success', Yii::t('shop', 'Transaction completed. You will receive an email with further instructions'));
-        Yii::$app->shoppingCart->removeAll();
-        return $this->redirect($order->detailUrl);
     }
 
     public function actionCanceled()
@@ -319,16 +242,61 @@ class ShoppingCartController extends Controller
         ];
     }
 
-    public function actionOrder($orderId)
+    public function actionSuccessExternal()
     {
-        $order = Order::findOne($orderId);
+        $params = Yii::$app->getRequest()->get();
+        $provider = null;
+        foreach (Yii::$app->payment->providers as $type => $config) {
+            /** @var \eluhr\shop\interfaces\PaymentProvider $provider */
+            $provider = Yii::$app->payment->createProvider($type);
+            if ($provider instanceof ExternalPaymentProvider) {
+                if (empty(array_diff($provider::identifiableGetParams(), array_keys($params)))){
+                    // provider found! Lets go!
+                    break;
+                }
+            }
+        }
+        if ($provider) {
+            $condition = [];
+            foreach ($provider::identifiableGetParams() as $name) {
+                $condition[$name] = $params[$name] ?? null;
+            }
+
+            $order = $provider->findOrder($condition);
+
+            if ($order) {
+                return $this->redirect(['success','orderId' => $order->id, 'type' => $provider::getType()]);
+            }
+        }
+        throw new NotFoundHttpException(Yii::t('shop', 'Order not found'));
+    }
+
+    public function actionSuccess($orderId, $type)
+    {
+        $order = Order::find()->andWhere([
+            'id' => $orderId,
+            'status' => Order::STATUS_PENDING,
+            'type' => $type
+        ])->one();
 
         if ($order === null) {
-            throw new NotFoundHttpException(Yii::t('shop', 'There is no such order'));
+            throw new NotFoundHttpException(Yii::t('shop', 'Order not found'));
         }
 
-        $this->view->title = \Yii::t('shop', '__SHOP_ORDER_TITLE__');
-        return $this->render('order', ['order' => $order, 'showCells' => true]);
+        $provider = Yii::$app->payment->createProvider($type);
+
+        if ($provider === false) {
+            Yii::error(__METHOD__, [$orderId, $type]);
+            throw new NotFoundHttpException(Yii::t('shop', 'Order not found'));
+        }
+
+        if (!$order->checkout($provider)) {
+            throw new HttpException(500, Yii::t('shop', 'Error while updating order. Please contact an admin'));
+        }
+        Yii::$app->session->addFlash('success', Yii::t('shop', 'Thank you for your purchase. You will receive an email with further instructions'));
+        Yii::$app->shoppingCart->removeAll();
+
+        return $this->redirect(['/' . $this->module->id . '/orders/detail', 'orderId' => $order->id]);
     }
 
     public function actionInvoice($orderId)

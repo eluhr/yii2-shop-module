@@ -137,8 +137,16 @@ JS
                 <h3 class="box-title"><?= Yii::t('shop', 'Orders') ?></h3>
             </div>
             <div class="box-body">
-                <h2><?= $model->orders() ?></h2>
-                <small><?= Yii::t('shop', 'Number of orders placed') ?></small>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <h2><?= $model->ordersDetail()['guest'] ?? 0 ?></h2>
+                        <small><?= Yii::t('shop', 'Number of orders placed as guest') ?></small>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <h2><?= $model->ordersDetail()['user'] ?? 0 ?></h2>
+                        <small><?= Yii::t('shop', 'Number of orders placed as logged in user') ?></small>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -171,6 +179,7 @@ JS
 <hr>
 <div class="row">
     <div class="col-xs-12 col-md-4">
+        <?php if(!empty($model->topSeller())): ?>
         <div class="box box-solid box-default">
             <div class="box-header no-bg">
                 <h3 class="box-title"><?= Yii::t('shop', 'Top seller') ?></h3>
@@ -185,6 +194,7 @@ JS
                 ]) ?>
             </div>
         </div>
+        <?php endif ?>
         <div class="box box-solid box-default">
             <div class="box-header no-bg">
                 <h3 class="box-title"><?= Yii::t('shop', 'Informations') ?></h3>

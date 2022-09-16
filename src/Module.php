@@ -12,6 +12,8 @@ class Module extends BaseModule
     public $frontendLayout = '@app/views/layouts/main';
     public $backendLayout = '@app/views/layouts/main';
 
+    public const SHOP_EDITOR_ROLE = 'ShopEditor';
+
     /**
      * @var Mailer
      */
@@ -19,10 +21,6 @@ class Module extends BaseModule
 
     //  3-letter ISO 4217 currency code indicating the currency to use.
     public $currency = 'EUR';
-
-    public $allowedPaymentMethods = [
-        Order::TYPE_PREPAYMENT
-    ];
 
     public function beforeAction($action)
     {

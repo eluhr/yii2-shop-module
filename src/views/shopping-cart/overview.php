@@ -16,45 +16,47 @@ use yii\widgets\ActiveForm;
 
 <?= Cell::widget(['id' => 'shopping-cart-overview-top']) ?>
     <div class="shopping-cart-view shopping-cart-overview-view">
-        <?php if (!Yii::$app->shoppingCart->hasReachedMinValue()): ?>
-            <div class="alert alert-danger"><?php echo Yii::t('shop',
-                    'In order to continue you must reach the minimum shopping cart limit of {value}', [
-                        'value' => Yii::$app->formatter->asCurrency(ShopSettings::shopGeneralMinShoppingCartValue(),
-                            Yii::$app->payment->currency)
-                    ]) ?></div>
-        <?php endif; ?>
-        <?= $this->render('_table') ?>
-        <?php if (ShopSettings::shopGeneralEnableDiscountCodes()): ?>
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                    <?php
-                    $form = ActiveForm::begin(['id' => 'overview-form']);
-                    if ($shoppingCartDiscount->isActive()) {
-                        $submitButton = Html::submitButton(FA::icon(FA::_CHECK),
-                            ['class' => 'btn btn-check-discount-code btn-success disabled', 'disabled' => 'disabled']);
-                    } else {
-                        $submitButton = Html::submitButton(Yii::t('shop', 'Apply Discount Code'),
-                            ['class' => 'btn btn-check-discount-code btn-info']);
-                    }
-                    echo $form->field($shoppingCartDiscount, 'discount_code', [
-                        'template' => "{label}\n<div class='input-group'>{input}<span class='input-group-btn'>{$submitButton}</span></div>\n{hint}\n{error}",
-                    ])->textInput(['readonly' => $shoppingCartDiscount->isActive()]);
-                    ActiveForm::end();
-                    ?>
+        <div class="container">
+            <?php if (!Yii::$app->shoppingCart->hasReachedMinValue()): ?>
+                <div class="alert alert-danger"><?php echo Yii::t('shop',
+                        'In order to continue you must reach the minimum shopping cart limit of {value}', [
+                            'value' => Yii::$app->formatter->asCurrency(ShopSettings::shopGeneralMinShoppingCartValue(),
+                                Yii::$app->payment->currency)
+                        ]) ?></div>
+            <?php endif; ?>
+            <?= $this->render('_table') ?>
+            <?php if (ShopSettings::shopGeneralEnableDiscountCodes()): ?>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <?php
+                        $form = ActiveForm::begin(['id' => 'overview-form']);
+                        if ($shoppingCartDiscount->isActive()) {
+                            $submitButton = Html::submitButton(FA::icon(FA::_CHECK),
+                                ['class' => 'btn btn-check-discount-code btn-success disabled', 'disabled' => 'disabled']);
+                        } else {
+                            $submitButton = Html::submitButton(Yii::t('shop', 'Apply Discount Code'),
+                                ['class' => 'btn btn-check-discount-code btn-info']);
+                        }
+                        echo $form->field($shoppingCartDiscount, 'discount_code', [
+                            'template' => "{label}\n<div class='input-group'>{input}<span class='input-group-btn'>{$submitButton}</span></div>\n{hint}\n{error}",
+                        ])->textInput(['readonly' => $shoppingCartDiscount->isActive()]);
+                        ActiveForm::end();
+                        ?>
+                    </div>
                 </div>
-            </div>
-        <?php endif ?>
+            <?php endif ?>
 
-        <?php
-        if (!Yii::$app->shoppingCart->hasReachedMinValue()) {
-            echo Html::tag('div', Yii::t('shop', 'Continue to checkout'), [
-                'class' => 'btn btn-success disabled'
-            ]);
-        } else {
-            echo Html::a(Yii::t('shop', 'Continue to checkout'), ['checkout'], [
-                'class' => 'btn btn-success'
-            ]);
-        }
-        ?>
+            <?php
+            if (!Yii::$app->shoppingCart->hasReachedMinValue()) {
+                echo Html::tag('div', Yii::t('shop', 'Continue to checkout'), [
+                    'class' => 'btn btn-success disabled'
+                ]);
+            } else {
+                echo Html::a(Yii::t('shop', 'Continue to checkout'), ['checkout'], [
+                    'class' => 'btn btn-success'
+                ]);
+            }
+            ?>
+        </div>
     </div>
 <?= Cell::widget(['id' => 'shopping-cart-overview-bottom']) ?>

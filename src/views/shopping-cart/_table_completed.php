@@ -4,6 +4,7 @@
  * @var Order $order
  */
 
+use eluhr\shop\models\DiscountCode;
 use eluhr\shop\models\Order;
 use eluhr\shop\models\ShopSettings;
 use rmrevin\yii\fontawesome\FA;
@@ -51,11 +52,16 @@ use yii\web\View;
             <td><?= $order->discountCode->label ?></td>
             <td></td>
             <td></td>
-            <td><?= '-' . $order->discountCode->prettyPercent() ?></td>
+            <td><?= '-' . $order->discountCode->prettyValue() ?></td>
         </tr>
         <?php
-        $percent = 1 * ($order->discountCode->percent / 100);
-        $total += $total * $percent * -1;
+        if ($order->discountCode->type === DiscountCode::TYPE_PERCENT) {
+            $percent = 1 * ($order->discountCode->value / 100);
+            $total += $total * $percent * -1;
+        } else if ($order->discountCode->type === DiscountCode::TYPE_AMOUNT) {
+            $total -= $order->discountCode->value;
+        }
+
         ?>
     <?php endif ?>
     <?php if (ShopSettings::shopProductShowShippingCosts() || $order->shipping_price > 0): ?>
@@ -78,7 +84,6 @@ use yii\web\View;
         <th>
             <?= Yii::$app->formatter->asCurrency($total, Yii::$app->payment->currency) ?>
         </th>
-        <td></td>
     </tr>
     <tr class="order-number">
         <th colspan="3">
@@ -87,7 +92,6 @@ use yii\web\View;
         <th>
             <?= $order->id ?>
         </th>
-        <td></td>
     </tr>
     <tr class="order-status">
         <th colspan="3">
@@ -96,7 +100,6 @@ use yii\web\View;
         <th>
             <?= $order->statusLabel ?>
         </th>
-        <td></td>
     </tr>
     <?php if (!empty($order->shipment_link) && ShopSettings::shopGeneralShippingLink()): ?>
     <tr class="order-status">
@@ -106,7 +109,6 @@ use yii\web\View;
         <th>
             <?= Html::a($order->shipment_link, $order->shipment_link, ['target' => '_blank']) ?>
         </th>
-        <td></td>
     </tr>
     <?php endif; ?>
     <?php if (ShopSettings::shopGeneralAllowCustomerDetails()): ?>
@@ -117,7 +119,6 @@ use yii\web\View;
         <th>
             <?= Html::encode($order->customer_details) ?>
         </th>
-        <td></td>
     </tr>
     <?php endif; ?>
     <?php if (!empty($order->invoice_number) && ShopSettings::shopGeneralInvoiceDownload()): ?>
@@ -128,7 +129,6 @@ use yii\web\View;
         <th>
             <?= Html::a(Yii::t('shop', '{icon} Herunterladen', ['icon' => FA::icon(FA::_DOWNLOAD)], 'de'), $order->invoiceUrl, ['class' => 'btn btn-primary']) ?>
         </th>
-        <td></td>
     </tr>
     <?php endif; ?>
     </tfoot>

@@ -4,7 +4,6 @@
 namespace eluhr\shop\components;
 
 use eluhr\shop\models\DiscountCode;
-use eluhr\shop\models\Product;
 use eluhr\shop\models\ShoppingCartProduct;
 use eluhr\shop\models\ShopSettings;
 use eluhr\shop\models\Variant;
@@ -26,7 +25,7 @@ use yii\web\Session;
  */
 class ShoppingCart extends Component
 {
-    public $cartId = __CLASS__ .'::v1';
+    public $cartId = __CLASS__ . '::v2';
 
     const EVENT_POSITION_PUT = 'putPosition';
     const EVENT_POSITION_UPDATE = 'updatePosition';
@@ -282,7 +281,8 @@ class ShoppingCart extends Component
                     'sku' => $sku,
                     'price' => $item->getActualPrice(),
                     'isDiscount' => $position->isDiscount,
-                    'percent' => $item instanceof DiscountCode ? $item->percent : 0
+                    'discountValue' => $item instanceof DiscountCode ? $item->value : 0,
+                    'discountType' => $item instanceof DiscountCode ? $item->type : null
                 ];
             }
         }
@@ -297,14 +297,22 @@ class ShoppingCart extends Component
                 $total += $item['price'] * $item['quantity'];
             }
         }
-        $discountPercent = 0;
+        $discount = [
+            DiscountCode::TYPE_PERCENT => 0,
+            DiscountCode::TYPE_AMOUNT => 0
+        ];
+
         foreach ($this->items() as $item) {
             if ($item['isDiscount'] === true) {
-                $discountPercent += $item['percent'];
+                    $discount[$item['discountType']] += $item['discountValue'];
             }
         }
-        if ($discountPercent > 0) {
-            $total *= 1 - ($discountPercent / 100);
+
+        if ($discount[DiscountCode::TYPE_PERCENT] > 0) {
+            $total *= 1 - ($discount[DiscountCode::TYPE_PERCENT] / 100);
+        }
+        if ($discount[DiscountCode::TYPE_AMOUNT] > 0) {
+            $total -= $discount[DiscountCode::TYPE_AMOUNT];
         }
 
         $total += $this->shippingCost();
@@ -361,24 +369,20 @@ class ShoppingCart extends Component
     }
 
     /**
-     * @param \eluhr\shop\models\Order|null $orderId
-     * @return \eluhr\shop\components\SaferPayPayment|false
+     * @param string $orderId
+     * @return \eluhr\shop\components\Payment|false
      * @throws \yii\web\HttpException
      */
-    public function checkout($orderId = null)
+    public function checkout($orderId, string $type)
     {
-        /** @var \eluhr\shop\components\SaferPayPayment $payment */
+        /** @var \eluhr\shop\components\Payment $payment */
         $payment = \Yii::$app->payment;
-
+        $payment->setProvider($type);
         foreach ($this->items() as $item) {
             $payment->addItem($item);
         }
         $payment->setShippingCost($this->shippingCost());
-        if ($orderId) {
-            $payment->setOrderId($orderId);
-            $payment->setSuccessUrl($orderId);
-        }
-
+        $payment->setOrderId($orderId);
         if ($payment->execute()) {
             return $payment;
         }
@@ -416,7 +420,7 @@ class ShoppingCart extends Component
         if ($highestMax > 0) {
             $max = $highestMax;
         }
-        
+
         if (!empty($min) && !empty($max)) {
             return \Yii::t('shop', 'About {min}-{max} working days.', [
                 'min' => $min,

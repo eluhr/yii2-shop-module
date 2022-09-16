@@ -48,9 +48,16 @@ echo GridView::widget([
         ],
         'code',
         [
-            'attribute' => 'percent',
+            'attribute' => 'type',
+            'filter' => DiscountCode::optsTypes(),
             'value' => function (DiscountCode $model) {
-                return str_replace('.', ',', $model->percent) . '%';
+                return DiscountCode::optsTypes()[$model->type] ?? Yii::t('shop','Undefined');
+            }
+        ],
+        [
+            'attribute' => 'value',
+            'value' => function (DiscountCode $model) {
+                return $model->prettyValue();
             }
         ],
         'used',
