@@ -27,7 +27,6 @@ use Yii;
  * @property integer $min_days_shipping_duration
  * @property integer $max_days_shipping_duration
  * @property string $configurator_url
- * @property integer $include_vat
  * @property int $show_affiliate_link
  * @property string $affiliate_link_url
  * @property string $created_at
