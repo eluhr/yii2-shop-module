@@ -101,7 +101,7 @@ if ($position->item() instanceof DiscountCode) {
         if ($position->isDiscount) {
             echo '-' . $position->item()->prettyValue();
         } else {
-            echo Yii::$app->formatter->asCurrency($position->cost, Yii::$app->payment->currency);
+            echo Yii::$app->formatter->asCurrency($position->cost, $this->context->module->currency);
         }
         ?>
     </td>

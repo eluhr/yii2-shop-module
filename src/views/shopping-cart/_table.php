@@ -38,7 +38,7 @@ use yii\widgets\ActiveForm;
         <td><?= Yii::t('shop', 'Versandkosten', [], 'de') ?></td>
         <td></td>
         <td></td>
-        <td><?= Yii::$app->formatter->asCurrency(Yii::$app->shoppingCart->shippingCost(), Yii::$app->payment->currency) ?></td>
+        <td><?= Yii::$app->formatter->asCurrency(Yii::$app->shoppingCart->shippingCost(), $this->context->module->currency) ?></td>
     </tr>
     <?php endif ?>
     </tbody>
@@ -49,7 +49,7 @@ use yii\widgets\ActiveForm;
         </th>
         <th>
             <span class="total"
-                  data-content="total"><?= Yii::$app->formatter->asCurrency(Yii::$app->shoppingCart->total(), Yii::$app->payment->currency) ?></span>
+                  data-content="total"><?= Yii::$app->formatter->asCurrency(Yii::$app->shoppingCart->total(), $this->context->module->currency) ?></span>
             <div class="discount" data-content="discount"></div>
         </th>
     </tr>
