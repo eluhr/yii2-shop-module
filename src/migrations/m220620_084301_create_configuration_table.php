@@ -24,6 +24,9 @@ class m220620_084301_create_configuration_table extends Migration
 
         $this->addColumn('sp_order_item','configuration_id', $this->string(36)->null()->after('variant_id'));
 
+        $this->alterColumn('sp_configuration', 'id', 'VARCHAR(36) CHARACTER SET utf8 COLLATE utf8_unicode_ci');
+        $this->alterColumn('sp_order_item', 'configuration_id', 'VARCHAR(36) CHARACTER SET utf8 COLLATE utf8_unicode_ci');
+
         $this->addForeignKey('FK_order_item_configuration_0', 'sp_order_item', 'configuration_id', 'sp_configuration', 'id',
             'CASCADE', 'CASCADE');
     }
