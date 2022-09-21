@@ -61,13 +61,7 @@ use yii\widgets\ActiveForm;
                 'theme' => Select2::THEME_BOOTSTRAP
             ]
         ]);
-        echo $form->field($model, 'configurator_bg_image')->widget(FileManagerInputWidget::class, [
-            'handlerUrl' => '/filefly/api',
-            'select2Options' => [
-                'theme' => Select2::THEME_BOOTSTRAP
-            ]
-        ]);
-        echo $form->field($model, 'configurator_url');
+
         echo $form->field($model, 'price')->widget(NumberControl::class, ['maskedInputOptions' => [
             'suffix' => ' ' . $this->context->module->currency,
             'groupSeparator' => '.',
@@ -104,6 +98,16 @@ use yii\widgets\ActiveForm;
                 $stockField->hint(Yii::t('shop', 'There are less than {count} in stock', ['count' => ShopSettings::shopProductFewAvailableWarning()]), ['class' => 'text-warning']);
             }
             echo $stockField;
+        }
+        if (ShopSettings::shopProductAllowConfigurableVariant()) {
+            echo $form->field($model, 'configurator_url');
+
+            echo $form->field($model, 'configurator_bg_image')->widget(FileManagerInputWidget::class, [
+                'handlerUrl' => '/filefly/api',
+                'select2Options' => [
+                    'theme' => Select2::THEME_BOOTSTRAP
+                ]
+            ]);
         }
         echo Html::errorSummary($model);
 
