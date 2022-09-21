@@ -105,9 +105,6 @@ use yii\widgets\ActiveForm;
             }
             echo $stockField;
         }
-        if (ShopSettings::shopProductAllowConfigurableVariant()) {
-            echo $form->field($model, 'configurator_url');
-        }
         echo Html::errorSummary($model);
 
         echo Html::submitButton(Yii::t('shop', '{icon} Save', ['icon' => FA::icon(FA::_SAVE)]), ['class' => 'btn btn-primary']);
