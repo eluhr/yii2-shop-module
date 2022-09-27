@@ -233,18 +233,22 @@ class Variant extends BaseVariant
                     ],
                     "properties" => [
                         "top" => [
+                            "title" => Yii::t('shop', 'Margin top'),
                             "type" => "number",
                             "default" => 8
                         ],
                         "right" => [
+                            "title" => Yii::t('shop', 'Margin right'),
                             "type" => "number",
                             "default" => 8
                         ],
                         "bottom" => [
+                            "title" => Yii::t('shop', 'Margin bottom'),
                             "type" => "number",
                             "default" => 8
                         ],
                         "left" => [
+                            "title" => Yii::t('shop', 'Margin left'),
                             "type" => "number",
                             "default" => 8
                         ]
