@@ -40,11 +40,17 @@ use yii\helpers\StringHelper;
         <p>
             
 
+<!-- attribute type -->
+			<?= $form->field($model, 'type')->textInput() ?>
+
+<!-- attribute used -->
+			<?= $form->field($model, 'used')->textInput() ?>
+
 <!-- attribute code -->
 			<?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
-<!-- attribute percent -->
-			<?= $form->field($model, 'percent')->textInput(['maxlength' => true]) ?>
+<!-- attribute value -->
+			<?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
 
 <!-- attribute expiration_date -->
 			<?= $form->field($model, 'expiration_date')->textInput() ?>
@@ -52,9 +58,6 @@ use yii\helpers\StringHelper;
 <!-- attribute created_at -->
 
 <!-- attribute updated_at -->
-
-<!-- attribute used -->
-			<?= $form->field($model, 'used')->textInput() ?>
         </p>
         <?php $this->endBlock(); ?>
         

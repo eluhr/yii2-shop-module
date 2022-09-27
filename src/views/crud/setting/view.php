@@ -80,9 +80,9 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
     'model' => $model,
     'attributes' => [
             'key',
-        'value',
         'created_at',
         'updated_at',
+        'value',
     ],
     ]);
   ?>

@@ -19,15 +19,13 @@ use yii\widgets\ActiveForm;
 
     		<?= $form->field($model, 'id') ?>
 
-		<?= $form->field($model, 'paypal_id') ?>
+		<?= $form->field($model, 'user_id') ?>
 
-		<?= $form->field($model, 'paypal_token') ?>
-
-		<?= $form->field($model, 'paypal_payer_id') ?>
+		<?= $form->field($model, 'payment_details') ?>
 
 		<?= $form->field($model, 'is_executed') ?>
 
-		<?php // echo $form->field($model, 'date_of_birth') ?>
+		<?= $form->field($model, 'date_of_birth') ?>
 
 		<?php // echo $form->field($model, 'internal_notes') ?>
 

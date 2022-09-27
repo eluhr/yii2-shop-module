@@ -43,12 +43,12 @@ use yii\helpers\StringHelper;
 <!-- attribute key -->
 			<?= $form->field($model, 'key')->textInput(['maxlength' => true]) ?>
 
-<!-- attribute value -->
-			<?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
-
 <!-- attribute created_at -->
 
 <!-- attribute updated_at -->
+
+<!-- attribute value -->
+			<?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
         </p>
         <?php $this->endBlock(); ?>
         

@@ -19,13 +19,15 @@ use yii\widgets\ActiveForm;
 
     		<?= $form->field($model, 'id') ?>
 
+		<?= $form->field($model, 'type') ?>
+
 		<?= $form->field($model, 'code') ?>
 
-		<?= $form->field($model, 'percent') ?>
+		<?= $form->field($model, 'value') ?>
 
 		<?= $form->field($model, 'expiration_date') ?>
 
-		<?= $form->field($model, 'used') ?>
+		<?php // echo $form->field($model, 'used') ?>
 
 		<?php // echo $form->field($model, 'created_at') ?>
 

@@ -105,9 +105,9 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
             'contentOptions' => ['nowrap'=>'nowrap']
         ],
 			'key',
-			'value',
 			'created_at',
 			'updated_at',
+			'value',
                 ]
         ]); ?>
     </div>

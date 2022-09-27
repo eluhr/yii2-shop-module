@@ -1,0 +1,69 @@
+{
+    "modelclass": {
+        "value": "eluhr\\shop\\models\\Variant",
+        "name": "modelClass"
+    },
+    "searchmodelclass": {
+        "value": "eluhr\\shop\\models\\search\\Variant",
+        "name": "searchModelClass"
+    },
+    "controllerclass": {
+        "value": "eluhr\\shop\\controllers\\crud\\VariantController",
+        "name": "controllerClass"
+    },
+    "basecontrollerclass": {
+        "value": "eluhr\\shop\\controllers\\crud\\Controller",
+        "name": "baseControllerClass"
+    },
+    "viewpath": {
+        "value": "@eluhr\/shop\/views\/crud",
+        "name": "viewPath"
+    },
+    "pathprefix": {
+        "value": "\/shop\/crud\/",
+        "name": "pathPrefix"
+    },
+    "enablei18n": {
+        "value": true,
+        "name": "enableI18N"
+    },
+    "singularentities": {
+        "value": true,
+        "name": "singularEntities"
+    },
+    "indexwidgettype": {
+        "value": "grid",
+        "name": "indexWidgetType"
+    },
+    "formlayout": {
+        "value": "horizontal",
+        "name": "formLayout"
+    },
+    "actionbuttonclass": {
+        "value": "yii\\grid\\ActionColumn",
+        "name": "actionButtonClass"
+    },
+    "providerlist": {
+        "value": {
+            "0": "schmunk42\\giiant\\generators\\crud\\providers\\core\\CallbackProvider",
+            "1": "schmunk42\\giiant\\generators\\crud\\providers\\core\\OptsProvider",
+            "2": "schmunk42\\giiant\\generators\\crud\\providers\\core\\RelationProvider",
+            "349": "schmunk42\\giiant\\generators\\crud\\providers\\core\\CallbackProvider",
+            "351": "schmunk42\\giiant\\generators\\crud\\providers\\core\\OptsProvider",
+            "352": "schmunk42\\giiant\\generators\\crud\\providers\\core\\RelationProvider"
+        },
+        "name": "providerList"
+    },
+    "template": {
+        "value": "default",
+        "name": "template"
+    },
+    "accessfilter": {
+        "value": false,
+        "name": "accessFilter"
+    },
+    "modelmessagecategory": {
+        "value": "shop",
+        "name": "modelMessageCategory"
+    }
+}
