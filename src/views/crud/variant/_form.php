@@ -74,6 +74,9 @@ $form->field($model, 'product_id')->dropDownList(
 <!-- attribute stock -->
 			<?= $form->field($model, 'stock')->textInput() ?>
 
+<!-- attribute show_affiliate_link -->
+			<?= $form->field($model, 'show_affiliate_link')->textInput() ?>
+
 <!-- attribute min_days_shipping_duration -->
 			<?= $form->field($model, 'min_days_shipping_duration')->textInput() ?>
 
@@ -89,6 +92,9 @@ $form->field($model, 'product_id')->dropDownList(
 <!-- attribute description -->
 			<?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
+<!-- attribute configurator_data -->
+			<?= $form->field($model, 'configurator_data')->textarea(['rows' => 6]) ?>
+
 <!-- attribute created_at -->
 
 <!-- attribute updated_at -->
@@ -102,8 +108,8 @@ $form->field($model, 'product_id')->dropDownList(
 <!-- attribute extra_info -->
 			<?= $form->field($model, 'extra_info')->textInput(['maxlength' => true]) ?>
 
-<!-- attribute configurator_bg_image -->
-			<?= $form->field($model, 'configurator_bg_image')->textInput(['maxlength' => true]) ?>
+<!-- attribute affiliate_link_url -->
+			<?= $form->field($model, 'affiliate_link_url')->textInput(['maxlength' => true]) ?>
         </p>
         <?php $this->endBlock(); ?>
         

@@ -13,6 +13,9 @@ use kartik\select2\Select2;
 use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use dmstr\jsoneditor\JsonEditorPluginsAsset;
+
+JsonEditorPluginsAsset::register($this);
 
 ?>
 
@@ -102,13 +105,18 @@ use yii\widgets\ActiveForm;
         if (ShopSettings::shopProductAllowConfigurableVariant()) {
             echo $form->field($model, 'configurator_url');
 
-            echo $form->field($model, 'configurator_bg_image')->widget(FileManagerInputWidget::class, [
-                'handlerUrl' => '/filefly/api',
-                'select2Options' => [
-                    'theme' => Select2::THEME_BOOTSTRAP
-                ]
+            echo $form->field($model, 'configurator_data')->widget(dmstr\jsoneditor\JsonEditorWidget::class, [
+                'schema' => $model->getConfiguratorDatachema(),
+                'clientOptions' => [
+                    'theme' => 'bootstrap3',
+                    'disable_collapse' => true,
+                    'disable_properties' => true,
+                    'keep_oneof_values' => false,
+                    'ajax' => true
+                ],
             ]);
         }
+
         echo Html::errorSummary($model);
 
         echo Html::submitButton(Yii::t('shop', '{icon} Save', ['icon' => FA::icon(FA::_SAVE)]), ['class' => 'btn btn-primary']);

@@ -111,8 +111,7 @@ echo Html::a(Yii::t('shop', 'Back'), ['/' . $this->context->module->id . '/defau
                             'data' => [
                                 'method' => 'POST',
                                 'params' => [
-                                        'configurator_bg_image'=>$variant->configurator_bg_image,
-                                        'variantId'=>$variant->id
+                                    'configurator_data'=>$variant->configurator_data
                                 ]
                             ]
                         ]);

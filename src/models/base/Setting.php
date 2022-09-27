@@ -35,7 +35,7 @@ abstract class Setting extends \eluhr\shop\models\ActiveRecord
     {
         return [
             [['key'], 'required'],
-            [['value', 'created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at'], 'safe'],
             [['key', 'value'], 'string', 'max' => 255],
             [['key'], 'unique']
         ];

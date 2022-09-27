@@ -40,10 +40,10 @@ abstract class DiscountCode extends \eluhr\shop\models\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'value', 'expiration_date','type'], 'required'],
+            [['type', 'used'], 'integer'],
+            [['code', 'value', 'expiration_date'], 'required'],
             [['value'], 'number'],
             [['expiration_date', 'created_at', 'updated_at'], 'safe'],
-            [['used','type'], 'integer'],
             [['code'], 'string', 'max' => 128],
             [['code'], 'unique']
         ];
@@ -56,7 +56,7 @@ abstract class DiscountCode extends \eluhr\shop\models\ActiveRecord
     {
         return [
             'id' => Yii::t('shop', 'ID'),
-            'type' => Yii::t('shop', 'Value type'),
+            'type' => Yii::t('shop', 'Type'),
             'code' => Yii::t('shop', 'Code'),
             'value' => Yii::t('shop', 'Value'),
             'expiration_date' => Yii::t('shop', 'Expiration Date'),

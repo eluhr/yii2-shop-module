@@ -3,6 +3,7 @@
 namespace eluhr\shop\models;
 
 use eluhr\shop\models\base\Variant as BaseVariant;
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\helpers\Url;
@@ -187,5 +188,73 @@ class Variant extends BaseVariant
     public function getIsConfigurable(): bool
     {
         return !empty($this->configurator_url) && ShopSettings::shopProductAllowConfigurableVariant();
+    }
+
+    public function getConfiguratorDatachema()
+    {
+        return  [
+            "type" => "object",
+            "title" => Yii::t('shop', 'Configurator'),
+            "required" => [
+                "width",
+                "height",
+                "printMargin"
+            ],
+            "properties" => [
+                "variantId" => [
+                    "title" => Yii::t('shop', 'Variant ID'),
+                    "type" => "string",
+                    "default" => $this->id,
+                    "readonly" => true
+                ],
+                "productImage" => [
+                    "title" => Yii::t('shop', 'Product Image'),
+                    "type" => "string",
+                    "format" => "filefly"
+                ],
+                "width" => [
+                    "title" => Yii::t('shop', 'Width'),
+                    "type" => "number",
+                    "default" => 150
+                ],
+                "height" => [
+                    "title" => Yii::t('shop', 'Height'),
+                    "type" => "number",
+                    "default" => 100
+                ],
+                "printMargin" => [
+                    "type" => "object",
+                    "title" => Yii::t('shop', 'Print Margin'),
+                    "required" => [
+                        "top",
+                        "right",
+                        "bottom",
+                        "left"
+                    ],
+                    "properties" => [
+                        "top" => [
+                            "title" => Yii::t('shop', 'Margin top'),
+                            "type" => "number",
+                            "default" => 8
+                        ],
+                        "right" => [
+                            "title" => Yii::t('shop', 'Margin right'),
+                            "type" => "number",
+                            "default" => 8
+                        ],
+                        "bottom" => [
+                            "title" => Yii::t('shop', 'Margin bottom'),
+                            "type" => "number",
+                            "default" => 8
+                        ],
+                        "left" => [
+                            "title" => Yii::t('shop', 'Margin left'),
+                            "type" => "number",
+                            "default" => 8
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 }

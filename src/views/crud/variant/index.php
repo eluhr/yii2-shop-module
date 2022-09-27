@@ -137,17 +137,19 @@ $actionColumnTemplateString = '<div class="action-buttons">'.$actionColumnTempla
 			'is_online',
 			/*'include_vat',*/
 			/*'stock',*/
+			/*'show_affiliate_link',*/
 			/*'min_days_shipping_duration',*/
 			/*'max_days_shipping_duration',*/
 			/*'discount_price',*/
 			/*'vat',*/
 			/*'description:ntext',*/
+			/*'configurator_data:ntext',*/
 			/*'created_at',*/
 			/*'updated_at',*/
 			/*'configurator_url:url',*/
 			/*'sku',*/
 			/*'extra_info',*/
-			/*'configurator_bg_image',*/
+			/*'affiliate_link_url:url',*/
                 ]
         ]); ?>
     </div>

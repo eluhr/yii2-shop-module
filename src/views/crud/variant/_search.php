@@ -43,6 +43,10 @@ use yii\widgets\ActiveForm;
 
 		<?php // echo $form->field($model, 'sku') ?>
 
+		<?php // echo $form->field($model, 'show_affiliate_link') ?>
+
+		<?php // echo $form->field($model, 'affiliate_link_url') ?>
+
 		<?php // echo $form->field($model, 'description') ?>
 
 		<?php // echo $form->field($model, 'extra_info') ?>
@@ -57,7 +61,7 @@ use yii\widgets\ActiveForm;
 
 		<?php // echo $form->field($model, 'updated_at') ?>
 
-		<?php // echo $form->field($model, 'configurator_bg_image') ?>
+		<?php // echo $form->field($model, 'configurator_data') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('shop', 'Search'), ['class' => 'btn btn-primary']) ?>
