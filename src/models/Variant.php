@@ -3,6 +3,7 @@
 namespace eluhr\shop\models;
 
 use eluhr\shop\models\base\Variant as BaseVariant;
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\helpers\Url;
@@ -193,7 +194,7 @@ class Variant extends BaseVariant
     {
         return  [
             "type" => "object",
-            "title" => "Configurator",
+            "title" => Yii::t('shop', 'Configurator'),
             "required" => [
                 "width",
                 "height",
@@ -201,29 +202,29 @@ class Variant extends BaseVariant
             ],
             "properties" => [
                 "variantId" => [
-                    "title" => "Variant ID",
+                    "title" => Yii::t('shop', 'Variant ID'),
                     "type" => "string",
                     "default" => $this->id,
                     "readonly" => true
                 ],
                 "productImage" => [
-                    "title" => "Product Image",
+                    "title" => Yii::t('shop', 'Product Image'),
                     "type" => "string",
                     "format" => "filefly"
                 ],
                 "width" => [
-                    "title" => "Width",
+                    "title" => Yii::t('shop', 'Width'),
                     "type" => "number",
                     "default" => 150
                 ],
                 "height" => [
-                    "title" => "Height",
+                    "title" => Yii::t('shop', 'Height'),
                     "type" => "number",
                     "default" => 100
                 ],
                 "printMargin" => [
                     "type" => "object",
-                    "title" => "Print Margin",
+                    "title" => Yii::t('shop', 'Print Margin'),
                     "required" => [
                         "top",
                         "right",
