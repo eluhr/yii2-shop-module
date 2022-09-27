@@ -188,4 +188,68 @@ class Variant extends BaseVariant
     {
         return !empty($this->configurator_url) && ShopSettings::shopProductAllowConfigurableVariant();
     }
+
+    public function getConfiguratorDatachema()
+    {
+        return  [
+            "type" => "object",
+            "title" => "Configurator",
+            "required" => [
+                "width",
+                "height",
+                "printMargin"
+            ],
+            "properties" => [
+                "variantId" => [
+                    "title" => "Variant ID",
+                    "type" => "string",
+                    "default" => $this->id,
+                    "readonly" => true
+                ],
+                "productImage" => [
+                    "title" => "Product Image",
+                    "type" => "string",
+                    "format" => "filefly"
+                ],
+                "width" => [
+                    "title" => "Width",
+                    "type" => "number",
+                    "default" => 150
+                ],
+                "height" => [
+                    "title" => "Height",
+                    "type" => "number",
+                    "default" => 100
+                ],
+                "printMargin" => [
+                    "type" => "object",
+                    "title" => "Print Margin",
+                    "required" => [
+                        "top",
+                        "right",
+                        "bottom",
+                        "left"
+                    ],
+                    "properties" => [
+                        "top" => [
+                            "type" => "number",
+                            "default" => 8
+                        ],
+                        "right" => [
+                            "type" => "number",
+                            "default" => 8
+                        ],
+                        "bottom" => [
+                            "type" => "number",
+                            "default" => 8
+                        ],
+                        "left" => [
+                            "type" => "number",
+                            "default" => 8
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
 }
