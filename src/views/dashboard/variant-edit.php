@@ -102,12 +102,12 @@ use yii\widgets\ActiveForm;
         if (ShopSettings::shopProductAllowConfigurableVariant()) {
             echo $form->field($model, 'configurator_url');
 
-            echo $form->field($model, 'configurator_bg_image')->widget(FileManagerInputWidget::class, [
-                'handlerUrl' => '/filefly/api',
-                'select2Options' => [
-                    'theme' => Select2::THEME_BOOTSTRAP
-                ]
-            ]);
+//            echo $form->field($model, 'configurator_bg_image')->widget(FileManagerInputWidget::class, [
+//                'handlerUrl' => '/filefly/api',
+//                'select2Options' => [
+//                    'theme' => Select2::THEME_BOOTSTRAP
+//                ]
+//            ]);
         }
         echo Html::errorSummary($model);
 
