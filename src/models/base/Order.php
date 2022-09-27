@@ -64,10 +64,7 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
     const STATUS_IN_PROGRESS = 'IN PROGRESS';
     const STATUS_SHIPPED = 'SHIPPED';
     const STATUS_FINISHED = 'FINISHED';
-    const TYPE_PAYPAL = 'PAYPAL';
-    const TYPE_SAFERPAY = 'SAFERPAY';
-    const TYPE_PAYREXX = 'PAYREXX';
-    const TYPE_PREPAYMENT = 'PREPAYMENT';
+
     /**
      * @inheritdoc
      */
@@ -104,13 +101,6 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
                     self::STATUS_FINISHED,
                 ]
             ],
-            ['type', 'in', 'range' => [
-                    self::TYPE_PAYPAL,
-                    self::TYPE_SAFERPAY,
-                    self::TYPE_PAYREXX,
-                    self::TYPE_PREPAYMENT,
-                ]
-            ]
         ];
     }
 
@@ -240,20 +230,6 @@ abstract class Order extends \eluhr\shop\models\ActiveRecord
             return $labels[$value];
         }
         return $value;
-    }
-
-    /**
-     * column type ENUM value labels
-     * @return array
-     */
-    public static function optsType()
-    {
-        return [
-            self::TYPE_PAYPAL => Yii::t('shop', 'PayPal'),
-            self::TYPE_SAFERPAY => Yii::t('shop','Saferpay'),
-            self::TYPE_PREPAYMENT => Yii::t('shop', 'Prepayment'),
-            self::TYPE_PAYREXX => Yii::t('shop', 'Payrexx'),
-        ];
     }
 
 }
