@@ -31,6 +31,14 @@ use yii\swiftmailer\Mailer;
  */
 class Order extends BaseOrder
 {
+    /**
+     * ENUM field values
+     */
+    const TYPE_PAYPAL = 'PAYPAL';
+    const TYPE_SAFERPAY = 'SAFERPAY';
+    const TYPE_PAYREXX = 'PAYREXX';
+    const TYPE_PREPAYMENT = 'PREPAYMENT';
+
     public const INFO_MAIL_STATUS_SENT = 1;
     public const INFO_MAIL_STATUS_NOT_SENT = 0;
 
@@ -111,6 +119,12 @@ class Order extends BaseOrder
             'string',
             'max' => 250
         ];
+        $rules[] = ['type', 'in', 'range' => [
+            self::TYPE_PAYPAL,
+            self::TYPE_SAFERPAY,
+            self::TYPE_PAYREXX,
+            self::TYPE_PREPAYMENT,
+        ]];
         return $rules;
     }
 
