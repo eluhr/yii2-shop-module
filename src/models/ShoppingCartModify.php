@@ -111,7 +111,7 @@ class ShoppingCartModify extends Model
                 'price' => $this->item->getActualPrice(),
                 'quantity' => $this->quantity,
                 'extraInfo' => $this->extraInfo,
-                'configuration_json' => $this->configuration_json
+                'configuration_json' => json_encode($this->configuration_json)
             ]);
 
             if ($shoppingCart->hasPosition($position->positionId)) {
