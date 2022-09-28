@@ -51,7 +51,7 @@ use yii\web\View;
                     <?php
                     $configuratorData = json_decode($orderItem->configuration_json);
                     $variant = \eluhr\shop\models\Variant::find()->where(['id' => $configuratorData->variantId])->one();
-                    if (isset($variant) && $variant->getIsConfigurable()) {
+                    if (!empty($variant) && $variant->getIsConfigurable()) {
                         echo Html::a(Yii::t('shop', 'Review Product Configuration'),
                             Url::to("$variant->configurator_url"),
                             [
