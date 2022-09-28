@@ -9,6 +9,7 @@ use eluhr\shop\models\Order;
 use eluhr\shop\models\ShopSettings;
 use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\View;
 
 ?>
@@ -44,6 +45,29 @@ use yii\web\View;
             </td>
             <td>
                 <?= Yii::$app->formatter->asCurrency($subTotal, Yii::$app->payment->currency) ?>
+            </td>
+            <td>
+                <?php foreach ($order->orderItems as $orderItem): ?>
+                    <?php
+                    $configuratorData = json_decode($orderItem->configuration_json);
+                    $variant = \eluhr\shop\models\Variant::find()->where(['id' => $configuratorData->variantId])->one();
+                    if (!empty($variant) && $variant->getIsConfigurable()) {
+                        echo Html::a(Yii::t('shop', 'Review Product Configuration'),
+                            Url::to("$variant->configurator_url"),
+                            [
+                                'class' => 'review-product-configuration',
+                                'target' => '_blank',
+                                'data' => [
+                                    'method' => 'POST',
+                                    'params' => [
+                                        'configurator_data' => json_encode($configuratorData),
+                                        'read_only' => true
+                                    ]
+                                ]
+                            ]);
+                    }
+                    ?>
+                <?php endforeach; ?>
             </td>
         </tr>
     <?php endforeach; ?>
