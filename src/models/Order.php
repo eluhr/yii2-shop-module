@@ -509,4 +509,17 @@ class Order extends BaseOrder
     {
         return $this->user_id !== null && $this->user_id === Yii::$app->getUser()->getId();
     }
+
+    /**
+     * get column type enum value label
+     * @param string $value
+     * @return string
+     */
+    public static function getTypeValueLabel($value){
+        $labels = self::optsType();
+        if(isset($labels[$value])){
+            return $labels[$value];
+        }
+        return $value;
+    }
 }
