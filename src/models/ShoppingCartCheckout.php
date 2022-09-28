@@ -287,7 +287,8 @@ class ShoppingCartCheckout extends Model
                         'single_price' => $position->price,
                         'vat' => $vat,
                         'single_net_price' => $netPrice,
-                        'extra_info' => $position->extraInfo ?: '-'
+                        'extra_info' => $position->extraInfo ?: '-',
+                        'configuration_json' => $position->configuration_json ?: '{}'
                     ]);
 
                     if (!$orderItem->checkout($position->isDiscount)) {
