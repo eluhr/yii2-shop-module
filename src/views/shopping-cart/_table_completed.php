@@ -47,27 +47,31 @@ use yii\web\View;
                 <?= Yii::$app->formatter->asCurrency($subTotal, Yii::$app->payment->currency) ?>
             </td>
             <td>
-                <?php foreach ($order->orderItems as $orderItem): ?>
-                    <?php
-                    $configuratorData = json_decode($orderItem->configuration_json);
-                    $variant = \eluhr\shop\models\Variant::find()->where(['id' => $configuratorData->variantId])->one();
-                    if (!empty($variant) && $variant->getIsConfigurable()) {
-                        echo Html::a(Yii::t('shop', 'Review Product Configuration'),
-                            Url::to("$variant->configurator_url"),
-                            [
-                                'class' => 'review-product-configuration',
-                                'target' => '_blank',
-                                'data' => [
-                                    'method' => 'POST',
-                                    'params' => [
-                                        'configurator_data' => json_encode($configuratorData),
-                                        'read_only' => true
-                                    ]
+                <?php
+                $configuratorData = json_decode($position->configuration_json);
+
+                if (empty($configuratorData) || !isset($configuratorData->variantId)) {
+                    continue;
+                }
+
+                $variant = \eluhr\shop\models\Variant::find()->where(['id' => $configuratorData->variantId])->one();
+
+                if (!empty($variant) && $variant->getIsConfigurable()) {
+                    echo Html::a(Yii::t('shop', 'Review Product Configuration'),
+                        Url::to("$variant->configurator_url"),
+                        [
+                            'class' => 'review-product-configuration',
+                            'target' => '_blank',
+                            'data' => [
+                                'method' => 'POST',
+                                'params' => [
+                                    'configurator_data' => json_encode($configuratorData),
+                                    'read_only' => true
                                 ]
-                            ]);
-                    }
-                    ?>
-                <?php endforeach; ?>
+                            ]
+                        ]);
+                }
+                ?>
             </td>
         </tr>
     <?php endforeach; ?>

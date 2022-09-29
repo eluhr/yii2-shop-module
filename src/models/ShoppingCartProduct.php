@@ -39,7 +39,7 @@ class ShoppingCartProduct extends BaseObject
      */
     public function getPositionId()
     {
-        return md5(json_encode(['itemId' => $this->itemId,'extraInfo' => $this->extraInfo]));
+        return md5(json_encode(['itemId' => $this->itemId,'extraInfo' => $this->extraInfo,'configuration_json' => $this->configuration_json]));
     }
 
     /**

@@ -279,6 +279,15 @@ class ShoppingCartCheckout extends Model
                         $vat = 0;
                         $netPrice = 0;
                     }
+
+                    $extraInfo = '-';
+                    if ($position->extraInfo) {
+                        $extraInfo = $position->extraInfo;
+                    }
+                    if ($position->configuration_json) {
+                        $extraInfo .= Yii::t('shop', 'Has configuration: {hash}', ['hash' => md5($position->configuration_json)]);
+                    }
+
                     $orderItem = new OrderItem([
                         'order_id' => $order->id,
                         'variant_id' => $position->itemId,
@@ -287,7 +296,7 @@ class ShoppingCartCheckout extends Model
                         'single_price' => $position->price,
                         'vat' => $vat,
                         'single_net_price' => $netPrice,
-                        'extra_info' => $position->extraInfo ?: '-',
+                        'extra_info' => $extraInfo,
                         'configuration_json' => $position->configuration_json ?: '{}'
                     ]);
 
