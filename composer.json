@@ -16,7 +16,7 @@
         "kartik-v/yii2-number": "^1.0",
         "eluhr/yii2-sortablejs": "^0.0.5",
         "kartik-v/yii2-export": "^1.4",
-        "dompdf/dompdf": "^1.2.1",
+        "dompdf/dompdf": "^2.0.3",
         "dmstr/yii2-helpers": "^0.4.18"
     },
     "suggest": {
