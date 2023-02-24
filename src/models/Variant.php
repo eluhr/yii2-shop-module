@@ -34,7 +34,7 @@ class Variant extends BaseVariant
             'max' => 100
         ];
         $rules[] = [
-            'vat',
+            'vat_id',
             'required',
             'when' => function (self $model) {
                 if (ShopSettings::shopProductShowVat() && empty($model->vat)) {
@@ -55,6 +55,12 @@ class Variant extends BaseVariant
             return $this->title;
         }
         return $this->product->title . ' - ' . $this->title;
+    }
+
+
+    public function getVat()
+    {
+        return $this->vatRef ? $this->vatRef->value : null;
     }
 
     /**

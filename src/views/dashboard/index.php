@@ -58,6 +58,7 @@ JS
             <?= Html::a(FA::icon(FA::_CUBES) . ' ' . Yii::t('shop', 'Products'), ['products'], ['class' => 'btn btn-lg btn-default']) ?>
             <?= Html::a(FA::icon(FA::_LIST) . ' ' . Yii::t('shop', 'Orders'), ['orders'], ['class' => 'btn btn-lg btn-default']) ?>
             <?= Html::a(FA::icon(FA::_PERCENT) . ' ' . Yii::t('shop', 'Discount codes'), ['discount-codes'], ['class' => 'btn btn-lg btn-default']) ?>
+            <?= Html::a(FA::icon(FA::_PERCENT) . ' ' . Yii::t('shop', 'Vat Values'), ['vats'], ['class' => 'btn btn-lg btn-default']) ?>
             <?= Html::a(FA::icon(FA::_DASHBOARD) . ' ' . Yii::t('shop', 'Products Configurator'), ['products-configurator'], ['class' => 'btn btn-lg btn-default']) ?>
             <?= Html::a(FA::icon(FA::_WRENCH) . ' ' . Yii::t('shop', 'Settings'), ['settings'], ['class' => 'btn btn-lg btn-default']) ?>
         </div>

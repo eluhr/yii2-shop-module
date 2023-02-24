@@ -17,7 +17,7 @@ use Yii;
  * @property integer $rank
  * @property string $price
  * @property string $discount_price
- * @property string $vat
+ * @property integer $vat_id
  * @property integer $include_vat
  * @property string $hex_color
  * @property integer $stock
@@ -66,7 +66,8 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
             [['thumbnail_image', 'sku', 'extra_info'], 'string', 'max' => 128],
             [['hex_color'], 'string', 'max' => 9],
             [['affiliate_link_url'], 'string', 'max' => 255],
-            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => \eluhr\shop\models\Product::className(), 'targetAttribute' => ['product_id' => 'id']]
+            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => \eluhr\shop\models\Product::className(), 'targetAttribute' => ['product_id' => 'id']],
+            [['vat_id'], 'exist', 'skipOnEmpty' => true, 'skipOnError' => true, 'targetClass' => \eluhr\shop\models\Vat::className(), 'targetAttribute' => ['vat_id' => 'id']],
         ];
     }
 
@@ -84,7 +85,7 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
             'rank' => Yii::t('shop', 'Rank'),
             'price' => Yii::t('shop', 'Price'),
             'discount_price' => Yii::t('shop', 'Discount Price'),
-            'vat' => Yii::t('shop', 'Vat'),
+            'vat_id' => Yii::t('shop', 'Vat ID'),
             'include_vat' => Yii::t('shop', 'Include Vat'),
             'hex_color' => Yii::t('shop', 'Hex Color'),
             'stock' => Yii::t('shop', 'Stock'),
@@ -126,8 +127,15 @@ abstract class Variant extends \eluhr\shop\models\ActiveRecord
         return $this->hasOne(\eluhr\shop\models\Product::className(), ['id' => 'product_id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVatRef()
+    {
+        return $this->hasOne(\eluhr\shop\models\Vat::className(), ['id' => 'vat_id']);
+    }
 
-    
+
     /**
      * @inheritdoc
      * @return \eluhr\shop\models\query\VariantQuery the active query used by this AR class.
