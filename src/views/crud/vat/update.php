@@ -9,13 +9,13 @@ use yii\helpers\Html;
 
 $this->title = Yii::t('shop', 'Vat');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('shop', 'Vat'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => (string)$model->value, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('shop', 'Edit');
 ?>
 <div class="giiant-crud vat-update">
 
     <h1>
-                <?= Html::encode($model->name) ?>
+                <?= Html::encode($model->value) ?>
 
         <small>
             <?= Yii::t('shop', 'Vat') ?>        </small>

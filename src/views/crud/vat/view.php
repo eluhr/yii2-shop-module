@@ -15,7 +15,7 @@ $copyParams = $model->attributes;
 
 $this->title = Yii::t('shop', 'Vat');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('shop.plural', 'Vat'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => (string)$model->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => (string)$model->value, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
 ?>
 <div class="giiant-crud vat-view">
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
     <?php endif; ?>
 
     <h1>
-        <?= Html::encode($model->name) ?>
+        <?= Html::encode($model->value) ?>
         <small>
             <?= Yii::t('shop', 'Vat') ?>
         </small>
@@ -79,7 +79,8 @@ $this->params['breadcrumbs'][] = Yii::t('shop', 'View');
  echo DetailView::widget([
     'model' => $model,
     'attributes' => [
-            'name',
+        'value',
+        'desc',
         'created_at',
         'updated_at',
     ],
