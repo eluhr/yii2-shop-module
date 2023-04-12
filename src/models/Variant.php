@@ -68,7 +68,8 @@ class Variant extends BaseVariant
      */
     public function thumbnailImage()
     {
-        return \dmstr\willnorrisImageproxy\Url::image($this->thumbnail_image);
+        $preset = \Yii::$app->settings->get('imagePreset', 'shop', '');
+        return \dmstr\willnorrisImageproxy\Url::image($this->thumbnail_image, $preset);
     }
 
     public function detailUrl()
