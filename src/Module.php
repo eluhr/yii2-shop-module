@@ -31,4 +31,10 @@ class Module extends BaseModule
         ShopFrontendAsset::register(\Yii::$app->controller->view);
         return parent::beforeAction($action);
     }
+
+    public function init()
+    {
+        \Yii::$app->settings->getOrSet('imagePreset', 'x800,q90', 'shop', 'string');
+        return parent::init();
+    }
 }
