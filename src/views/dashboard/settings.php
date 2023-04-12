@@ -75,7 +75,7 @@ $allowedProviders = ShopSettings::allowedPaymentProviders();
                     'data-input' => 'checkbox',
                     'data-group' => 'general',
                     'data-confirm-text' => Yii::t('shop',
-                        'Are you sure you want to change this setting? This will hide/show the product filter in frontend'),
+                        'Are you sure you want to change this setting? This will hide/show the product search input in frontend'),
                     'class' => 'switch-input'
                 ], false);
                 echo $form->field($setting, ShopSettings::SHOP_GENERAL_INVOICE_DOWNLOAD,

@@ -15,9 +15,11 @@ use eluhr\shop\models\search\Filter as FilterSearch;
 use eluhr\shop\models\search\Orders as OrdersSearch;
 use eluhr\shop\models\search\Product as ProductSearch;
 use eluhr\shop\models\search\Tag as TagSearch;
+use eluhr\shop\models\search\Vat as VatSearch;
 use eluhr\shop\models\ShopSettings;
 use eluhr\shop\models\Statistics;
 use eluhr\shop\models\Tag;
+use eluhr\shop\models\Vat;
 use eluhr\shop\models\Variant;
 use yii\filters\VerbFilter;
 use yii\helpers\FileHelper;
@@ -168,6 +170,18 @@ class DashboardController extends WebCrudController
         ]);
     }
 
+    public function actionVats()
+    {
+        $filterModel = new VatSearch();
+
+        \Yii::$app->user->setReturnUrl(['/' . $this->module->id . '/' . $this->id . '/vats']);
+        \Yii::$app->controller->view->params['breadcrumbs'][] = ['label' => \Yii::t('shop', 'Vats')];
+        return $this->render('vats', [
+            'dataProvider' => $filterModel->search(\Yii::$app->request->get()),
+            'filterModel' => $filterModel
+        ]);
+    }
+
     public function actionDiscountCodes()
     {
         $filterModel = new DiscountCodeSearch();
@@ -225,6 +239,30 @@ class DashboardController extends WebCrudController
         \Yii::$app->controller->view->params['breadcrumbs'][] = ['label' => \Yii::t('shop', 'Tags'), 'url' => ['tags']];
         \Yii::$app->controller->view->params['breadcrumbs'][] = ['label' => $model->name];
         return $this->render('tag-edit', [
+            'model' => $model
+        ]);
+    }
+
+    public function actionVatEdit($id = null)
+    {
+        $model = Vat::findOne($id);
+
+        if ($model === null && $id !== null) {
+            throw new NotFoundHttpException(\Yii::t('shop', 'Vat not found'));
+        }
+
+        if ($model === null) {
+            $model = new Vat();
+        }
+
+        if ($model->load(\Yii::$app->request->post()) && $model->validate() && $model->save()) {
+            \Yii::$app->session->addFlash('success', \Yii::t('shop', 'Saved vat'));
+            return $this->redirect(['vat-edit', 'id' => $model->id]);
+        }
+
+        \Yii::$app->controller->view->params['breadcrumbs'][] = ['label' => \Yii::t('shop', 'Vats'), 'url' => ['vats']];
+        \Yii::$app->controller->view->params['breadcrumbs'][] = ['label' => $model->value];
+        return $this->render('vat-edit', [
             'model' => $model
         ]);
     }
@@ -330,6 +368,21 @@ class DashboardController extends WebCrudController
         }
 
         return $this->goBack(['tags']);
+    }
+
+    public function actionVatDelete($id)
+    {
+        $model = Vat::findOne($id);
+
+        if ($model === null) {
+            throw new NotFoundHttpException(\Yii::t('shop', 'Vat not found'));
+        }
+
+        if ($model->delete() === false) {
+            throw new HttpException(500, \Yii::t('shop', 'Error while deleting vat'));
+        }
+
+        return $this->goBack(['vats']);
     }
 
     public function actionProductStatus($id)

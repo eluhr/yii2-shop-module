@@ -83,12 +83,18 @@ JsonEditorPluginsAsset::register($this);
                 $model->include_vat = 1;
             }
         echo $form->field($model, 'include_vat')->checkbox([], false);
-        echo $form->field($model, 'vat')->widget(NumberControl::class, ['maskedInputOptions' => [
-            'suffix' => ' ' . '%',
-            'groupSeparator' => '.',
-            'radixPoint' => ',',
-            'rightAlign' => false
-        ]]);
+//        echo $form->field($model, 'vat')->widget(NumberControl::class, ['maskedInputOptions' => [
+//            'suffix' => ' ' . '%',
+//            'groupSeparator' => '.',
+//            'radixPoint' => ',',
+//            'rightAlign' => false
+//        ]]);
+        echo $form->field($model, 'vat_id')->dropDownList(
+            \yii\helpers\ArrayHelper::map(eluhr\shop\models\Vat::find()->all(), 'id', 'value'),
+            [
+                'prompt' => Yii::t('shop', 'Select'),
+            ]
+        );
         echo $form->field($model, 'extra_info')->textInput(['placeholder' => Yii::t('shop', 'Size S;Size M;Size L')]);
         echo $form->field($model, 'is_online')->checkbox([], false);
         echo $form->field($model, 'rank');
