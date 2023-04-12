@@ -34,7 +34,7 @@ class Module extends BaseModule
 
     public function init()
     {
+        parent::init();
         \Yii::$app->settings->getOrSet('imagePreset', 'x800,q90', 'shop', 'string');
-        return parent::init();
     }
 }
