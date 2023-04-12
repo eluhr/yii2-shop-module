@@ -19,16 +19,6 @@ use yii\widgets\ActiveForm;
  * @var ShoppingCartModify $shoppingCartModel
  */
 
-$this->registerJs(<<<JS
-fetch('/shop/rest/configure-variant?variantId=4', {
-    method: 'POST'
-}).then(response => response.json()).then(json => {
-    console.log(json);
-})
-JS
-);
-
-
 $this->registerMetaTag(['property' => 'og:image', 'content' => $variant->thumbnailImage()]);
 $this->registerMetaTag(['property' => 'og:title', 'content' => $this->title]);
 $this->registerMetaTag(['property' => 'og:description', 'content' => strip_tags($variant->description)]);
