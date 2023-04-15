@@ -17,11 +17,14 @@ use zhuravljov\yii\widgets\DatePicker;
     <div class="col-xs-12">
         <div class="form-group">
             <div class="btn-toolbar pull-left">
-                <?= Html::a(Yii::t('shop', '{icon} Back', ['icon' => FA::icon(FA::_CHEVRON_LEFT)]), ['discount-codes'], ['class' => 'btn btn-default']) ?>
+                <?= Html::a(Yii::t('shop', '{icon} Back', ['icon' => FA::icon(FA::_CHEVRON_LEFT)]), ['dashboard/discount-codes/index'], ['class' => 'btn btn-default']) ?>
             </div>
             <?php if (!$model->isNewRecord): ?>
                 <div class="btn-toolbar pull-right">
-                    <?= Html::a(FA::icon(FA::_TRASH_O), ['discount-code-delete', 'id' => $model->id], ['class' => 'btn btn-danger', 'data-confirm' => Yii::t('shop', 'Are you sure you want to delete this?')]) ?>
+                    <?= Html::a(FA::icon(FA::_TRASH_O), ['dashboard/discount-codes/delete', 'id' => $model->id], ['class' => 'btn btn-danger', 'data' => [
+                        'confirm' => Yii::t('shop', 'Are you sure you want to delete this?'),
+                        'method' => 'post'
+                    ]]) ?>
                 </div>
             <?php endif; ?>
             <span class="clearfix"></span>

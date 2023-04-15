@@ -145,7 +145,7 @@ echo GridView::widget([
                     $newStatus = Order::statusData($activeStatus)['backwards'];
                     if ($newStatus) {
                         return Html::a(FA::icon(FA::_CHEVRON_LEFT),
-                            ['order-move', 'id' => $model->id, 'newStatus' => $newStatus], [
+                            ['move', 'id' => $model->id, 'newStatus' => $newStatus], [
                                 'class' => 'btn btn-change btn-default btn-move-backwards',
                                 'data-loading-text' => FA::icon(FA::_SPINNER, ['class' => 'fa-spin'])
                             ]);
@@ -163,7 +163,7 @@ echo GridView::widget([
                                 ['category' => Order::getStatusValueLabel($newStatus)]);
                         }
                         return Html::a(FA::icon(FA::_CHEVRON_RIGHT),
-                            ['order-move', 'id' => $model->id, 'newStatus' => $newStatus], [
+                            ['move', 'id' => $model->id, 'newStatus' => $newStatus], [
                                 'class' => 'btn btn-change btn-default btn-move-forwards',
                                 'data-loading-text' => FA::icon(FA::_SPINNER, ['class' => 'fa-spin']),
                                 'data-confirm' => $confirmText
@@ -173,7 +173,7 @@ echo GridView::widget([
                         ['class' => 'btn disabled btn-default btn-move-forwards']);
                 },
                 'view' => function ($url, Order $model) {
-                    return Html::a(FA::icon(FA::_EYE), ['order-view', 'id' => $model->id],
+                    return Html::a(FA::icon(FA::_EYE), ['view', 'id' => $model->id],
                         ['class' => 'btn btn-default']);
                 }
             ],
@@ -195,7 +195,7 @@ echo GridView::widget([
             'attribute' => 'type',
             'filter' => Order::optsType(),
             'value' => function ($model) {
-                return Order::optsType()[$model->type];
+                return Order::optsType()[$model->type] ?? null;
             },
             'visible' => $activeStatus !== Order::ALL
         ],
@@ -245,9 +245,7 @@ echo GridView::widget([
             'editableOptions' => [
                 'placement' => PopoverX::ALIGN_AUTO_BOTTOM,
                 'formOptions' => [
-                    'action' => [
-                        'update-shipping-link'
-                    ]
+                    'action' => ['update-shipping-link']
                 ],
             ]
         ],
@@ -258,9 +256,7 @@ echo GridView::widget([
             'editableOptions' => [
                 'placement' => PopoverX::ALIGN_AUTO_BOTTOM,
                 'formOptions' => [
-                    'action' => [
-                        'update-invoice-number'
-                    ]
+                    'action' => ['update-invoice-number']
                 ]
             ]
         ],

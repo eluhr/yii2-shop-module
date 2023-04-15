@@ -22,8 +22,8 @@ use yii\web\View;
 
     <div class="form-group">
         <div class="btn-toolbar">
-            <?= Html::a(Yii::t('shop', '{icon} Back', ['icon' => FA::icon(FA::_CHEVRON_LEFT)]), ['index'], ['class' => 'btn btn-default']) ?>
-            <?= Html::a(Yii::t('shop', '{icon} New', ['icon' => FA::icon(FA::_PLUS)]), ['vat-edit'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a(Yii::t('shop', '{icon} Back', ['icon' => FA::icon(FA::_CHEVRON_LEFT)]), ['dashboard/index'], ['class' => 'btn btn-default']) ?>
+            <?= Html::a(Yii::t('shop', '{icon} New', ['icon' => FA::icon(FA::_PLUS)]), ['edit'], ['class' => 'btn btn-success']) ?>
         </div>
     </div>
 
@@ -40,12 +40,11 @@ echo GridView::widget([
                     return Html::a(FA::icon(FA::_PENCIL), $url, ['class' => 'btn btn-primary']);
                 },
                 'delete' => function ($url) {
-                    return Html::a(FA::icon(FA::_TRASH_O), $url, ['class' => 'btn btn-danger', 'data-confirm' => Yii::t('shop', 'Are you sure you want to delete this?')]);
-                },
-            ],
-            'urlCreator' => function (string $action, Vat $model) {
-                return Url::to(['vat-' . $action, 'id' => $model->id]);
-            }
+                    return Html::a(FA::icon(FA::_TRASH_O), $url, ['class' => 'btn btn-danger', 'data' => [
+                        'confirm' => Yii::t('shop', 'Are you sure you want to delete this?'),
+                        'method' => 'post'
+                    ]]);                },
+            ]
         ],
         'value',
         'desc',

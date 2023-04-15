@@ -53,12 +53,12 @@ JS
 <div class="row">
     <div class="col-xs-12">
         <div class="my-toolbar even">
-            <?= Html::a(FA::icon(FA::_FILTER) . ' ' . Yii::t('shop', 'Filters'), ['filters'], ['class' => 'btn btn-lg btn-default']) ?>
-            <?= Html::a(FA::icon(FA::_HASHTAG) . ' ' . Yii::t('shop', 'Tags'), ['tags'], ['class' => 'btn btn-lg btn-default']) ?>
-            <?= Html::a(FA::icon(FA::_CUBES) . ' ' . Yii::t('shop', 'Products'), ['products'], ['class' => 'btn btn-lg btn-default']) ?>
-            <?= Html::a(FA::icon(FA::_LIST) . ' ' . Yii::t('shop', 'Orders'), ['orders'], ['class' => 'btn btn-lg btn-default']) ?>
-            <?= Html::a(FA::icon(FA::_PERCENT) . ' ' . Yii::t('shop', 'Discount codes'), ['discount-codes'], ['class' => 'btn btn-lg btn-default']) ?>
-            <?= Html::a(FA::icon(FA::_PERCENT) . ' ' . Yii::t('shop', 'Vat Values'), ['vats'], ['class' => 'btn btn-lg btn-default']) ?>
+            <?= Html::a(FA::icon(FA::_FILTER) . ' ' . Yii::t('shop', 'Filters'), ['dashboard/filters/index'], ['class' => 'btn btn-lg btn-default']) ?>
+            <?= Html::a(FA::icon(FA::_HASHTAG) . ' ' . Yii::t('shop', 'Tags'), ['dashboard/tags/index'], ['class' => 'btn btn-lg btn-default']) ?>
+            <?= Html::a(FA::icon(FA::_CUBES) . ' ' . Yii::t('shop', 'Products'), ['dashboard/products/index'], ['class' => 'btn btn-lg btn-default']) ?>
+            <?= Html::a(FA::icon(FA::_LIST) . ' ' . Yii::t('shop', 'Orders'), ['dashboard/orders/index'], ['class' => 'btn btn-lg btn-default']) ?>
+            <?= Html::a(FA::icon(FA::_PERCENT) . ' ' . Yii::t('shop', 'Discount codes'), ['dashboard/discount-codes/index'], ['class' => 'btn btn-lg btn-default']) ?>
+            <?= Html::a(FA::icon(FA::_PERCENT) . ' ' . Yii::t('shop', 'Vat Values'), ['dashboard/vats/index'], ['class' => 'btn btn-lg btn-default']) ?>
             <?= Html::a(FA::icon(FA::_DASHBOARD) . ' ' . Yii::t('shop', 'Products Configurator'), ['products-configurator'], ['class' => 'btn btn-lg btn-default']) ?>
             <?= Html::a(FA::icon(FA::_WRENCH) . ' ' . Yii::t('shop', 'Settings'), ['settings'], ['class' => 'btn btn-lg btn-default']) ?>
         </div>

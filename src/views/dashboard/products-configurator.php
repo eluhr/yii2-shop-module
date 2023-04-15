@@ -36,7 +36,7 @@ use yii\web\View;
     echo $this->render('_configurator_tab', ['tag' => $tag]);
 } ?>
                         <li class="label label-primary">
-                            <?= Html::a(Yii::t('shop', '{icon} New', ['icon' => FA::icon(FA::_PLUS)]), ['/shop/dashboard/tag-edit'], ['target' => '_blank']) ?>
+                            <?= Html::a(Yii::t('shop', '{icon} New', ['icon' => FA::icon(FA::_PLUS)]), ['dashboard/tags/edit'], ['target' => '_blank']) ?>
                         </li>
                     </ul>
                 </div>
@@ -48,7 +48,7 @@ use yii\web\View;
                     <div class="box-header">
                         <h3 class="box-title"><?= Html::a(FA::icon(FA::_CIRCLE, ['class' => $filter->is_online ? 'text-success' : 'text-danger']), ['/shop/data/toggle-filter-status', 'itemId' => $filter->id]) ?> <?= $filter->name ?></h3>
                         <div class="box-tools pull-right">
-                            <?= Html::a(FA::icon(FA::_PENCIL), ['/shop/dashboard/filter-edit','id' => $filter->id], ['class' => 'btn btn-box-tool','target' => '_blank']) ?>
+                            <?= Html::a(FA::icon(FA::_PENCIL), ['dashboard/filters/edit','id' => $filter->id], ['class' => 'btn btn-box-tool','target' => '_blank']) ?>
                         </div>
                     </div>
                     <div class="box-footer">
@@ -72,7 +72,7 @@ use yii\web\View;
                             <div class="box-header">
                                 <h3 class="box-title"><?= Html::a(FA::icon(FA::_CIRCLE, ['class' => $product->is_online ? 'text-success' : 'text-danger']), ['/shop/data/toggle-product-status', 'itemId' => $product->id]) ?> <?= $product->title ?></h3>
                                 <div class="box-tools pull-right">
-                                    <?= Html::a(FA::icon(FA::_PENCIL), ['/shop/dashboard/product-edit','id' => $product->id], ['class' => 'btn btn-box-tool','target' => '_blank']) ?>
+                                    <?= Html::a(FA::icon(FA::_PENCIL), ['dashboard/products/edit','id' => $product->id], ['class' => 'btn btn-box-tool','target' => '_blank']) ?>
                                 </div>
                             </div>
                             <div class="box-body no-padding">
@@ -95,7 +95,7 @@ use yii\web\View;
                                                                 href="#"><?= $variant->title ?></a></li>
                                                 <?php endforeach; ?>
                                                 <li>
-                                                    <?= Html::a(Yii::t('shop', '{icon} New', ['icon' => FA::icon(FA::_PLUS)]), ['/shop/dashboard/variant-edit', 'product_id' => $product->id], ['target' => '_blank']) ?>
+                                                    <?= Html::a(Yii::t('shop', '{icon} New', ['icon' => FA::icon(FA::_PLUS)]), ['dashboard/variants/edit', 'product_id' => $product->id], ['target' => '_blank']) ?>
                                                 </li>
                                             </ul>
                                         </div>

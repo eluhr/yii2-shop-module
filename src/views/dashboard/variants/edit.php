@@ -4,6 +4,7 @@
  */
 
 use dosamigos\ckeditor\CKEditor;
+use eluhr\shop\models\Vat;
 use hrzg\filemanager\widgets\FileManagerInputWidget;
 use kartik\color\ColorInput;
 use kartik\number\NumberControl;
@@ -11,6 +12,7 @@ use eluhr\shop\models\ShopSettings;
 use eluhr\shop\models\Variant;
 use kartik\select2\Select2;
 use rmrevin\yii\fontawesome\FA;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dmstr\jsoneditor\JsonEditorPluginsAsset;
@@ -23,15 +25,18 @@ JsonEditorPluginsAsset::register($this);
     <div class="col-xs-12">
         <div class="form-group">
             <div class="btn-toolbar pull-left">
-                <?= Html::a(Yii::t('shop', '{icon} Back to product', ['icon' => FA::icon(FA::_CHEVRON_LEFT)]), ['product-edit', 'id' => $model->product_id], ['class' => 'btn btn-default']) ?>
+                <?= Html::a(Yii::t('shop', '{icon} Back to product', ['icon' => FA::icon(FA::_CHEVRON_LEFT)]), ['dashboard/products/edit', 'id' => $model->product_id], ['class' => 'btn btn-default']) ?>
             </div>
             <?php if (!$model->isNewRecord): ?>
                 <div class="btn-toolbar pull-right">
-                    <?= Html::a(FA::icon(FA::_COPY), ['variant-copy', 'id' => $model->id], ['class' => 'btn btn-warning', 'data' => [
+                    <?= Html::a(FA::icon(FA::_COPY), ['dashboard/variants/copy', 'id' => $model->id], ['class' => 'btn btn-warning', 'data' => [
                             'confirm' => Yii::t('shop', 'Are you sure you want to copy this?'),
                         'method' => 'post'
                     ]]) ?>
-                    <?= Html::a(FA::icon(FA::_TRASH_O), ['variant-delete', 'id' => $model->id], ['class' => 'btn btn-danger', 'data-confirm' => Yii::t('shop', 'Are you sure you want to delete this?')]) ?>
+                    <?= Html::a(FA::icon(FA::_TRASH_O), ['dashboard/variants/delete', 'id' => $model->id], ['class' => 'btn btn-danger', 'data' => [
+                        'confirm' => Yii::t('shop', 'Are you sure you want to delete this?'),
+                        'method' => 'post'
+                    ]]) ?>
                 </div>
             <?php endif; ?>
             <span class="clearfix"></span>
@@ -90,7 +95,7 @@ JsonEditorPluginsAsset::register($this);
 //            'rightAlign' => false
 //        ]]);
         echo $form->field($model, 'vat_id')->dropDownList(
-            \yii\helpers\ArrayHelper::map(eluhr\shop\models\Vat::find()->all(), 'id', 'value'),
+            ArrayHelper::map(Vat::find()->all(), 'id', 'value'),
             [
                 'prompt' => Yii::t('shop', 'Select'),
             ]
@@ -110,17 +115,6 @@ JsonEditorPluginsAsset::register($this);
         }
         if (ShopSettings::shopProductAllowConfigurableVariant()) {
             echo $form->field($model, 'configurator_url');
-
-            echo $form->field($model, 'configurator_data')->widget(dmstr\jsoneditor\JsonEditorWidget::class, [
-                'schema' => $model->getConfiguratorDatachema(),
-                'clientOptions' => [
-                    'theme' => 'bootstrap3',
-                    'disable_collapse' => true,
-                    'disable_properties' => true,
-                    'keep_oneof_values' => false,
-                    'ajax' => true
-                ],
-            ]);
         }
 
         echo Html::errorSummary($model);

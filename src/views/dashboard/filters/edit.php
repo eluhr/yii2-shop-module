@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 <div class="row">
     <div class="col-xs-12">
         <div class="form-group">
-            <?= Html::a(Yii::t('shop', '{icon} Back', ['icon' => FA::icon(FA::_CHEVRON_LEFT)]), ['filters'], ['class' => 'btn btn-default']); ?>
+            <?= Html::a(Yii::t('shop', '{icon} Back', ['icon' => FA::icon(FA::_CHEVRON_LEFT)]), ['index'], ['class' => 'btn btn-default']); ?>
         </div>
     </div>
     <div class="col-xs-12 col-md-8">
@@ -49,12 +49,12 @@ use yii\widgets\ActiveForm;
         <div class="list-group">
             <?php
             foreach ($model->tags as $tag) {
-                echo Html::a($tag->name, ['tag-edit', 'id' => $tag->id], ['class' => 'list-group-item']);
+                echo Html::a($tag->name, ['dashboard/tags/edit', 'id' => $tag->id], ['class' => 'list-group-item']);
             }
             if ($model->isNewRecord) {
                 echo Html::tag('div', Yii::t('shop', '{icon} New Tag', ['icon' => FA::icon(FA::_PLUS)]), ['class' => 'list-group-item disabled active', 'title' => Yii::t('shop', 'Please create a new filter before adding a new tag')]);
             } else {
-                echo Html::a(Yii::t('shop', '{icon} New Tag', ['icon' => FA::icon(FA::_PLUS)]), ['tag-edit'], ['class' => 'list-group-item active']);
+                echo Html::a(Yii::t('shop', '{icon} New Tag', ['icon' => FA::icon(FA::_PLUS)]), ['dashboard/tags/edit'], ['class' => 'list-group-item active']);
             }
             ?>
         </div>

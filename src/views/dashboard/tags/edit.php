@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 <div class="row">
     <div class="col-xs-12">
         <div class="form-group">
-            <?= Html::a(Yii::t('shop', '{icon} Back', ['icon' => FA::icon(FA::_CHEVRON_LEFT)]), ['tags'], ['class' => 'btn btn-default']); ?>
+            <?= Html::a(Yii::t('shop', '{icon} Back', ['icon' => FA::icon(FA::_CHEVRON_LEFT)]), ['dashboard/tags/index'], ['class' => 'btn btn-default']); ?>
         </div>
     </div>
     <div class="col-xs-12">
