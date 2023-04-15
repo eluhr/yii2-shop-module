@@ -56,7 +56,7 @@ class VatsController extends BaseController
             return $this->redirect(['dashboard/vats/edit', 'id' => $model->id]);
         }
 
-        $this->view->params['breadcrumbs'][] = ['label' => Yii::t('shop', 'Vats'), 'url' => ['vats']];
+        $this->view->params['breadcrumbs'][] = ['label' => Yii::t('shop', 'Vats'), 'url' => ['dashboard/vats/index']];
         $this->view->params['breadcrumbs'][] = ['label' => $model->value];
         return $this->render('edit', [
             'model' => $model

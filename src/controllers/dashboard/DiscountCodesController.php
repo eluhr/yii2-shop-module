@@ -57,7 +57,7 @@ class DiscountCodesController extends BaseController
             return $this->redirect(['dashboard/discount-codes/edit', 'id' => $model->id]);
         }
 
-        $this->view->params['breadcrumbs'][] = ['label' => Yii::t('shop', 'Discount codes'), 'url' => ['discount-codes']];
+        $this->view->params['breadcrumbs'][] = ['label' => Yii::t('shop', 'Discount codes'), 'url' => ['dashboard/discount-codes/index']];
         $this->view->params['breadcrumbs'][] = ['label' => $model->code];
         return $this->render('edit', [
             'model' => $model
