@@ -74,7 +74,7 @@ JS
 );
 ?>
     <div class="form-group">
-        <?= Html::a(Yii::t('shop', '{icon} Back', ['icon' => FA::icon(FA::_CHEVRON_LEFT)]), ['index'], ['class' => 'btn btn-default']); ?>
+        <?= Html::a(Yii::t('shop', '{icon} Back', ['icon' => FA::icon(FA::_CHEVRON_LEFT)]), ['dashboard/index'], ['class' => 'btn btn-default']); ?>
     </div>
     <div class="btn-group btn-group-move-orders hidden">
         <?php
