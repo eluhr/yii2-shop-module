@@ -61,7 +61,12 @@ class DashboardController extends BaseController
             'dateRange' => $dateRange
         ]);
 
-        $exportPath = \Yii::getAlias('@runtime/tmp');
+        $soldOrders = $model->soldOrders();
+        if (empty($soldOrders)) {
+            throw new HttpException(404, \Yii::t('shop', 'No invoices found'));
+        }
+
+        $exportPath = \Yii::getAlias('@runtime/shop/export/invoices');
 
         if (FileHelper::createDirectory($exportPath) === false) {
             throw new HttpException(500, \Yii::t('shop', 'Cannot create a export directory for zip download'));
@@ -73,21 +78,21 @@ class DashboardController extends BaseController
             throw new HttpException(500, \Yii::t('shop', 'Cannot create a zip file'));
         }
 
-        foreach ($model->soldOrders() as $order) {
+        foreach ($soldOrders as $order) {
             if (!empty($order->invoice_number) && $order->generateInvoice()) {
                 $zip->addFile($order->getInvoiceSavePath(), $order->invoiceFileName());
             }
         }
 
         $zip->close();
-        foreach ($model->soldOrders() as $order) {
+        foreach ($soldOrders as $order) {
             if (!empty($order->invoice_number)) {
                 unlink($order->getInvoiceSavePath());
             }
         }
         \Yii::$app->response->sendFile($zipFile)->send();
         unlink($zipFile);
-        return true;
+        \Yii::$app->end();
     }
 
     public function actionProductsConfigurator()
