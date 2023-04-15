@@ -54,7 +54,7 @@ echo GridView::widget([
             'value' => function (Filter $model) {
                 $labels = [];
                 foreach ($model->tags as $tag) {
-                    $labels[] = Html::a($tag->name, ['tag-edit', 'id' => $tag->id], ['class' => 'label label-primary']);
+                    $labels[] = Html::a($tag->name, ['dashboard/tags/edit', 'id' => $tag->id], ['class' => 'label label-primary']);
                 }
                 return implode(' ', $labels);
             },
