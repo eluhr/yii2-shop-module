@@ -2,8 +2,8 @@
 
 namespace eluhr\shop\models;
 
+use eluhr\shop\models\base\DiscountCode as BaseDiscountCode;
 use Yii;
-use \eluhr\shop\models\base\DiscountCode as BaseDiscountCode;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
@@ -27,8 +27,8 @@ class DiscountCode extends BaseDiscountCode
     public static function optsTypes()
     {
         return [
-            self::TYPE_PERCENT => Yii::t('shop','Percent'),
-            self::TYPE_AMOUNT => Yii::t('shop','Fixed value')
+            self::TYPE_PERCENT => Yii::t('shop', 'Percent'),
+            self::TYPE_AMOUNT => Yii::t('shop', 'Fixed value')
         ];
     }
 
@@ -65,16 +65,25 @@ class DiscountCode extends BaseDiscountCode
         $rules[] = [
             'value',
             'number',
-            'min' => 0.01,
-            'max' => 100,
-            'on' => self::SCENARIO_CUSTOM
+            'min' => 0.01
         ];
         $rules[] = [
-          'type',
-          'in',
-          'range'=> array_keys(self::optsTypes())
+            'value',
+            'valueMaxValue'
+        ];
+        $rules[] = [
+            'type',
+            'in',
+            'range' => array_keys(self::optsTypes())
         ];
         return $rules;
+    }
+
+    public function valueMaxValue()
+    {
+        if ((int)$this->type === self::TYPE_PERCENT && $this->value > 100) {
+            $this->addError('value', Yii::t('shop', 'Percent value must be between 0.01 and 100'));
+        }
     }
 
     public function beforeValidate()
@@ -120,7 +129,7 @@ class DiscountCode extends BaseDiscountCode
 
     public function getLabel()
     {
-        return Yii::t('shop', 'Discount Code "{code}" ({value})', ['code' => $this->code,'value' => '-' . $this->prettyValue()]);
+        return Yii::t('shop', 'Discount Code "{code}" ({value})', ['code' => $this->code, 'value' => '-' . $this->prettyValue()]);
     }
 
     public function getPrice()
