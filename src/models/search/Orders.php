@@ -88,7 +88,7 @@ class Orders extends OrderModel
         } else {
             $query->andFilterWhere(['status' => $this->status]);
         }
-        $query->andFilterWhere(['type' => $this->type]);
+        $query->andFilterWhere([OrderModel::tableName() . '.type' => $this->type]);
 
         $query->orderBy(['created_at' => SORT_DESC]);
 
