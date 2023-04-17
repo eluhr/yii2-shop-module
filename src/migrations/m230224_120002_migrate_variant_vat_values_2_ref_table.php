@@ -16,6 +16,10 @@ class m230224_120002_migrate_variant_vat_values_2_ref_table extends Migration
 
         foreach (\eluhr\shop\models\Variant::find()->all() as $varModel) {
             $vatVal = $varModel->vat;
+            // vat value can be empty. Ignore if not set.
+            if (empty($vatVal)) {
+                continue;
+            }
             if (!array_key_exists($vatVal, $knownVats)) {
                 $vatModel = \eluhr\shop\models\Vat::find()->andWhere(['value' => $vatVal])->one();
                 if (!$vatModel) {
