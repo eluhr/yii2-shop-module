@@ -3,6 +3,7 @@
 namespace eluhr\shop\models;
 
 use eluhr\shop\models\base\Variant as BaseVariant;
+use eluhr\shop\Module;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
@@ -15,6 +16,8 @@ use yii\helpers\Url;
  */
 class Variant extends BaseVariant
 {
+
+    public $moduleId = 'shop';
     public function rules()
     {
         $rules = parent::rules();
@@ -68,8 +71,16 @@ class Variant extends BaseVariant
      */
     public function thumbnailImage()
     {
-        $preset = \Yii::$app->settings->get('imagePreset', 'shop', '');
-        return \dmstr\willnorrisImageproxy\Url::image($this->thumbnail_image, $preset);
+
+        /** @var Module $module */
+        $module = Yii::$app->getModule($this->moduleId);
+
+        // Check if module has property and property is callable
+        if ($module->hasProperty('variantThumbnailImageCallback') && is_callable($module->variantThumbnailImageCallback)) {
+            return call_user_func($module->variantThumbnailImageCallback, $this->thumbnail_image);
+        }
+
+        return $this->thumbnail_image;
     }
 
     public function detailUrl()

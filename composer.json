@@ -17,8 +17,7 @@
         "eluhr/yii2-sortablejs": "^0.0.5",
         "kartik-v/yii2-export": "^1.4",
         "dompdf/dompdf": "^2.0.3",
-        "dmstr/yii2-helpers": "^0.4.18",
-        "pheme/yii2-settings": "^0.7.0"
+        "dmstr/yii2-helpers": "^0.4.18"
     },
     "suggest": {
         "payrexx/payrexx": "Allows usage of the Payrexx payment component"

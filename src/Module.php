@@ -26,15 +26,19 @@ class Module extends BaseModule
         Order::TYPE_PREPAYMENT
     ];
 
+    /**
+     * Callback to modify the variant thumbnail. Callback must return a string
+     *
+     * @var callable|null
+     */
+    public $variantThumbnailImageCallback;
+
+    /**
+     * @inheritdoc
+    */
     public function beforeAction($action)
     {
         ShopFrontendAsset::register(\Yii::$app->controller->view);
         return parent::beforeAction($action);
-    }
-
-    public function init()
-    {
-        parent::init();
-        \Yii::$app->settings->getOrSet('imagePreset', 'x800,q90', 'shop', 'string');
     }
 }
