@@ -130,6 +130,16 @@ $allowedProviders = ShopSettings::allowedPaymentProviders();
                             'min' => 0
                         ]); ?></div>
                 </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-2"><?php echo $form->field($setting,
+                            ShopSettings::SHOP_GENERAL_SHIPPING_COST)->input('number', [
+                            'data-input' => 'textfield',
+                            'data-group' => 'general',
+                            'data-confirm-text' => Yii::t('shop',
+                                'Are you sure you want to change this setting? This will change the shipping cost value.'),
+                            'step' => 0.01
+                        ]); ?></div>
+                </div>
                 <?php
                 ActiveForm::end();
                 ?>

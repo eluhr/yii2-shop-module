@@ -334,6 +334,11 @@ class ShoppingCart extends Component
 
     public function shippingCost()
     {
+
+        if (ShopSettings::isFixedShippingCost()) {
+            return ShopSettings::shopGeneralShippingCost();
+        }
+
         $shipping = 0;
         foreach ($this->_positions as $position) {
             if ($position->isDiscount === false) {

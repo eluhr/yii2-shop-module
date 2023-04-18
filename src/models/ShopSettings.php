@@ -42,6 +42,8 @@ class ShopSettings extends Model
     public const SHOP_PRODUCT_DEFAULT_VAT = 'shopProductDefaultVat';
     public const SHOP_MAIL_SHOW_BANK_DETAILS = 'shopMailShowBankDetails';
     public const SHOP_CHECKOUT_PAYMENT_PROVIDERS = 'shopCheckoutPaymentProviders';
+    public const SHOP_GENERAL_SHIPPING_COST = 'shopGeneralShippingCost';
+
     public $shopMailShowBankDetails;
     public $shopProductDefaultVat;
     public $shopGeneralShowFilters;
@@ -70,6 +72,8 @@ class ShopSettings extends Model
     public $shopProductShowVat;
     public $shopCheckoutPaymentProviders;
     public $shopProductEnableShippingDuration;
+
+    public $shopGeneralShippingCost;
 
 
     protected static $settings = [
@@ -124,6 +128,10 @@ class ShopSettings extends Model
         self::SHOP_PRODUCT_FEW_AVAILABLE_WARNING => [
             'type' => 'int',
             'default' => 15
+        ],
+        self::SHOP_GENERAL_SHIPPING_COST => [
+            'type' => 'float',
+            'default' => null
         ],
         self::SHOP_PRODUCT_MIN_DAYS_SHIPPING_DURATION => [
             'type' => 'int',
@@ -209,6 +217,7 @@ class ShopSettings extends Model
                 self::SHOP_INVOICE_LOGO,
                 self::SHOP_CHECKOUT_PAYMENT_PROVIDERS,
                 self::SHOP_PRODUCT_ALLOW_CONFIGURABLE_VARIANT,
+                self::SHOP_GENERAL_SHIPPING_COST
             ],
             'safe'
         ];
@@ -236,7 +245,8 @@ class ShopSettings extends Model
             [
                 self::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE,
                 self::SHOP_PRODUCT_MIN_DAYS_SHIPPING_DURATION,
-                self::SHOP_PRODUCT_MAX_DAYS_SHIPPING_DURATION
+                self::SHOP_PRODUCT_MAX_DAYS_SHIPPING_DURATION,
+                self::SHOP_GENERAL_SHIPPING_COST
             ],
             'number',
             'min' => 0,
@@ -295,6 +305,9 @@ class ShopSettings extends Model
             $value = $model->value;
         } else {
             $value = $data['default'];
+        }
+        if ($value === null || $value === '') {
+            return null;
         }
         settype($value, $data['type']);
         return $value;
@@ -357,7 +370,7 @@ class ShopSettings extends Model
 
     public static function shopMailLogo(): string
     {
-        return static::getValueByConst(self::SHOP_MAIL_LOGO);
+        return (string)static::getValueByConst(self::SHOP_MAIL_LOGO);
     }
 
     public static function shopInvoiceLogo(): string
@@ -382,7 +395,7 @@ class ShopSettings extends Model
 
     public static function shopGeneralMinShoppingCartValue(): float
     {
-        return static::getValueByConst(self::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE);
+        return (float)static::getValueByConst(self::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE);
     }
 
     public static function shopProductShowShippingCosts(): bool
@@ -392,12 +405,12 @@ class ShopSettings extends Model
 
     public static function shopProductMinDaysShippingDuration(): int
     {
-        return static::getValueByConst(self::SHOP_PRODUCT_MIN_DAYS_SHIPPING_DURATION);
+        return (int)static::getValueByConst(self::SHOP_PRODUCT_MIN_DAYS_SHIPPING_DURATION);
     }
 
     public static function shopProductMaxDaysShippingDuration(): int
     {
-        return static::getValueByConst(self::SHOP_PRODUCT_MAX_DAYS_SHIPPING_DURATION);
+        return (int)static::getValueByConst(self::SHOP_PRODUCT_MAX_DAYS_SHIPPING_DURATION);
     }
 
     public static function shopProductVariantTextTemplate(): string
@@ -440,6 +453,11 @@ class ShopSettings extends Model
         return static::getValueByConst(self::SHOP_PRODUCT_ALLOW_CONFIGURABLE_VARIANT);
     }
 
+    public static function shopGeneralShippingCost()
+    {
+        return static::getValueByConst(self::SHOP_GENERAL_SHIPPING_COST);
+    }
+
     public function attributeLabels()
     {
         $attributeLabels = parent::attributeLabels();
@@ -468,6 +486,7 @@ class ShopSettings extends Model
         $attributeLabels[self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS] = \Yii::t('shop', 'Show customer details text box in checkout');
         $attributeLabels[self::SHOP_PRODUCT_SHOW_VAT] = \Yii::t('shop', 'Show VAT in product variants');
         $attributeLabels[self::SHOP_PRODUCT_DEFAULT_VAT] = \Yii::t('shop', 'Default Variant VAT for new products');
+        $attributeLabels[self::SHOP_GENERAL_SHIPPING_COST] = \Yii::t('shop', 'Shipping cost overwrite');
         return $attributeLabels;
     }
 
@@ -475,6 +494,7 @@ class ShopSettings extends Model
     {
         $attributeHints = parent::attributeHints();
         $attributeHints[self::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE] = \Yii::t('shop','If set to 0 (zero), there is no minimum limit');
+        $attributeHints[self::SHOP_GENERAL_SHIPPING_COST] = \Yii::t('shop','If set to nothing, the shipping cost from the products will be calculated.');
         return $attributeHints;
     }
 
@@ -540,5 +560,19 @@ class ShopSettings extends Model
             }
         }
         return $list;
+    }
+
+    /**
+     * If nothing is set, there is no fixed value to be set.
+     *
+     * @return bool
+     */
+    public static function isFixedShippingCost(): bool
+    {
+        $value = static::shopGeneralShippingCost();
+        if ($value === null || $value === '') {
+            return false;
+        }
+        return true;
     }
 }
