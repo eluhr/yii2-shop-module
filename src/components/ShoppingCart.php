@@ -304,7 +304,7 @@ class ShoppingCart extends Component
 
         foreach ($this->items() as $item) {
             if ($item['isDiscount'] === true) {
-                    $discount[$item['discountType']] += $item['discountValue'];
+                $discount[$item['discountType']] += $item['discountValue'];
             }
         }
 
@@ -332,8 +332,27 @@ class ShoppingCart extends Component
         return $total;
     }
 
+    public function sumOfProducts()
+    {
+        $total = 0;
+        foreach ($this->_positions as $position) {
+            if ($position->isDiscount === false) {
+                $total += $position->getCost();
+            }
+        }
+        return $total;
+    }
+
     public function shippingCost()
     {
+
+        if (ShopSettings::hasLimitedShippingCost()) {
+            $total = $this->sumOfProducts();
+            $limit = ShopSettings::shopGeneralShippingCostFreeLimit();
+            if ($total >= $limit) {
+                return 0;
+            }
+        }
 
         if (ShopSettings::isFixedShippingCost()) {
             return ShopSettings::shopGeneralShippingCost();
@@ -375,8 +394,9 @@ class ShoppingCart extends Component
 
     /**
      * @param string $orderId
-     * @return \eluhr\shop\components\Payment|false
+     *
      * @throws \yii\web\HttpException
+     * @return \eluhr\shop\components\Payment|false
      */
     public function checkout($orderId, string $type)
     {

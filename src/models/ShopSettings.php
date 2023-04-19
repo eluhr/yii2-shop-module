@@ -44,6 +44,8 @@ class ShopSettings extends Model
     public const SHOP_CHECKOUT_PAYMENT_PROVIDERS = 'shopCheckoutPaymentProviders';
     public const SHOP_GENERAL_SHIPPING_COST = 'shopGeneralShippingCost';
 
+    public const SHOP_GENERAL_SHIPPING_COST_FREE_LIMIT = 'shopGeneralShippingCostFreeLimit';
+
     public $shopMailShowBankDetails;
     public $shopProductDefaultVat;
     public $shopGeneralShowFilters;
@@ -72,8 +74,8 @@ class ShopSettings extends Model
     public $shopProductShowVat;
     public $shopCheckoutPaymentProviders;
     public $shopProductEnableShippingDuration;
-
     public $shopGeneralShippingCost;
+    public $shopGeneralShippingCostFreeLimit;
 
 
     protected static $settings = [
@@ -130,6 +132,10 @@ class ShopSettings extends Model
             'default' => 15
         ],
         self::SHOP_GENERAL_SHIPPING_COST => [
+            'type' => 'float',
+            'default' => null
+        ],
+        self::SHOP_GENERAL_SHIPPING_COST_FREE_LIMIT => [
             'type' => 'float',
             'default' => null
         ],
@@ -217,7 +223,8 @@ class ShopSettings extends Model
                 self::SHOP_INVOICE_LOGO,
                 self::SHOP_CHECKOUT_PAYMENT_PROVIDERS,
                 self::SHOP_PRODUCT_ALLOW_CONFIGURABLE_VARIANT,
-                self::SHOP_GENERAL_SHIPPING_COST
+                self::SHOP_GENERAL_SHIPPING_COST,
+                self::SHOP_GENERAL_SHIPPING_COST_FREE_LIMIT
             ],
             'safe'
         ];
@@ -250,6 +257,14 @@ class ShopSettings extends Model
             ],
             'number',
             'min' => 0,
+            'max' => 9999999
+        ];
+        $rules[] = [
+            [
+                self::SHOP_GENERAL_SHIPPING_COST_FREE_LIMIT
+            ],
+            'number',
+            'min' => 1,
             'max' => 9999999
         ];
         $rules[] = [
@@ -458,6 +473,11 @@ class ShopSettings extends Model
         return static::getValueByConst(self::SHOP_GENERAL_SHIPPING_COST);
     }
 
+    public static function shopGeneralShippingCostFreeLimit()
+    {
+        return static::getValueByConst(self::SHOP_GENERAL_SHIPPING_COST_FREE_LIMIT);
+    }
+
     public function attributeLabels()
     {
         $attributeLabels = parent::attributeLabels();
@@ -487,6 +507,7 @@ class ShopSettings extends Model
         $attributeLabels[self::SHOP_PRODUCT_SHOW_VAT] = \Yii::t('shop', 'Show VAT in product variants');
         $attributeLabels[self::SHOP_PRODUCT_DEFAULT_VAT] = \Yii::t('shop', 'Default Variant VAT for new products');
         $attributeLabels[self::SHOP_GENERAL_SHIPPING_COST] = \Yii::t('shop', 'Shipping cost overwrite');
+        $attributeLabels[self::SHOP_GENERAL_SHIPPING_COST_FREE_LIMIT] = \Yii::t('shop', 'Shipping cost free threshold');
         return $attributeLabels;
     }
 
@@ -495,6 +516,7 @@ class ShopSettings extends Model
         $attributeHints = parent::attributeHints();
         $attributeHints[self::SHOP_GENERAL_MIN_SHOPPING_CART_VALUE] = \Yii::t('shop','If set to 0 (zero), there is no minimum limit');
         $attributeHints[self::SHOP_GENERAL_SHIPPING_COST] = \Yii::t('shop','If set to nothing, the shipping cost from the products will be calculated.');
+        $attributeHints[self::SHOP_GENERAL_SHIPPING_COST_FREE_LIMIT] = \Yii::t('shop','Threshold above which the customer does not pay shipping costs. If empty, the shipping costs are calculated normally.');
         return $attributeHints;
     }
 
@@ -570,6 +592,15 @@ class ShopSettings extends Model
     public static function isFixedShippingCost(): bool
     {
         $value = static::shopGeneralShippingCost();
+        if ($value === null || $value === '') {
+            return false;
+        }
+        return true;
+    }
+
+    public static function hasLimitedShippingCost(): bool
+    {
+        $value = static::shopGeneralShippingCostFreeLimit();
         if ($value === null || $value === '') {
             return false;
         }
