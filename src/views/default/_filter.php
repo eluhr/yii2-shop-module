@@ -24,7 +24,7 @@ use yii\widgets\ActiveForm;
         }
 
         foreach ($filters as $filter) {
-            // if we want to make filters more strict, $finder->
+            // if we want to make filters more strict, use $finder->getAllModelIds() here
             $data = $filter->tagFacets($finder->getAvailableModelIds());
             if (!empty($data)) {
                 $field = $form->field($filterForm, 'tag[' . $filter->id . '][]', ['options' => ['class' => 'filter']]);
