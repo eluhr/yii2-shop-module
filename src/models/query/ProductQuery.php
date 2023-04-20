@@ -59,7 +59,8 @@ class ProductQuery extends \yii\db\ActiveQuery
     {
         $query =
             $this->alias(self::ALIAS)
-                ->select(self::ALIAS . '.*')
+                // always set p.* or p.id as first col as we need to be able to run query with column() which returns the "first" col in result-set
+                ->select([self::ALIAS . '.*'])
                 ->leftJoin(
                     [
                         VariantQuery::ALIAS => Variant::tableName()

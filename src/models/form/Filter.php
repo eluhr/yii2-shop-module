@@ -51,7 +51,9 @@ class Filter extends Model
         foreach ($this->tag as $tags) {
             if (is_array($tags)) {
                 foreach ($tags as $tag) {
-                    $tagIds[] = $tag;
+                    if (!empty($tag)) {
+                        $tagIds[] = $tag;
+                    }
                 }
             }
         }

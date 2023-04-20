@@ -4,8 +4,8 @@ namespace eluhr\shop\models;
 
 use eluhr\shop\components\behaviors\FiltersBehavior;
 use eluhr\shop\components\traits\FiltersTrait;
+use eluhr\shop\models\base\Filter as BaseFilter;
 use Yii;
-use \eluhr\shop\models\base\Filter as BaseFilter;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -49,4 +49,32 @@ class Filter extends BaseFilter
     {
         return ArrayHelper::map($this->getTagXFilters()->orderBy(['rank' => SORT_ASC])->all(), 'tag.id', 'tag.name');
     }
+
+    /**
+     * get TagsIds for this filter for which we have any product assigned.
+     * if you want to get only tags IDs with "online/active" products assigned,
+     * you must provide a list of productIds e.g. from a finder
+     *
+     * @param $productIds
+     *
+     * @return array
+     */
+    public function tagFacets($productIds = null)
+    {
+        $tagData =  $this->tagData();
+        $tagProductIdQuery = TagXProduct::find()->select('tag_id')->andWhere(['tag_id' => array_keys($tagData)]);
+        if (!empty($productIds)) {
+            $tagProductIdQuery->andWhere(['product_id' => $productIds]);
+        }
+        $tagProductIds = $tagProductIdQuery->distinct()->asArray()->column();
+        $facets = [];
+        foreach ($tagData as $tagid => $tagName) {
+            if (in_array($tagid, $tagProductIds)) {
+                $facets[$tagid] = $tagName;
+            }
+        }
+
+        return $facets;
+    }
+
 }
