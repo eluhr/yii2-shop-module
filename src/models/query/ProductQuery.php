@@ -37,6 +37,24 @@ class ProductQuery extends \yii\db\ActiveQuery
         return $this->andWhere([$prefix . 'hide_in_overview' => 0]);
     }
 
+    /**
+     * shorthand for $this->moreThanOneVariantActive()->isVisible()->active()
+     * useful to get query for products that:
+     * - are visible and active
+     * - and have min. one active variant
+     *
+     * @return ProductQuery
+     */
+    public function online()
+    {
+        return $this->moreThanOneVariantActive()->isVisible()->active();
+    }
+
+    /**
+     * get query for products with min. one active variant
+     *
+     * @return ProductQuery
+     */
     public function moreThanOneVariantActive()
     {
         $query =

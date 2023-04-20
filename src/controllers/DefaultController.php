@@ -18,7 +18,7 @@ class DefaultController extends Controller
 
         $this->view->title = \Yii::t('shop', '__SHOP_OVERVIEW_TITLE__');
 
-        $query = Product::find()->moreThanOneVariantActive()->isVisible()->active()->orderByRank();
+        $query = Product::find()->online()->orderByRank();
 
         if ($filterForm->load(\Yii::$app->request->get())) {
             $query->hasTagsAssigned($filterForm->tagIds());
