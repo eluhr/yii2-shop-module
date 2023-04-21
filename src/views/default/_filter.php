@@ -1,9 +1,9 @@
 <?php
 
-use eluhr\shop\models\ShopSettings;
-use kartik\select2\Select2;
 use eluhr\shop\models\Filter;
 use eluhr\shop\models\form\Filter as FilterForm;
+use eluhr\shop\models\ShopSettings;
+use kartik\select2\Select2;
 use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -11,6 +11,7 @@ use yii\widgets\ActiveForm;
 /**
  * @var $filters Filter[]
  * @var $filterForm FilterForm
+ * @var \eluhr\shop\models\search\ProductFinder $finder
  */
 ?>
 <div class="filters">
@@ -23,7 +24,8 @@ use yii\widgets\ActiveForm;
         }
 
         foreach ($filters as $filter) {
-            $data = $filter->tagData();
+            // if we want to make filters more strict, use $finder->getAllModelIds() here
+            $data = $filter->tagFacets($finder->getAvailableModelIds());
             if (!empty($data)) {
                 $field = $form->field($filterForm, 'tag[' . $filter->id . '][]', ['options' => ['class' => 'filter']]);
                 if ($filter->presentation === Filter::PRESENTATION_DROPDOWN) {

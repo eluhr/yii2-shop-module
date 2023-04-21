@@ -1,5 +1,6 @@
 <?php
 /**
+ * @var \eluhr\shop\models\search\ProductFinder $finder
  * @var ActiveDataProvider $dataProvider
  * @var View $this
  * @var Filter[] $filters
@@ -14,13 +15,15 @@ use yii\data\ActiveDataProvider;
 use yii\web\View;
 use yii\widgets\ListView;
 
+Yii::debug($dataProvider->sort);
+
 ?>
 
 <?= Cell::widget(['id' => 'shop-top-global'])?>
 <div class="items-view">
     <?php
     if (ShopSettings::shopGeneralShowFilters()) {
-        echo $this->render('_filter', ['filters' => $filters, 'filterForm' => $filterForm]);
+        echo $this->render('_filter', ['filters' => $filters, 'filterForm' => $filterForm, 'finder' => $finder]);
     }
     ?>
 

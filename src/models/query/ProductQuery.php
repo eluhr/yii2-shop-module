@@ -37,11 +37,30 @@ class ProductQuery extends \yii\db\ActiveQuery
         return $this->andWhere([$prefix . 'hide_in_overview' => 0]);
     }
 
+    /**
+     * shorthand for $this->moreThanOneVariantActive()->isVisible()->active()
+     * useful to get query for products that:
+     * - are visible and active
+     * - and have min. one active variant
+     *
+     * @return ProductQuery
+     */
+    public function online()
+    {
+        return $this->moreThanOneVariantActive()->isVisible()->active();
+    }
+
+    /**
+     * get query for products with min. one active variant
+     *
+     * @return ProductQuery
+     */
     public function moreThanOneVariantActive()
     {
         $query =
             $this->alias(self::ALIAS)
-                ->select(self::ALIAS . '.*')
+                // always set p.* or p.id as first col as we need to be able to run query with column() which returns the "first" col in result-set
+                ->select([self::ALIAS . '.*'])
                 ->leftJoin(
                     [
                         VariantQuery::ALIAS => Variant::tableName()
@@ -59,29 +78,39 @@ class ProductQuery extends \yii\db\ActiveQuery
         return $query;
     }
 
+    /**
+     * add check constraints to reduce result to given tagIds
+     *
+     * @param array $tagIds
+     *
+     * @return ProductQuery
+     */
     public function hasTagsAssigned(array $tagIds)
     {
-        $this->leftJoin(
-            [
-                TagXProductQuery::ALIAS => TagXProduct::tableName()
-            ],
-            [
-                self::ALIAS . '.id' => new Expression(TagXProductQuery::ALIAS . '.product_id')
-            ]
-        );
-        $this->addSelect(new Expression('GROUP_CONCAT(' . TagXProductQuery::ALIAS . '.tag_id) AS `tags`'));
+        if (!empty($tagIds)) {
+            $this->leftJoin(
+                [
+                    TagXProductQuery::ALIAS => TagXProduct::tableName()
+                ],
+                [
+                    self::ALIAS . '.id' => new Expression(TagXProductQuery::ALIAS . '.product_id')
+                ]
+            );
+            $this->addSelect(new Expression('GROUP_CONCAT(' . TagXProductQuery::ALIAS . '.tag_id) AS `tags`'));
 
-        $conditions = [];
+            $conditions = [];
 
-        foreach ($tagIds as $tagId) {
-            if (!empty($tagId)) {
-                $conditions[] = new Expression("FIND_IN_SET({$tagId}, `tags`)");
+            foreach ($tagIds as $tagId) {
+                if (!empty($tagId)) {
+                    $conditions[] = new Expression("FIND_IN_SET({$tagId}, `tags`)");
+                }
             }
+
+            $this->andHaving(implode(' OR ', $conditions));
+
         }
 
-        $this->andHaving(implode(' OR ', $conditions));
-
-        return $this->andHaving(implode(' OR ', $conditions));
+        return $this;
     }
 
     public function orderByRank()
@@ -91,8 +120,8 @@ class ProductQuery extends \yii\db\ActiveQuery
 
     public function fullTextSearch($q)
     {
-        if (ShopSettings::shopGeneralShowSearch()) {
-            $searchTerm = HtmlPurifier::process(strip_tags($q));
+        $searchTerm = HtmlPurifier::process(strip_tags($q));
+        if (!empty($searchTerm) && ShopSettings::shopGeneralShowSearch()) {
             $this->addSelect([
                 'searchableTitle' => new Expression('GROUP_CONCAT(v.title)'),
                 'searchableDescription' => new Expression('GROUP_CONCAT(v.description)'),
