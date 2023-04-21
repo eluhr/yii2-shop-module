@@ -39,7 +39,7 @@ class ShopSettings extends Model
     public const SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE = 'shopProductVariantTextTemplate';
     public const SHOP_PRODUCT_SHOW_VAT = 'shopProductShowVat';
     public const SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS = 'shopGeneralAllowCustomerDetails';
-    public const SHOP_PRODUCT_DEFAULT_VAT = 'shopProductDefaultVat';
+    public const SHOP_PRODUCT_DEFAULT_VAT_ID = 'shopProductDefaultVatId';
     public const SHOP_MAIL_SHOW_BANK_DETAILS = 'shopMailShowBankDetails';
     public const SHOP_CHECKOUT_PAYMENT_PROVIDERS = 'shopCheckoutPaymentProviders';
     public const SHOP_GENERAL_SHIPPING_COST = 'shopGeneralShippingCost';
@@ -47,7 +47,7 @@ class ShopSettings extends Model
     public const SHOP_GENERAL_SHIPPING_COST_FREE_LIMIT = 'shopGeneralShippingCostFreeLimit';
 
     public $shopMailShowBankDetails;
-    public $shopProductDefaultVat;
+    public $shopProductDefaultVatId;
     public $shopGeneralShowFilters;
     public $shopGeneralShowSearch;
     public $shopGeneralInvoiceDownload;
@@ -191,9 +191,9 @@ class ShopSettings extends Model
             'type' => 'float',
             'default' => 0.00
         ],
-        self::SHOP_PRODUCT_DEFAULT_VAT => [
-            'type' => 'float',
-            'default' => 0.00
+        self::SHOP_PRODUCT_DEFAULT_VAT_ID => [
+            'type' => 'int',
+            'default' => null
         ],
         self::SHOP_CHECKOUT_PAYMENT_PROVIDERS => [
             'type' => 'string',
@@ -268,10 +268,8 @@ class ShopSettings extends Model
             'max' => 9999999
         ];
         $rules[] = [
-               self::SHOP_PRODUCT_DEFAULT_VAT,
-            'number',
-            'min' => 0,
-            'max' => 100
+            self::SHOP_PRODUCT_DEFAULT_VAT_ID,
+            'number'
         ];
         $rules[] = [
             [
@@ -443,9 +441,13 @@ class ShopSettings extends Model
         return (bool)static::getValueByConst(self::SHOP_PRODUCT_SHOW_VAT);
     }
 
-    public static function shopProductDefaultVat(): float
+    public static function shopProductDefaultVatId(): ?int
     {
-        return (float)static::getValueByConst(self::SHOP_PRODUCT_DEFAULT_VAT);
+        $value = static::getValueByConst(self::SHOP_PRODUCT_DEFAULT_VAT_ID);
+        if ($value === null || $value === '') {
+            return null;
+        }
+        return (int)$value;
     }
 
     public static function shopMailShowBankDetails(): bool
@@ -505,7 +507,7 @@ class ShopSettings extends Model
         $attributeLabels[self::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE] = \Yii::t('shop', 'Variant text template');
         $attributeLabels[self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS] = \Yii::t('shop', 'Show customer details text box in checkout');
         $attributeLabels[self::SHOP_PRODUCT_SHOW_VAT] = \Yii::t('shop', 'Show VAT in product variants');
-        $attributeLabels[self::SHOP_PRODUCT_DEFAULT_VAT] = \Yii::t('shop', 'Default Variant VAT for new products');
+        $attributeLabels[self::SHOP_PRODUCT_DEFAULT_VAT_ID] = \Yii::t('shop', 'Default Variant VAT for new products');
         $attributeLabels[self::SHOP_GENERAL_SHIPPING_COST] = \Yii::t('shop', 'Shipping cost overwrite');
         $attributeLabels[self::SHOP_GENERAL_SHIPPING_COST_FREE_LIMIT] = \Yii::t('shop', 'Shipping cost free threshold');
         return $attributeLabels;

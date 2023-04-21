@@ -1,8 +1,10 @@
 <?php
 
 use eluhr\shop\models\ShopSettings;
+use eluhr\shop\models\Vat;
 use rmrevin\yii\fontawesome\FA;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\ActiveForm;
@@ -24,6 +26,12 @@ $("[data-input='checkbox']").on("click", function(e) {
     }
 });
 $("[data-input='textfield']").on("blur", function() {
+    if (confirm( $(this).data('confirm-text'))) {
+          $(".overlay[data-overlay='" + $(this).data('group') + "']").removeClass('hidden');
+          this.form.submit();  
+    }
+});
+$("[data-input='dropdown']").on("change", function() {
     if (confirm( $(this).data('confirm-text'))) {
           $(".overlay[data-overlay='" + $(this).data('group') + "']").removeClass('hidden');
           this.form.submit();  
@@ -226,14 +234,18 @@ $allowedProviders = ShopSettings::allowedPaymentProviders();
                 ?>
                 <div class="row">
                     <div class="col-xs-12 col-md-2"><?php echo $form->field($setting,
-                            ShopSettings::SHOP_PRODUCT_DEFAULT_VAT)->input('number', [
-                            'data-input' => 'textfield',
-                            'data-group' => 'product',
-                            'step' => 0.01,
-                            'min' => 0,
-                            'max' => 100,
-                            'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?')
-                        ]); ?></div>
+                            ShopSettings::SHOP_PRODUCT_DEFAULT_VAT_ID)->dropDownList(
+                            ArrayHelper::map(Vat::find()->all(), 'id', 'value'),
+                            [
+                                'prompt' => Yii::t('shop', 'Please select a vat value'),
+                                'data-input' => 'dropdown',
+                                'data-group' => 'product',
+                                'step' => 0.01,
+                                'min' => 0,
+                                'max' => 100,
+                                'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?')
+                            ]
+                        ); ?></div>
                 </div>
                 <?php
                 echo $form->field($setting, ShopSettings::SHOP_PRODUCT_ALLOW_CONFIGURABLE_VARIANT, ['template' => '{input} {label} {error}'])->checkbox(['data-input' => 'checkbox', 'data-group' => 'product', 'data-confirm-text' => Yii::t('shop', 'Are you sure you want to change this setting?'), 'class' => 'switch-input'], false);

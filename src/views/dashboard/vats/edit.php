@@ -5,6 +5,7 @@
 
 use eluhr\shop\models\Filter;
 use eluhr\shop\models\Vat;
+use kartik\number\NumberControl;
 use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -22,7 +23,12 @@ use yii\widgets\ActiveForm;
         <?php
         $form = ActiveForm::begin();
 
-        echo $form->field($model, 'value');
+        echo $form->field($model, 'value')->widget(NumberControl::class, ['maskedInputOptions' => [
+            'suffix' => ' ' . '%',
+            'groupSeparator' => '.',
+            'radixPoint' => ',',
+            'rightAlign' => false
+        ]]);
         echo $form->field($model, 'desc');
 
         echo Html::errorSummary($model);
