@@ -15,8 +15,6 @@ use yii\data\ActiveDataProvider;
 use yii\web\View;
 use yii\widgets\ListView;
 
-Yii::debug($dataProvider->sort);
-
 ?>
 
 <?= Cell::widget(['id' => 'shop-top-global'])?>
