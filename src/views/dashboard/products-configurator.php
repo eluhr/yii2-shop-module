@@ -42,19 +42,19 @@ use yii\web\View;
                 </div>
             </div>
         </div>
-        <div class="col-xs-12 col-md-4" data-list="filters" data-sort-url="<?= Url::to(['/shop/data/sort-filters']) ?>">
+        <div class="col-xs-12 col-md-4" data-list="filters" data-sort-url="<?= Url::to(['dashboard/data/sort-filters']) ?>">
             <?php foreach ($filters as $filter): ?>
                 <div class="box box-solid box-default" data-item="filter" data-item-id="<?= $filter->id ?>">
                     <div class="box-header">
-                        <h3 class="box-title"><?= Html::a(FA::icon(FA::_CIRCLE, ['class' => $filter->is_online ? 'text-success' : 'text-danger']), ['/shop/data/toggle-filter-status', 'itemId' => $filter->id]) ?> <?= $filter->name ?></h3>
+                        <h3 class="box-title"><?= Html::a(FA::icon(FA::_CIRCLE, ['class' => $filter->is_online ? 'text-success' : 'text-danger']), ['dashboard/data/toggle-filter-status', 'itemId' => $filter->id]) ?> <?= $filter->name ?></h3>
                         <div class="box-tools pull-right">
                             <?= Html::a(FA::icon(FA::_PENCIL), ['dashboard/filters/edit','id' => $filter->id], ['class' => 'btn btn-box-tool','target' => '_blank']) ?>
                         </div>
                     </div>
                     <div class="box-footer">
                         <ul class="nav nav-pills nav-stacked" data-list="filter-tags" data-item-id="<?= $filter->id ?>"
-                            data-target-url="<?= Url::to(['/shop/data/add-tag-to-filter']) ?>"
-                            data-sort-url="<?= Url::to(['/shop/data/sort-filter-tags']) ?>">
+                            data-target-url="<?= Url::to(['dashboard/data/add-tag-to-filter']) ?>"
+                            data-sort-url="<?= Url::to(['dashboard/data/sort-filter-tags']) ?>">
                             <?php
                             foreach ($filter->getTagXFilters()->orderBy(['rank' => SORT_ASC])->all() as $tagXFilter) {
                                 echo $this->render('_configurator_tab', ['tag' => $tagXFilter->tag, 'model' => $tagXFilter->facet]);
@@ -65,12 +65,12 @@ use yii\web\View;
             <?php endforeach; ?>
         </div>
         <div class="col-xs-12 col-md-8">
-            <div class="product-row" data-list="products" data-sort-url="<?= Url::to(['/shop/data/sort-products']) ?>">
+            <div class="product-row" data-list="products" data-sort-url="<?= Url::to(['dashboard/data/sort-products']) ?>">
                 <?php foreach ($products as $product): ?>
                     <div class="product-column" data-item="product" data-item-id="<?= $product->id ?>">
                         <div class="box box-solid box-primary">
                             <div class="box-header">
-                                <h3 class="box-title"><?= Html::a(FA::icon(FA::_CIRCLE, ['class' => $product->is_online ? 'text-success' : 'text-danger']), ['/shop/data/toggle-product-status', 'itemId' => $product->id]) ?> <?= $product->title ?></h3>
+                                <h3 class="box-title"><?= Html::a(FA::icon(FA::_CIRCLE, ['class' => $product->is_online ? 'text-success' : 'text-danger']), ['dashboard/data/toggle-product-status', 'itemId' => $product->id]) ?> <?= $product->title ?></h3>
                                 <div class="box-tools pull-right">
                                     <?= Html::a(FA::icon(FA::_PENCIL), ['dashboard/products/edit','id' => $product->id], ['class' => 'btn btn-box-tool','target' => '_blank']) ?>
                                 </div>
@@ -89,7 +89,7 @@ use yii\web\View;
                                          data-change="collapse">
                                         <div class="panel-body">
                                             <ul class="nav nav-stacked" data-list="variants"
-                                                data-sort-url="<?= Url::to(['/shop/data/sort-variants']) ?>">
+                                                data-sort-url="<?= Url::to(['dashboard/data/sort-variants']) ?>">
                                                 <?php foreach ($product->getVariants()->orderByRank()->all() as $variant): ?>
                                                     <li data-item="variant" data-item-id="<?= $variant->id ?>"><a
                                                                 href="#"><?= $variant->title ?></a></li>
@@ -115,7 +115,7 @@ use yii\web\View;
                                         <div class="panel-body">
                                             <ul class="nav nav-pills nav-stacked" data-list="product-tags"
                                                 data-item-id="<?= $product->id ?>"
-                                                data-target-url="<?= Url::to(['/shop/data/add-tag-to-product']) ?>">
+                                                data-target-url="<?= Url::to(['dashboard/data/add-tag-to-product']) ?>">
                                                 <?php foreach ($product->tags as $tag) {
                                 echo $this->render('_configurator_tab', ['tag' => $tag, 'model' => $product]);
                             } ?>

@@ -1,24 +1,27 @@
 <?php
 
 
-namespace eluhr\shop\controllers;
+namespace eluhr\shop\controllers\dashboard;
 
+use dmstr\web\traits\AccessBehaviorTrait;
 use eluhr\shop\controllers\actions\AddTagAction;
 use eluhr\shop\controllers\actions\SortAction;
 use eluhr\shop\controllers\actions\ToggleStatusAction;
 use eluhr\shop\controllers\crud\Controller as WebCrudController;
 use eluhr\shop\models\Filter;
+use eluhr\shop\models\Order;
 use eluhr\shop\models\Product;
 use eluhr\shop\models\TagXFilter;
 use eluhr\shop\models\TagXProduct;
 use eluhr\shop\models\Variant;
 use yii\db\ActiveRecord;
 use yii\web\HttpException;
-use eluhr\shop\models\Order;
 
 class DataController extends WebCrudController
 {
     public $enableCsrfValidation = false;
+
+    use AccessBehaviorTrait;
 
     public function actions()
     {

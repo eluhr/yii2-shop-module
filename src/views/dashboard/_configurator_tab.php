@@ -23,7 +23,7 @@ use yii\helpers\Url;
         data-tag-id="<?= $tag->id ?>"
         data-model="<?= isset($model) ? get_class($model) : '' ?>"
         data-item-id="<?= isset($model) ? $model->id : '' ?>"
-        data-remove-url="<?= Url::to(['/shop/data/remove-tag']) ?>"
+        data-remove-url="<?= Url::to(['dashboard/data/remove-tag']) ?>"
 >
     <?= $tag->name ?><?= Html::button('&nbsp;', ['class' => 'btn btn-xs btn-remove btn-danger']) ?>
 </li>
