@@ -330,57 +330,57 @@ class ShopSettings extends Model
 
     public static function shopGeneralShowFilters(): bool
     {
-        return static::getValueByConst(self::SHOP_GENERAL_SHOW_FILTERS);
+        return (bool)static::getValueByConst(self::SHOP_GENERAL_SHOW_FILTERS);
     }
 
     public static function shopGeneralShowSearch(): bool
     {
-        return static::getValueByConst(self::SHOP_GENERAL_SHOW_SEARCH);
+        return (bool)static::getValueByConst(self::SHOP_GENERAL_SHOW_SEARCH);
     }
 
     public static function shopGeneralInvoiceDownload(): bool
     {
-        return static::getValueByConst(self::SHOP_GENERAL_INVOICE_DOWNLOAD);
+        return (bool)static::getValueByConst(self::SHOP_GENERAL_INVOICE_DOWNLOAD);
     }
 
     public static function shopGeneralShippingLink(): bool
     {
-        return static::getValueByConst(self::SHOP_GENERAL_SHIPPING_LINK);
+        return (bool)static::getValueByConst(self::SHOP_GENERAL_SHIPPING_LINK);
     }
 
     public static function shopGeneralEnableDiscountCodes(): bool
     {
-        return static::getValueByConst(self::SHOP_GENERAL_ENABLE_DISCOUNT_CODES);
+        return (bool)static::getValueByConst(self::SHOP_GENERAL_ENABLE_DISCOUNT_CODES);
     }
 
     public static function shopMailConfirmReplyTo(): string
     {
-        return static::getValueByConst(self::SHOP_MAIL_CONFIRM_REPLY_TO);
+        return (string)static::getValueByConst(self::SHOP_MAIL_CONFIRM_REPLY_TO);
     }
 
     public static function shopMailInfoReplyTo(): string
     {
-        return static::getValueByConst(self::SHOP_MAIL_INFO_REPLY_TO);
+        return (string)static::getValueByConst(self::SHOP_MAIL_INFO_REPLY_TO);
     }
 
     public static function shopProductFewAvailableWarning(): int
     {
-        return static::getValueByConst(self::SHOP_PRODUCT_FEW_AVAILABLE_WARNING);
+        return (int)static::getValueByConst(self::SHOP_PRODUCT_FEW_AVAILABLE_WARNING);
     }
 
     public static function shopMailInfoSubject(): string
     {
-        return static::getValueByConst(self::SHOP_MAIL_INFO_SUBJECT);
+        return (string)static::getValueByConst(self::SHOP_MAIL_INFO_SUBJECT);
     }
 
     public static function shopMailConfirmSubject(): string
     {
-        return static::getValueByConst(self::SHOP_MAIL_CONFIRM_SUBJECT);
+        return (string)static::getValueByConst(self::SHOP_MAIL_CONFIRM_SUBJECT);
     }
 
     public static function shopMailConfirmBcc(): string
     {
-        return static::getValueByConst(self::SHOP_MAIL_CONFIRM_BCC);
+        return (string)static::getValueByConst(self::SHOP_MAIL_CONFIRM_BCC);
     }
 
     public static function shopMailLogo(): string
@@ -390,22 +390,22 @@ class ShopSettings extends Model
 
     public static function shopInvoiceLogo(): string
     {
-        return static::getValueByConst(self::SHOP_INVOICE_LOGO);
+        return (string)static::getValueByConst(self::SHOP_INVOICE_LOGO);
     }
 
     public static function shopGeneralShortOrderId(): bool
     {
-        return static::getValueByConst(self::SHOP_GENERAL_SHORT_ORDER_ID);
+        return (bool)static::getValueByConst(self::SHOP_GENERAL_SHORT_ORDER_ID);
     }
 
     public static function shopGeneralShowOutOfStockVariants(): bool
     {
-        return static::getValueByConst(self::SHOP_GENERAL_SHOW_OUT_OF_STOCK_VARIANTS);
+        return (bool)static::getValueByConst(self::SHOP_GENERAL_SHOW_OUT_OF_STOCK_VARIANTS);
     }
 
     public static function shopGeneralShopSellsAdultProducts(): bool
     {
-        return static::getValueByConst(self::SHOP_GENERAL_SHOP_SELLS_ADULT_PRODUCTS);
+        return (bool)static::getValueByConst(self::SHOP_GENERAL_SHOP_SELLS_ADULT_PRODUCTS);
     }
 
     public static function shopGeneralMinShoppingCartValue(): float
@@ -415,7 +415,7 @@ class ShopSettings extends Model
 
     public static function shopProductShowShippingCosts(): bool
     {
-        return static::getValueByConst(self::SHOP_PRODUCT_SHOW_SHIPPING_COSTS);
+        return (bool)static::getValueByConst(self::SHOP_PRODUCT_SHOW_SHIPPING_COSTS);
     }
 
     public static function shopProductMinDaysShippingDuration(): int
@@ -430,42 +430,42 @@ class ShopSettings extends Model
 
     public static function shopProductVariantTextTemplate(): string
     {
-        return static::getValueByConst(self::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE);
+        return (string)static::getValueByConst(self::SHOP_PRODUCT_VARIANT_TEXT_TEMPLATE);
     }
 
     public static function shopGeneralAllowCustomerDetails(): string
     {
-        return static::getValueByConst(self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS);
+        return (string)static::getValueByConst(self::SHOP_GENERAL_ALLOW_CUSTOMER_DETAILS);
     }
 
     public static function shopProductShowVat(): bool
     {
-        return static::getValueByConst(self::SHOP_PRODUCT_SHOW_VAT);
+        return (bool)static::getValueByConst(self::SHOP_PRODUCT_SHOW_VAT);
     }
 
     public static function shopProductDefaultVat(): float
     {
-        return static::getValueByConst(self::SHOP_PRODUCT_DEFAULT_VAT);
+        return (float)static::getValueByConst(self::SHOP_PRODUCT_DEFAULT_VAT);
     }
 
     public static function shopMailShowBankDetails(): bool
     {
-        return static::getValueByConst(self::SHOP_MAIL_SHOW_BANK_DETAILS);
+        return (bool)static::getValueByConst(self::SHOP_MAIL_SHOW_BANK_DETAILS);
     }
 
     public static function shopCheckoutPaymentProviders(): string
     {
-        return static::getValueByConst(self::SHOP_CHECKOUT_PAYMENT_PROVIDERS);
+        return (string)static::getValueByConst(self::SHOP_CHECKOUT_PAYMENT_PROVIDERS);
     }
 
     public static function shopProductEnableShippingDuration(): bool
     {
-        return static::getValueByConst(self::SHOP_PRODUCT_ENABLE_SHIPPING_DURATION);
+        return (bool)static::getValueByConst(self::SHOP_PRODUCT_ENABLE_SHIPPING_DURATION);
     }
 
     public static function shopProductAllowConfigurableVariant(): bool
     {
-        return static::getValueByConst(self::SHOP_PRODUCT_ALLOW_CONFIGURABLE_VARIANT);
+        return (bool)static::getValueByConst(self::SHOP_PRODUCT_ALLOW_CONFIGURABLE_VARIANT);
     }
 
     public static function shopGeneralShippingCost()
