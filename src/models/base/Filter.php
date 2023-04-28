@@ -31,6 +31,8 @@ abstract class Filter extends \eluhr\shop\models\ActiveRecord
     */
     const PRESENTATION_DROPDOWN = 'dropdown';
     const PRESENTATION_RADIOS = 'radios';
+    const PRESENTATION_CHECKBOX = 'checkbox';
+
     /**
      * @inheritdoc
      */
@@ -54,6 +56,7 @@ abstract class Filter extends \eluhr\shop\models\ActiveRecord
             ['presentation', 'in', 'range' => [
                     self::PRESENTATION_DROPDOWN,
                     self::PRESENTATION_RADIOS,
+                    self::PRESENTATION_CHECKBOX,
                 ]
             ]
         ];
@@ -125,6 +128,7 @@ abstract class Filter extends \eluhr\shop\models\ActiveRecord
         return [
             self::PRESENTATION_DROPDOWN => Yii::t('shop', 'Dropdown'),
             self::PRESENTATION_RADIOS => Yii::t('shop', 'Radios'),
+            self::PRESENTATION_CHECKBOX => Yii::t('shop', 'Checkboxes'),
         ];
     }
 

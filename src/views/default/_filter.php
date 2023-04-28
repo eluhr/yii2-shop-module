@@ -42,6 +42,13 @@ use yii\widgets\ActiveForm;
                             'class' => 'filter-collapse'
                         ]
                     ]);
+                } elseif ($filter->presentation === Filter::PRESENTATION_CHECKBOX) {
+                    $field->checkboxList($data, [
+                        'itemOptions' => [
+                            'data-filter' => 'filter-form'
+                        ],
+                        'class' => 'filter-collapse'
+                    ]);
                 } else {
                     $field->radioList($data, [
                         'itemOptions' => [

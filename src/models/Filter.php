@@ -36,15 +36,6 @@ class Filter extends BaseFilter
         return $rules;
     }
 
-
-    public static function presentations()
-    {
-        return [
-            self::PRESENTATION_DROPDOWN => Yii::t('shop', 'Dropdown'),
-            self::PRESENTATION_RADIOS => Yii::t('shop', 'Radios'),
-        ];
-    }
-
     public function tagData()
     {
         return ArrayHelper::map($this->getTagXFilters()->orderBy(['rank' => SORT_ASC])->all(), 'tag.id', 'tag.name');

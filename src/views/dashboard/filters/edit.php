@@ -28,7 +28,7 @@ use yii\widgets\ActiveForm;
         if ($model->isNewRecord) {
             $model->presentation = $model::PRESENTATION_DROPDOWN;
         }
-        echo $form->field($model, 'presentation')->radioList(Filter::presentations());
+        echo $form->field($model, 'presentation')->radioList(Filter::optsPresentation());
         echo $form->field($model, 'is_online')->checkbox([], false);
         echo $form->field($model, 'rank');
         echo $form->field($model, 'filterIds')->widget(Select2::class, [
