@@ -7,7 +7,7 @@ use eluhr\shop\models\Filter;
 use eluhr\shop\models\form\Filter as FilterForm;
 use eluhr\shop\models\search\ProductFinder;
 
-class DefaultController extends Controller
+class DefaultController extends BaseFrontendController
 {
     public function actionIndex()
     {

@@ -15,6 +15,14 @@ class Module extends BaseModule
     public const SHOP_EDITOR_ROLE = 'ShopEditor';
 
     /**
+     * if set we add an access check with given rules in the base frontend controller
+     * the given array MUST be an array of valid AccessRule(s)
+     *
+     * @var callable|array
+     */
+    public $frontendAccessRules;
+
+    /**
      * @var Mailer
      */
     public $mailer = 'mailer';
