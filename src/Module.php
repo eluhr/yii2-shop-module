@@ -16,7 +16,8 @@ class Module extends BaseModule
 
     /**
      * if set we add an access check with given rules in the base frontend controller
-     * the given array MUST be an array of valid AccessRule(s)
+     * - the given array MUST be an array of valid AccessRule(s)
+     * - if defined as callback, the 1. param is the current controller instance
      *
      * @var callable|array
      */

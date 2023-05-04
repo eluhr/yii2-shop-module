@@ -15,13 +15,12 @@ class BaseFrontendController extends \yii\web\Controller
         if (!empty($this->module->frontendAccessRules)) {
             $rulesConfig = $this->module->frontendAccessRules;
             if (is_callable($rulesConfig)) {
-                $rules = $rulesConfig();
+                $rules = $rulesConfig($this);
             }
             if (is_array($rulesConfig)) {
                 $rules = $rulesConfig;
             }
             if (!empty($rules)) {
-                \Yii::debug($rules);
                 $behaviors['module-frontend-access'] = [
                     'class' => AccessControl::class,
                     'rules' => $rules,
