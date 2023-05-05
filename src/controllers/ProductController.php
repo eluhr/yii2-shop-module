@@ -10,7 +10,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller as WebController;
 use yii\web\NotFoundHttpException;
 
-class ProductController extends Controller
+class ProductController extends BaseFrontendController
 {
     public function actionDetail($productId, $variantId = null)
     {

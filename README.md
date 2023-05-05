@@ -96,11 +96,31 @@ return [
     ]
 ];
 ```
+# frontend access (optional) 
+
+if you want to add access checks to the frontend controllers, you can add the desired rules via module config
+
+Example:
+```php
+    'modules' => [
+        'shop'     => [
+            'class' => ShopModule::class,
+            # .... other shop configs
+            'frontendAccessRules' => [
+                [
+                    'allow' => true,
+                    'roles' => ['@'],
+                ],
+            ],
+        ],
+    ],
+```
+
 
 # Future plans
 
  - Add orders to user by id and postal
- 
+
  
 # Giiant
 
