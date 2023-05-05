@@ -15,6 +15,7 @@ class ProductFinder extends Model
 {
     public $tagIds;
     public $q;
+    public $productId;
 
     public $defaultOrder = ['rank' => SORT_ASC];
 
@@ -39,7 +40,7 @@ class ProductFinder extends Model
     public function rules()
     {
         return [
-            [['tagIds'], 'integer', 'allowArray' => true],
+            [['tagIds', 'productId'], 'integer', 'allowArray' => true],
             [['q'], 'string'],
         ];
     }
@@ -80,6 +81,10 @@ class ProductFinder extends Model
 
         if (!empty($this->q)) {
             $this->query->fullTextSearch($this->q);
+        }
+
+        if (!empty($this->productId)) {
+            $this->query->productIdFilter($this->productId);
         }
 
         return $dataProvider;

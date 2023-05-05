@@ -37,6 +37,16 @@ class ProductQuery extends \yii\db\ActiveQuery
         return $this->andWhere([$prefix . 'hide_in_overview' => 0]);
     }
 
+    public function productIdFilter($id)
+    {
+        $prefix = '';
+        if (isset($this->getTableNameAndAlias()[1]) && $this->getTableNameAndAlias()[1] === self::ALIAS) {
+            $prefix = self::ALIAS . '.';
+        }
+
+        return $this->andWhere([$prefix . 'id' => $id]);
+    }
+
     /**
      * shorthand for $this->moreThanOneVariantActive()->isVisible()->active()
      * useful to get query for products that:
