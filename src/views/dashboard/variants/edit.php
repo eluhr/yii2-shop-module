@@ -82,18 +82,19 @@ JsonEditorPluginsAsset::register($this);
             'radixPoint' => ',',
             'rightAlign' => false
         ]]);
-        if (ShopSettings::shopProductShowVat())
+        if (ShopSettings::shopProductShowVat()) {
             if ($model->getIsNewRecord()) {
                 $model->vat_id = ShopSettings::shopProductDefaultVatId();
                 $model->include_vat = 1;
             }
-        echo $form->field($model, 'include_vat')->checkbox([], false);
-        echo $form->field($model, 'vat_id')->dropDownList(
-            ArrayHelper::map(Vat::find()->all(), 'id', 'value'),
-            [
-                'prompt' => Yii::t('shop', 'Please select a vat value'),
-            ]
-        );
+            echo $form->field($model, 'include_vat')->checkbox([], false);
+            echo $form->field($model, 'vat_id')->dropDownList(
+                ArrayHelper::map(Vat::find()->all(), 'id', 'value'),
+                [
+                    'prompt' => Yii::t('shop', 'Please select a vat value'),
+                ]
+            );
+        }
         echo $form->field($model, 'extra_info')->textInput(['placeholder' => Yii::t('shop', 'Size S;Size M;Size L')]);
         echo $form->field($model, 'is_online')->checkbox([], false);
         echo $form->field($model, 'rank');
