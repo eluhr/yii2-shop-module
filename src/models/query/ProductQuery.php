@@ -87,6 +87,14 @@ class ProductQuery extends \yii\db\ActiveQuery
         return $query;
     }
 
+    public function withVariantPriceRange()
+    {
+        return $this->addSelect([
+                             'max_price' => new Expression('MAX(v.price)'),
+                             'min_price' => new Expression('MIN(v.price)'),
+                         ]);
+    }
+
     /**
      * add check constraints to reduce result to given tagIds
      *
