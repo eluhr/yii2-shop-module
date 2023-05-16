@@ -63,9 +63,36 @@ class ProductFinder extends Model
 
         $dataProvider = new ActiveDataProvider([
             'query' => $this->query,
+            'sort' => [
+                'defaultOrder' => $this->defaultOrder,
+                'attributes' => [
+                    'id' => [
+                        'asc' => ['id' => SORT_ASC],
+                        'desc' => ['id' => SORT_DESC]
+                    ],
+                    'title' => [
+                        'asc' => ['title' => SORT_ASC],
+                        'desc' => ['title' => SORT_DESC]
+                    ],
+                    'rank' => [
+                        'asc' => ['rank' => SORT_ASC],
+                        'desc' => ['rank' => SORT_DESC]
+                    ],
+                    'price' => [
+                        'asc' => ['max_price' => SORT_ASC],
+                        'desc' => ['max_price' => SORT_DESC]
+                    ],
+                    'popularity' => [
+                        'asc' => ['popularity' => SORT_ASC],
+                        'desc' => ['popularity' => SORT_DESC]
+                    ],
+                    'date' => [
+                        'asc' => ['created_at' => SORT_ASC],
+                        'desc' => ['created_at' => SORT_DESC]
+                    ],
+                ]
+            ]
         ]);
-        $sort = $dataProvider->getSort();
-        $sort->defaultOrder = $this->defaultOrder;
 
         $this->load($params);
 
@@ -93,7 +120,7 @@ class ProductFinder extends Model
 
     protected function getBaseQuery()
     {
-        return ProductModel::find()->online();
+        return ProductModel::find()->online()->withVariantPriceRange();
     }
 
     /**
