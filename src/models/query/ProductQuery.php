@@ -71,7 +71,7 @@ class ProductQuery extends \yii\db\ActiveQuery
             $this->alias(self::ALIAS)
                 // always set p.* or p.id as first col as we need to be able to run query with column() which returns the "first" col in result-set
                 ->select([self::ALIAS . '.*'])
-                ->leftJoin(
+                ->innerJoin(
                     [
                         VariantQuery::ALIAS => Variant::tableName()
                     ],
@@ -80,7 +80,6 @@ class ProductQuery extends \yii\db\ActiveQuery
                         VariantQuery::ALIAS . '.is_online' => new Expression(1)
                     ]
                 )
-                ->andWhere(['not', [VariantQuery::ALIAS . '.id' => null]])
                 ->groupBy(VariantQuery::ALIAS . '.product_id');
         if (ShopSettings::shopGeneralShowOutOfStockVariants() === false) {
             $query->andWhere(['>', VariantQuery::ALIAS . '.stock', 0]);
