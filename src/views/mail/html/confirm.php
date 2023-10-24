@@ -171,7 +171,7 @@ $totalPrice = 0;
                     'paymentMethod' => Order::optsType()[$order->type] ?? Yii::t('shop','Undefined')
                 ]) ?></p>
         <?php endif ?>
-        <?php if($order->getShowBankDetails()): ?>
+        <?php if($order->getShowBankDetails() && !$order->getIsPaid()): ?>
             <p class="informative-text-2 bolder"><?= Yii::t('shop', '__MAIL_NOT_PAID_YET__') ?></p>
             <p class="no-mar"><?= Yii::t('shop', '__COMPANY_NAME__') ?></p>
             <p class="no-mar"><?= Yii::t('shop', '__IBAN__') ?></p>
