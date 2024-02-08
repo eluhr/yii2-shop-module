@@ -68,27 +68,33 @@ class ProductFinder extends Model
                 'attributes' => [
                     'id' => [
                         'asc' => ['id' => SORT_ASC],
-                        'desc' => ['id' => SORT_DESC]
+                        'desc' => ['id' => SORT_DESC],
+                        'label' => Yii::t('shop', 'id')
                     ],
                     'title' => [
                         'asc' => ['title' => SORT_ASC],
-                        'desc' => ['title' => SORT_DESC]
+                        'desc' => ['title' => SORT_DESC],
+                        'label' => Yii::t('shop', 'Title')
                     ],
                     'rank' => [
                         'asc' => ['rank' => SORT_ASC],
-                        'desc' => ['rank' => SORT_DESC]
+                        'desc' => ['rank' => SORT_DESC],
+                        'label' => Yii::t('shop', 'Rank')
                     ],
                     'price' => [
                         'asc' => ['max_price' => SORT_ASC],
-                        'desc' => ['max_price' => SORT_DESC]
+                        'desc' => ['max_price' => SORT_DESC],
+                        'label' => Yii::t('shop', 'Price')
                     ],
                     'popularity' => [
                         'asc' => ['popularity' => SORT_ASC],
-                        'desc' => ['popularity' => SORT_DESC]
+                        'desc' => ['popularity' => SORT_DESC],
+                        'label' => Yii::t('shop', 'Popularity')
                     ],
                     'date' => [
                         'asc' => ['created_at' => SORT_ASC],
-                        'desc' => ['created_at' => SORT_DESC]
+                        'desc' => ['created_at' => SORT_DESC],
+                        'label' => Yii::t('shop', 'Date')
                     ],
                 ]
             ]
