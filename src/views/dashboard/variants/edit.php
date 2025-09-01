@@ -15,9 +15,6 @@ use rmrevin\yii\fontawesome\FA;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use dmstr\jsoneditor\JsonEditorPluginsAsset;
-
-JsonEditorPluginsAsset::register($this);
 
 ?>
 
