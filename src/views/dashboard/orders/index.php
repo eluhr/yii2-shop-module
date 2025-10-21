@@ -62,7 +62,7 @@ $(function() {
       var selectedOrders = $('.checkbox-select-single:checked').toArray().map(function(el) {
         return $(el).val();
       });
-      $.post('/shop/data/multi-move', {orders: selectedOrders, direction: $(this).data('move')},function(response) {
+      $.post('/shop/dashboard/data/multi-move', {orders: selectedOrders, direction: $(this).data('move')},function(response) {
         if (response.success) {
             location.reload();
         }

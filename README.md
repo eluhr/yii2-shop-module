@@ -75,15 +75,7 @@ return [
             'ignoreLanguageUrlPatterns' => [
                 '#^shop/shopping-cart/check-discount-code#' => '#^shop/shopping-cart/check-discount-code#',
                 '#^shop/dashboard/update-shipping-link#' => '#^shop/dashboard/update-shipping-link#',
-                '#^shop/data/add-tag-to-filter#' => '#^shop/data/add-tag-to-filter#',
-                '#^shop/data/add-tag-to-product#' => '#^shop/data/add-tag-to-product#',
-                '#^shop/data/sort-filter-tags#' => '#^shop/data/sort-filter-tags#',
-                '#^shop/data/sort-products#' => '#^shop/data/sort-products#',
-                '#^shop/data/sort-filters#' => '#^shop/data/sort-filters#',
-                '#^shop/data/sort-variants#' => '#^shop/data/sort-variants#',
-                '#^shop/data/update-email-template#' => '#^shop/data/update-email-template#',
-                '#^shop/data/update-email-template-context-menu#' => '#^shop/data/update-email-template-context-menu#',
-                '#^shop/data/load-template#' => '#^shop/data/load-template#',
+                '#^shop/dashboard/data/#' => '#^shop/dashboard/data/#',
             ]
         ]
     ],
