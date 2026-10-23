@@ -28,7 +28,7 @@ class Orders extends OrderModel
     {
         return [
             [['id', 'name', 'code', 'status', 'shipment_link', 'type', 'invoice_number'], 'safe'],
-            [['id', 'name', 'code', 'status', 'shipment_link', 'type', 'invoice_number'], 'filter', 'filter' => 'trim'],
+            [['id', 'name', 'code', 'status', 'shipment_link', 'type', 'invoice_number'], 'filter', 'filter' => 'trim', 'skipOnEmpty' => true],
         ];
     }
 
