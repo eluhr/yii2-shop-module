@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
 $this->registerMetaTag(['property' => 'og:image', 'content' => $variant->thumbnailImage()]);
 $this->registerMetaTag(['property' => 'og:title', 'content' => $this->title]);
-$this->registerMetaTag(['property' => 'og:description', 'content' => strip_tags($variant->description)]);
+$this->registerMetaTag(['property' => 'og:description', 'content' => strip_tags((string)$variant->description)]);
 
 $this->registerCss(".thumbnail-image { background-image: url('{$variant->thumbnailImage()}');}");
 
