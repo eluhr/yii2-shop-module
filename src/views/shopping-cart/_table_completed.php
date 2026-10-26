@@ -48,7 +48,8 @@ use yii\web\View;
             </td>
             <td>
                 <?php
-                $configuratorData = json_decode($position->configuration_json);
+                // order items from before the configuration_json column (08/2022) hold NULL
+                $configuratorData = json_decode((string)$position->configuration_json);
 
                 if (empty($configuratorData) || !isset($configuratorData->variantId)) {
                     continue;
