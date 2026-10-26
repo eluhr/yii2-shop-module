@@ -39,7 +39,8 @@ class Filter extends Model
             'filter' => function ($value) {
                 $value = strip_tags($value);
                 return HtmlPurifier::process($value);
-            }
+            },
+            'skipOnEmpty' => true
         ];
         return $rules;
     }
